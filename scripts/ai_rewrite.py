@@ -188,7 +188,98 @@ IMAGE_PROMPTS:
                 f"colorful cartoon {theme} science"
             ]
 
+        # 清理图片提示词中的前缀（[IMAGE_N]、数字编号等）
+        cleaned_prompts = []
+        for p in data["image_prompts"]:
+            p = re.sub(r'^\[IMAGE_\d+\]\s*', '', p)
+            p = re.sub(r'^IMAGE_\d+[:：]\s*', '', p)
+            p = re.sub(r'^\d+[\.\)、]\s*', '', p)
+            p = p.strip()
+            if p:
+                cleaned_prompts.append(p)
+        data["image_prompts"] = cleaned_prompts[:3]
+
+        # 规范化正文图片标记
+        data["content"] = self._normalize_content(data["content"])
+
         return data
+
+    def _normalize_content(self, content: str) -> str:
+        """规范化正文中的图片标记：修正编号、格式、位置"""
+        lines = content.split('\n')
+        new_lines = []
+        image_markers_found = []  # (line_index_in_new, original_number)
+
+        for line in lines:
+            stripped = line.strip()
+
+            # 检测图片标记：[IMAGE_N] 或 ![IMAGE_N] 或 **[IMAGE_N]** 等
+            img_pattern = r'(\*?\*?)\[IMAGE_(\d+)\](\*?\*?|!\[IMAGE_\d+\])'
+
+            # 如果整行都是图片标记
+            if re.match(r'^[\*\s]*\[IMAGE_\d+\][\*\s]*$', stripped) or re.match(r'^!\[IMAGE_\d+\]$', stripped):
+                m = re.search(r'IMAGE_(\d+)', stripped)
+                if m:
+                    img_num = int(m.group(1))
+                    # 用标准格式替换，独占一行
+                    new_lines.append(f'[IMAGE_{img_num}]')
+                    image_markers_found.append(img_num)
+                    continue
+
+            # 如果图片标记嵌在段落中间/末尾
+            if '[IMAGE_' in stripped:
+                # 找出所有图片标记
+                markers_in_line = re.findall(r'[!*]*\[IMAGE_(\d+)\][*]*', stripped)
+
+                # 先移除图片标记，保留纯文本
+                clean_line = re.sub(r'[!*]*\[IMAGE_\d+\][*]*', '', stripped).strip()
+
+                # 如果清理后还有文字，先保留文字行
+                if clean_line:
+                    new_lines.append(clean_line)
+
+                # 然后每个图片标记独占一行
+                for m_str in markers_in_line:
+                    img_num = int(re.search(r'(\d+)', m_str).group())
+                    new_lines.append(f'[IMAGE_{img_num}]')
+                    image_markers_found.append(img_num)
+                continue
+
+            new_lines.append(line)
+
+        # 重新编号图片标记，确保连续从1开始
+        if image_markers_found:
+            # 按出现顺序去重（保留首次出现的顺序）
+            seen = set()
+            unique_order = []
+            for n in image_markers_found:
+                if n not in seen:
+                    seen.add(n)
+                    unique_order.append(n)
+
+            # 建立映射：旧编号 -> 新编号(1,2,3...)
+            num_map = {old: new for new, old in enumerate(unique_order, 1)}
+
+            # 替换所有图片标记
+            final_lines = []
+            for line in new_lines:
+                stripped = line.strip()
+                m = re.match(r'^\[IMAGE_(\d+)\]$', stripped)
+                if m:
+                    old_num = int(m.group(1))
+                    new_num = num_map.get(old_num, old_num)
+                    if new_num <= 3:  # 只保留前3张
+                        final_lines.append(f'[IMAGE_{new_num}]')
+                else:
+                    final_lines.append(line)
+
+            content = '\n'.join(final_lines)
+
+        # 确保图片标记前后有空行
+        content = re.sub(r'(\S)\n\[IMAGE_', r'\1\n\n[IMAGE_', content)
+        content = re.sub(r'\[IMAGE_(\d+)\]\n(\S)', r'[IMAGE_\1]\n\n\2', content)
+
+        return content
 
     def rewrite_for_kids(self, raw_text: str, theme_name: str) -> str:
         """将已有内容改写成少年版"""

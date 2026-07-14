@@ -234,9 +234,15 @@ class SiteBuilder:
         for i, line in enumerate(lines):
             stripped = line.strip()
 
-            # 跳过引用块中包含 IMAGE_PROMPTS 等提示词的行（但保留 [IMAGE_N] 图片标记）
+            # 跳过引用块中包含图片提示词的行
             if stripped.startswith('>'):
-                if 'IMAGE_PROMPTS' in stripped or 'IMAGE:' in stripped:
+                is_prompt = False
+                if any(kw in stripped for kw in ['IMAGE_PROMPTS', 'IMAGE:', 'image_prompt']):
+                    is_prompt = True
+                # 英文图片提示词特征词
+                if any(kw in stripped.lower() for kw in ['illustration', 'cartoon style', 'children\'s book', 'educational diagram', 'vector style']):
+                    is_prompt = True
+                if is_prompt:
                     skip_blockquote = True
                     continue
                 if skip_blockquote:
@@ -249,13 +255,24 @@ class SiteBuilder:
             if re.match(r'^\*图片[场场描]', stripped) or re.match(r'^\*[Ii]mage\s', stripped):
                 continue
 
-            # 移除纯英文图片提示词行（以 > 开头以外的英文描述）
-            if re.match(r'^[Aa] (cute|group|beautiful|young|child)', stripped) and len(stripped) > 30:
+            # 移除纯英文图片提示词行
+            if re.match(r'^[Aa] (cute|group|beautiful|young|child|colorful)', stripped) and len(stripped) > 30:
                 continue
 
             cleaned_lines.append(line)
 
         content = '\n'.join(cleaned_lines)
+
+        # 图片标记去重（每个编号只保留第一个）
+        seen_markers = set()
+        def dedup_marker(match):
+            num = match.group(1)
+            if num in seen_markers:
+                return ''
+            seen_markers.add(num)
+            return match.group(0)
+        
+        content = re.sub(r'\[IMAGE_(\d+)\]', dedup_marker, content)
 
         # 先将 [IMAGE_N] 替换为临时占位符（使用不会被Markdown解析的格式）
         placeholders = {}
