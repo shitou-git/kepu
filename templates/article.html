@@ -124,15 +124,7 @@
     </div>
 
     <div class="article-body">
-        {% if article.images %}
-        <div class="gallery">
-            {% for img in article.images %}
-            <img src="../images/{{ img }}" alt="配图">
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {{ article.content | replace('\n', '<br>') }}
+        {{ article.content_html | safe }}
 
         {% if article.fact_card %}
         <div class="fact-card">

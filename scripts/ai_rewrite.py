@@ -77,7 +77,11 @@ SUMMARY: [50字以内的导语]
 KEYWORDS: [3-5个关键词，用逗号分隔]
 ---
 CONTENT:
-[正文内容，使用 Markdown 格式，包含 ## 二级标题]
+[正文内容，使用标准 Markdown 格式：
+- ## 二级标题
+- **加粗文字**
+- *斜体文字*
+- 在需要插入图片的位置写 [IMAGE_1]、[IMAGE_2]、[IMAGE_3]，每个图片标记占一行]
 ---
 FACT_CARD:
 [3-4条相关的趣味知识点，每条用 • 开头]
@@ -85,8 +89,8 @@ FACT_CARD:
 THINKING:
 [2个引发思考的问题]
 ---
-IMAGES:
-[3个场景描述，用于搜索配图，每行一个描述，中英文都可]
+IMAGE_PROMPTS:
+[3个图片提示词，分别对应 [IMAGE_1]、[IMAGE_2]、[IMAGE_3]，每行一个，英文描述]
 """
 
         messages = [
@@ -130,6 +134,9 @@ IMAGES:
             elif part.startswith("THINKING:"):
                 lines = part.replace("THINKING:", "").strip().split("\n")
                 data["thinking"] = [l.strip().lstrip("•- 0123456789.") for l in lines if l.strip()]
+            elif part.startswith("IMAGE_PROMPTS:"):
+                lines = part.replace("IMAGE_PROMPTS:", "").strip().split("\n")
+                data["image_prompts"] = [l.strip() for l in lines if l.strip()]
             elif part.startswith("IMAGES:"):
                 lines = part.replace("IMAGES:", "").strip().split("\n")
                 data["image_prompts"] = [l.strip() for l in lines if l.strip()]

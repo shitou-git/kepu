@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-图片搜索模块 - 为文章搜索合适的配图
+图片生成模块 - 使用 Agnes AI 图片生成 API 为文章生成配图
 """
 
 import os
@@ -14,62 +14,70 @@ from typing import List, Optional
 
 class ImageFinder:
     def __init__(self):
-        self.unsplash_key = os.environ.get("UNSPLASH_API_KEY", "")
+        self.api_key = os.environ.get("AGENS_API_KEY", "")
+        self.api_base = "https://apihub.agnes-ai.com/v1"
         self.image_dir = Path("content/images")
         self.image_dir.mkdir(parents=True, exist_ok=True)
 
     def search_images(self, queries: List[str], count: int = 3, date_str: str = "") -> List[str]:
         """
-        搜索图片并下载到本地
+        使用 Agnes AI 生成图片并下载到本地
         返回本地图片路径列表
         """
         images = []
         
-        # 优先使用 Unsplash API
-        if self.unsplash_key:
-            for query in queries[:count]:
-                url = self._search_unsplash(query)
-                if url:
-                    local_path = self._download_image(url, query, date_str)
+        if self.api_key:
+            for i, query in enumerate(queries[:count]):
+                image_url = self._generate_image(query)
+                if image_url:
+                    local_path = self._download_image(image_url, query, date_str, i+1)
                     if local_path:
                         images.append(local_path)
                 if len(images) >= count:
                     break
 
-        # 备用：使用免费图库 API（Pixabay、Pexels 等）
+        # 备用：使用免费图库 API
         if len(images) < count:
             images.extend(self._get_fallback_images(count - len(images), queries, date_str))
 
         return images[:count]
 
-    def _search_unsplash(self, query: str) -> Optional[str]:
-        """使用 Unsplash API 搜索图片"""
+    def _generate_image(self, prompt: str) -> Optional[str]:
+        """使用 Agnes AI 图片生成 API 生成图片"""
         try:
-            url = "https://api.unsplash.com/search/photos"
-            headers = {"Authorization": f"Client-ID {self.unsplash_key}"}
-            params = {
-                "query": query,
-                "per_page": 1,
-                "orientation": "landscape",
-                "content_filter": "high"
+            url = f"{self.api_base}/images/generations"
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
             }
-            response = requests.get(url, headers=headers, params=params, timeout=30)
+            payload = {
+                "model": "agnes-image-2.1-flash",
+                "prompt": prompt,
+                "size": "2K",
+                "ratio": "16:9",
+                "extra_body": {
+                    "response_format": "url"
+                }
+            }
+            
+            response = requests.post(url, headers=headers, json=payload, timeout=60)
+            response.raise_for_status()
             data = response.json()
-            if data.get("results"):
-                return data["results"][0]["urls"]["regular"]
+            
+            if data.get("data") and len(data["data"]) > 0:
+                return data["data"][0].get("url")
         except Exception as e:
-            print(f"Unsplash 搜索失败: {e}")
+            print(f"Agnes AI 图片生成失败: {e}")
         return None
 
-    def _download_image(self, url: str, query: str, date_str: str) -> Optional[str]:
+    def _download_image(self, url: str, query: str, date_str: str, index: int) -> Optional[str]:
         """下载图片到本地"""
         try:
             response = requests.get(url, timeout=30)
             response.raise_for_status()
             
-            # 生成文件名
             query_hash = hashlib.md5(query.encode()).hexdigest()[:8]
-            filename = f"{date_str}_{query_hash}.jpg"
+            filename = f"{date_str}_{index}_{query_hash}.png"
             filepath = self.image_dir / filename
             
             with open(filepath, "wb") as f:
@@ -81,7 +89,7 @@ class ImageFinder:
             return None
 
     def _get_fallback_images(self, count: int, queries: List[str], date_str: str) -> List[str]:
-        """备用图片获取方案 - 使用占位图服务或本地默认图"""
+        """备用图片获取方案"""
         images = []
         fallback_urls = [
             "https://picsum.photos/800/450",
@@ -91,7 +99,7 @@ class ImageFinder:
         
         for i in range(count):
             url = fallback_urls[i % len(fallback_urls)]
-            local_path = self._download_image(url, f"fallback_{i}", date_str)
+            local_path = self._download_image(url, f"fallback_{i}", date_str, i+1)
             if local_path:
                 images.append(local_path)
         
@@ -103,7 +111,10 @@ class ImageFinder:
 
 
 if __name__ == "__main__":
+    import os
+    os.environ["AGENS_API_KEY"] = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
     finder = ImageFinder()
-    queries = ["rocket space kids illustration", "children science experiment"]
+    queries = ["kids science experiment with cornstarch, colorful illustration for children", 
+               "happy children doing physics experiment in kitchen, cartoon style"]
     paths = finder.search_images(queries, count=2, date_str="2026-07-14")
     print(paths)
