@@ -27,22 +27,32 @@ class ImageFinder:
         """
         使用 Agnes AI 生成图片并下载到本地
         返回本地图片路径列表
+        【宁缺毋滥原则】图片生成失败时不使用随机占位图，返回空列表
         """
         images = []
         
         if self.api_key:
             for i, query in enumerate(queries[:count]):
                 image_url = self._generate_image(query)
+                if not image_url:
+                    # 重试一次
+                    print(f"  第{i+1}张图生成失败，重试中...")
+                    image_url = self._generate_image(query)
                 if image_url:
                     local_path = self._download_image(image_url, query, date_str, i+1)
                     if local_path:
                         images.append(local_path)
+                    else:
+                        print(f"  第{i+1}张图下载失败，跳过（宁缺毋滥）")
+                else:
+                    print(f"  第{i+1}张图生成失败，跳过（宁缺毋滥，不使用占位图）")
                 if len(images) >= count:
                     break
 
-        # 备用：使用免费图库 API
+        # 不再使用 picsum.photos 随机占位图
+        # 宁缺毋滥：生成失败就留空，不用无关图片
         if len(images) < count:
-            images.extend(self._get_fallback_images(count - len(images), queries, date_str))
+            print(f"  ⚠️ 只成功生成 {len(images)}/{count} 张图，不补充占位图（宁缺毋滥）")
 
         return images[:count]
 
@@ -105,23 +115,6 @@ class ImageFinder:
         except Exception as e:
             print(f"图片下载/压缩失败: {e}")
             return None
-
-    def _get_fallback_images(self, count: int, queries: List[str], date_str: str) -> List[str]:
-        """备用图片获取方案"""
-        images = []
-        fallback_urls = [
-            "https://picsum.photos/800/450",
-            "https://picsum.photos/800/450?random=2",
-            "https://picsum.photos/800/450?random=3"
-        ]
-        
-        for i in range(count):
-            url = fallback_urls[i % len(fallback_urls)]
-            local_path = self._download_image(url, f"fallback_{i}", date_str, i+1)
-            if local_path:
-                images.append(local_path)
-        
-        return images
 
     def get_local_image_path(self, filename: str) -> str:
         """获取图片在构建后的相对路径"""
