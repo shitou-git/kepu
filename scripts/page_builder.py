@@ -178,17 +178,17 @@ class SiteBuilder:
     def render_content(self, content: str, images: list) -> str:
         """
         将 Markdown 内容转换为 HTML，并替换图片标记为 base64
+        支持多种图片标记格式：[IMAGE_1], **[IMAGE_1]**, [IMAGE_1] 后面跟描述等
         """
-        # 处理图片标记 [IMAGE_1], [IMAGE_2], [IMAGE_3]
+        # 处理图片标记，支持多种格式
         for i, img in enumerate(images):
-            marker = f"[IMAGE_{i+1}]"
-            if marker in content:
-                img_src = self.image_to_base64(img)
-                if img_src:
-                    img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
-                else:
-                    img_html = ""
-                content = content.replace(marker, img_html)
+            pattern = re.compile(r'\*\*?\[IMAGE_' + str(i+1) + r'\]\*\*?')
+            img_src = self.image_to_base64(img)
+            if img_src:
+                img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
+            else:
+                img_html = ""
+            content = pattern.sub(img_html, content)
         
         # 将 Markdown 转换为 HTML
         html = markdown.markdown(content, extensions=['extra'])
