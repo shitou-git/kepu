@@ -153,7 +153,7 @@
 
     <div class="article-nav">
         {% if prev %}
-        <a href="{{ prev.date }}.html" class="prev">
+        <a href="{{ prev.file_id }}.html" class="prev">
             <div class="label">上一篇</div>
             <div class="title">{{ prev.title }}</div>
         </a>
@@ -161,7 +161,7 @@
         <div></div>
         {% endif %}
         {% if next %}
-        <a href="{{ next.date }}.html" class="next">
+        <a href="{{ next.file_id }}.html" class="next">
             <div class="label">下一篇</div>
             <div class="title">{{ next.title }}</div>
         </a>

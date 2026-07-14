@@ -57,9 +57,20 @@
 </style>
 {% endblock %}
 {% block content %}
+<section class="themes">
+    {% for theme in config.themes %}
+    {% if theme.id in themes %}
+    <a href="archive.html#theme-{{ theme.id }}" class="theme-card">
+        {{ theme.name }}
+        <span>{{ themes[theme.id] | length }}</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+</section>
+
 <div class="hero">
     <h2>每日科普，点亮好奇心</h2>
-    <p>专为 6-12 岁小学生打造的科学杂志，每天 16:00 更新</p>
+    <p>专为 6-12 岁小学生打造的科学杂志，每天 08:00 更新</p>
 </div>
 
 {% if latest %}
@@ -72,7 +83,7 @@
         <span style="margin-left:12px;color:var(--text-light)">{{ today.date }}</span>
     </div>
     <p class="summary">{{ today.summary }}</p>
-    <a href="article/{{ today.date }}.html" class="btn">阅读全文</a>
+    <a href="article/{{ today.file_id }}.html" class="btn">阅读全文</a>
 </section>
 {% endif %}
 
@@ -89,24 +100,13 @@
         </div>
         <div class="info">
             <span class="theme-tag">{{ theme_config[article.theme].icon }} {{ article.theme_name }}</span>
-            <h3><a href="article/{{ article.date }}.html">{{ article.title }}</a></h3>
+            <h3><a href="article/{{ article.file_id }}.html">{{ article.title }}</a></h3>
             <div class="meta">{{ article.date }} | {{ config.content.reading_time }}阅读</div>
             <p class="summary">{{ article.summary }}</p>
         </div>
     </div>
     {% endfor %}
 </div>
-
-<section class="themes">
-    {% for theme in config.themes %}
-    {% if theme.id in themes %}
-    <a href="archive.html#theme-{{ theme.id }}" class="theme-card">
-        {{ theme.name }}
-        <span>{{ themes[theme.id] | length }}</span>
-    </a>
-    {% endif %}
-    {% endfor %}
-</section>
 
 <div style="text-align:center;margin-top:40px">
     <a href="archive.html" class="btn btn-outline">查看全部往期内容</a>

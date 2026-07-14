@@ -95,9 +95,9 @@
 .theme-nav {
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
 }
 .theme-nav a {
     display: inline-flex;
@@ -105,12 +105,13 @@
     gap: 6px;
     background: var(--card);
     border: 1px solid var(--border);
-    padding: 8px 16px;
+    padding: 6px 14px;
     border-radius: 20px;
     text-decoration: none;
     color: var(--text);
-    font-size: 0.95em;
+    font-size: 0.9em;
     transition: all 0.2s;
+    box-shadow: var(--shadow);
 }
 .theme-nav a:hover {
     border-color: var(--primary);
@@ -153,6 +154,18 @@
 </style>
 {% endblock %}
 {% block content %}
+<!-- 主题分类导航 - 移至导航栏下方 -->
+<div class="theme-nav">
+    {% for theme in config.themes %}
+    {% if theme.id in themes %}
+    <a href="#theme-{{ theme.id }}">
+        <span>{{ theme.name }}</span>
+        <span style="color:var(--text-light);font-size:0.85em">({{ themes[theme.id] | length }})</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>
+
 <div class="archive-header">
     <h2>往期回顾</h2>
     <p>所有科普文章归档，随时回顾精彩知识</p>
@@ -173,19 +186,6 @@
     </div>
 </div>
 
-<!-- 主题分类导航 -->
-<div class="theme-nav">
-    {% for theme in config.themes %}
-    {% if theme.id in themes %}
-    <a href="#theme-{{ theme.id }}">
-        <span>{{ theme.icon }}</span>
-        <span>{{ theme.name }}</span>
-        <span style="color:var(--text-light);font-size:0.85em">({{ themes[theme.id] | length }})</span>
-    </a>
-    {% endif %}
-    {% endfor %}
-</div>
-
 <!-- 按主题分组 -->
 {% for theme in config.themes %}
 {% if theme.id in themes %}
@@ -193,7 +193,7 @@
     <h3><span>{{ theme.icon }}</span> {{ theme.name }}</h3>
     <div class="theme-articles">
         {% for article in themes[theme.id] %}
-        <a href="article/{{ article.date }}.html" class="archive-item">
+        <a href="article/{{ article.file_id }}.html" class="archive-item">
             <div class="date">
                 <div class="day">{{ article.date[-2:] }}</div>
                 <div>{{ article.date[5:7] }}月</div>
@@ -217,7 +217,7 @@
         <div class="month-label">{{ month }}</div>
         <div class="month-articles">
             {% for article in month_groups[month] %}
-            <a href="article/{{ article.date }}.html" class="archive-item">
+            <a href="article/{{ article.file_id }}.html" class="archive-item">
                 <div class="date">
                     <div class="day">{{ article.date[-2:] }}</div>
                     <div>{{ article.date[5:7] }}月</div>

@@ -88,6 +88,8 @@ class SiteBuilder:
         for file in sorted(self.archives_dir.glob("*.json"), reverse=True):
             try:
                 data = json.loads(file.read_text(encoding="utf-8"))
+                # 记录文件名（不含扩展名），用于生成文章URL
+                data["file_id"] = file.stem
                 articles.append(data)
             except Exception as e:
                 print(f"读取文章失败 {file}: {e}")
@@ -134,12 +136,13 @@ class SiteBuilder:
         articles_dir.mkdir(exist_ok=True)
         
         for article in articles:
+            file_id = article.get("file_id", "")
             date_str = article.get("date", "")
-            if not date_str:
+            if not file_id:
                 continue
             
             # 找到前后文章
-            idx = next((i for i, a in enumerate(articles) if a.get("date") == date_str), -1)
+            idx = next((i for i, a in enumerate(articles) if a.get("file_id", "") == file_id), -1)
             prev_article = articles[idx + 1] if idx >= 0 and idx + 1 < len(articles) else None
             next_article = articles[idx - 1] if idx > 0 else None
             
@@ -158,7 +161,7 @@ class SiteBuilder:
                 config=self.config
             )
             
-            (articles_dir / f"{date_str}.html").write_text(html, encoding="utf-8")
+            (articles_dir / f"{file_id}.html").write_text(html, encoding="utf-8")
         
         print(f"文章页构建完成，共 {len(articles)} 篇")
     
@@ -198,7 +201,7 @@ class SiteBuilder:
     def render_content(self, content: str, images: list) -> str:
         """
         将 Markdown 内容转换为 HTML，并替换图片标记为 base64
-        支持多种图片标记格式：[IMAGE_1], **[IMAGE_1]**
+        图片标记 [IMAGE_N] 会被替换到对应段落末尾
         """
         # 清理 AI 生成的图片提示词描述
         lines = content.split('\n')
@@ -207,16 +210,15 @@ class SiteBuilder:
         for i, line in enumerate(lines):
             stripped = line.strip()
 
-            # 跳过包含 IMAGE 标记的引用块及其后续描述行
+            # 跳过引用块中包含 IMAGE_PROMPTS 等提示词的行（但保留 [IMAGE_N] 图片标记）
             if stripped.startswith('>'):
-                if 'IMAGE' in stripped:
+                if 'IMAGE_PROMPTS' in stripped or 'IMAGE:' in stripped:
                     skip_blockquote = True
                     continue
                 if skip_blockquote:
                     continue
-
-            # 遇到非引用行，停止跳过
-            if skip_blockquote and not stripped.startswith('>'):
+            else:
+                # 遇到非引用行，停止跳过
                 skip_blockquote = False
 
             # 移除斜体图片描述行（如 *图片场景描述：...*）
@@ -231,7 +233,8 @@ class SiteBuilder:
 
         content = '\n'.join(cleaned_lines)
 
-        # 替换图片标记为 base64 图片
+        # 先将 [IMAGE_N] 替换为临时占位符（使用不会被Markdown解析的格式）
+        placeholders = {}
         for i, img in enumerate(images):
             img_src = self.image_to_base64(img)
             if img_src:
@@ -239,14 +242,25 @@ class SiteBuilder:
             else:
                 img_html = ""
 
+            # 使用特殊字符作为占位符，避免被Markdown解析
+            placeholder = f'IMAGEDOMMARKER{i+1}X'
+            placeholders[placeholder] = img_html
+
             pattern = re.compile(r'\*\*\[IMAGE_' + str(i+1) + r'\]\*\*|\[IMAGE_' + str(i+1) + r'\]')
-            content = pattern.sub(img_html, content)
+            content = pattern.sub(placeholder, content)
 
         # 清理未匹配的 IMAGE 标记
         remaining_pattern = re.compile(r'\*\*\[IMAGE_\d+\]\*\*|\[IMAGE_\d+\]')
         content = remaining_pattern.sub('', content)
 
+        # Markdown 转 HTML
         html = markdown.markdown(content, extensions=['extra'])
+
+        # 替换占位符为实际图片
+        for placeholder, img_html in placeholders.items():
+            html = html.replace(f'<p>{placeholder}</p>', img_html)  # 独占一段
+            html = html.replace(placeholder, img_html)  # 在段落内
+
         return html
     
     def build(self):
