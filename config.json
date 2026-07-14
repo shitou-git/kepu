@@ -95,12 +95,12 @@
     "api_base": "https://apihub.agnes-ai.com/v1",
     "model": "agnes-2.0-flash",
     "temperature": 0.85,
-    "max_tokens": 2000
+    "max_tokens": 4000
   },
   "content": {
-    "article_length": 800,
+    "article_length": 1500,
     "image_count": 3,
-    "reading_time": "5分钟",
+    "reading_time": "8分钟",
     "target_age": "6-12岁"
   }
 }
