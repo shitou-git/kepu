@@ -1,0 +1,104 @@
+name: Daily Science Magazine Update
+
+on:
+  schedule:
+    # 每天北京时间 16:00 运行 (UTC+8)
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      theme:
+        description: '指定主题 (可选)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Generate daily content
+        env:
+          AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
+          UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
+          INPUT_THEME: ${{ github.event.inputs.theme }}
+        run: |
+          python scripts/generate.py --theme "$INPUT_THEME"
+
+      - name: Build site pages
+        run: |
+          python scripts/page_builder.py
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  commit:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Generate and commit content
+        env:
+          AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
+          UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
+          INPUT_THEME: ${{ github.event.inputs.theme }}
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          python scripts/generate.py --theme "$INPUT_THEME"
+          python scripts/page_builder.py
+          git add content/ dist/ archives/
+          git diff --staged --quiet || git commit -m "📚 $(date +'%Y-%m-%d') 更新科普内容"
+          git push

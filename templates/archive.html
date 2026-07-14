@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}往期回顾 - {{ site.title }}{% endblock %}
+{% block extra_css %}
+<style>
+.archive-header { text-align: center; padding: 20px 0 40px; }
+.archive-header h2 { font-size: 2em; color: var(--primary); }
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+.month-group { margin-bottom: 40px; }
+.month-label {
+    position: relative;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+.month-label::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 3px solid var(--card);
+}
+.month-articles { display: grid; gap: 16px; }
+.archive-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+}
+.archive-item:hover { border-color: var(--primary); transform: translateX(4px); }
+.archive-item .date {
+    min-width: 80px;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9em;
+}
+.archive-item .date .day { font-size: 1.5em; font-weight: 600; color: var(--primary); }
+.archive-item h4 { flex: 1; font-size: 1.1em; }
+.archive-item .theme { font-size: 0.85em; }
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+.stat-item { text-align: center; }
+.stat-item .number { font-size: 2.5em; font-weight: 700; color: var(--primary); }
+.stat-item .label { color: var(--text-light); font-size: 0.9em; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="archive-header">
+    <h2>往期回顾</h2>
+    <p>所有科普文章归档，随时回顾精彩知识</p>
+</div>
+
+<div class="stats">
+    <div class="stat-item">
+        <div class="number">{{ articles | length }}</div>
+        <div class="label">总文章数</div>
+    </div>
+    <div class="stat-item">
+        <div class="number">{{ months | length }}</div>
+        <div class="label">覆盖月数</div>
+    </div>
+    <div class="stat-item">
+        <div class="number">{{ config.themes | length }}</div>
+        <div class="label">主题分类</div>
+    </div>
+</div>
+
+<div class="timeline">
+    {% for month in months %}
+    <div class="month-group">
+        <div class="month-label">{{ month }}</div>
+        <div class="month-articles">
+            {% for article in month_groups[month] %}
+            <a href="article/{{ article.date }}.html" class="archive-item">
+                <div class="date">
+                    <div class="day">{{ article.date[-2:] }}</div>
+                    <div>{{ article.date[5:7] }}月</div>
+                </div>
+                <h4>{{ article.title }}</h4>
+                <span class="theme theme-tag">{{ theme_config[article.theme].icon }} {{ article.theme_name }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
