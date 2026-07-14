@@ -200,19 +200,52 @@ class SiteBuilder:
         将 Markdown 内容转换为 HTML，并替换图片标记为 base64
         支持多种图片标记格式：[IMAGE_1], **[IMAGE_1]**
         """
+        # 清理 AI 生成的图片提示词描述
+        lines = content.split('\n')
+        cleaned_lines = []
+        skip_blockquote = False
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+
+            # 跳过包含 IMAGE 标记的引用块及其后续描述行
+            if stripped.startswith('>'):
+                if 'IMAGE' in stripped:
+                    skip_blockquote = True
+                    continue
+                if skip_blockquote:
+                    continue
+
+            # 遇到非引用行，停止跳过
+            if skip_blockquote and not stripped.startswith('>'):
+                skip_blockquote = False
+
+            # 移除斜体图片描述行（如 *图片场景描述：...*）
+            if re.match(r'^\*图片[场场描]', stripped) or re.match(r'^\*[Ii]mage\s', stripped):
+                continue
+
+            # 移除纯英文图片提示词行（以 > 开头以外的英文描述）
+            if re.match(r'^[Aa] (cute|group|beautiful|young|child)', stripped) and len(stripped) > 30:
+                continue
+
+            cleaned_lines.append(line)
+
+        content = '\n'.join(cleaned_lines)
+
+        # 替换图片标记为 base64 图片
         for i, img in enumerate(images):
             img_src = self.image_to_base64(img)
             if img_src:
                 img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
             else:
                 img_html = ""
-            
+
             pattern = re.compile(r'\*\*\[IMAGE_' + str(i+1) + r'\]\*\*|\[IMAGE_' + str(i+1) + r'\]')
             content = pattern.sub(img_html, content)
-        
+
+        # 清理未匹配的 IMAGE 标记
         remaining_pattern = re.compile(r'\*\*\[IMAGE_\d+\]\*\*|\[IMAGE_\d+\]')
         content = remaining_pattern.sub('', content)
-        
+
         html = markdown.markdown(content, extensions=['extra'])
         return html
     
