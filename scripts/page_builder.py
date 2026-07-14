@@ -7,6 +7,7 @@
 import json
 import shutil
 import re
+import base64
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 import markdown
@@ -38,13 +39,25 @@ class SiteBuilder:
     
     def copy_assets(self):
         """复制静态资源"""
-        # 复制图片
-        img_src = self.content_dir / "images"
-        img_dst = self.dist_dir / "images"
-        if img_src.exists():
-            if img_dst.exists():
-                shutil.rmtree(img_dst)
-            shutil.copytree(img_src, img_dst)
+        # 图片已内嵌为 base64，无需复制
+        pass
+
+    def image_to_base64(self, image_path: str) -> str:
+        """将图片转为 base64 data URL"""
+        try:
+            filepath = self.content_dir / "images" / image_path
+            if not filepath.exists():
+                return ""
+            with open(filepath, "rb") as f:
+                data = f.read()
+            ext = filepath.suffix.lower().replace(".", "")
+            if ext == "jpg":
+                ext = "jpeg"
+            b64 = base64.b64encode(data).decode("utf-8")
+            return f"data:image/{ext};base64,{b64}"
+        except Exception as e:
+            print(f"图片转 base64 失败: {e}")
+            return ""
     
     def load_articles(self) -> list:
         """加载所有文章数据"""
@@ -67,6 +80,13 @@ class SiteBuilder:
         
         # 最新文章
         latest = articles[:7] if articles else []
+        
+        # 给最新文章生成封面 base64
+        for article in latest:
+            if article.get("images"):
+                article["cover_b64"] = self.image_to_base64(article["images"][0])
+            else:
+                article["cover_b64"] = ""
         
         # 按主题分组
         themes = {}
@@ -103,11 +123,10 @@ class SiteBuilder:
             prev_article = articles[idx + 1] if idx >= 0 and idx + 1 < len(articles) else None
             next_article = articles[idx - 1] if idx > 0 else None
             
-            # 渲染文章内容（Markdown -> HTML + 图片替换）
+            # 渲染文章内容（Markdown -> HTML + 图片替换为 base64）
             article["content_html"] = self.render_content(
                 article.get("content", ""),
-                article.get("images", []),
-                f"article/{date_str}.html"
+                article.get("images", [])
             )
             
             html = template.render(
@@ -135,11 +154,20 @@ class SiteBuilder:
                 months[month] = []
             months[month].append(a)
         
+        # 按主题分组
+        themes = {}
+        for a in articles:
+            tid = a.get("theme", "unknown")
+            if tid not in themes:
+                themes[tid] = []
+            themes[tid].append(a)
+        
         html = template.render(
             site=self.config["site"],
             articles=articles,
             months=sorted(months.keys(), reverse=True),
             month_groups=months,
+            themes=themes,
             theme_config={t["id"]: t for t in self.config["themes"]},
             config=self.config
         )
@@ -147,33 +175,19 @@ class SiteBuilder:
         (self.dist_dir / "archive.html").write_text(html, encoding="utf-8")
         print("归档页构建完成")
     
-    def build(self):
-        """执行完整构建"""
-        print("开始构建站点...")
-        self.clean_dist()
-        self.copy_assets()
-        
-        articles = self.load_articles()
-        print(f"加载了 {len(articles)} 篇文章")
-        
-        self.build_index(articles)
-        self.build_article_pages(articles)
-        self.build_archive_pages(articles)
-    
-    def render_content(self, content: str, images: list, article_path: str = "") -> str:
+    def render_content(self, content: str, images: list) -> str:
         """
-        将 Markdown 内容转换为 HTML，并替换图片标记
+        将 Markdown 内容转换为 HTML，并替换图片标记为 base64
         """
         # 处理图片标记 [IMAGE_1], [IMAGE_2], [IMAGE_3]
         for i, img in enumerate(images):
             marker = f"[IMAGE_{i+1}]"
             if marker in content:
-                # 计算图片相对路径
-                if article_path.startswith("article/"):
-                    img_src = f"../images/{img}"
+                img_src = self.image_to_base64(img)
+                if img_src:
+                    img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
                 else:
-                    img_src = f"images/{img}"
-                img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
+                    img_html = ""
                 content = content.replace(marker, img_html)
         
         # 将 Markdown 转换为 HTML

@@ -4,20 +4,23 @@
 .hero { text-align: center; padding: 20px 0 40px; }
 .hero h2 { font-size: 2em; color: var(--primary); margin-bottom: 10px; }
 .hero p { color: var(--text-light); font-size: 1.1em; }
-.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
 .theme-card {
+    display: block;
     background: var(--card);
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 12px;
+    padding: 16px;
     text-align: center;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    transition: transform 0.2s;
+    transition: transform 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
 }
-.theme-card:hover { transform: translateY(-4px); }
-.theme-card .icon { font-size: 2.5em; margin-bottom: 12px; }
-.theme-card h3 { font-size: 1.1em; margin-bottom: 6px; }
-.theme-card p { font-size: 0.9em; color: var(--text-light); }
+.theme-card:hover { transform: translateY(-3px); border-color: var(--primary); }
+.theme-card .icon { font-size: 2em; margin-bottom: 8px; }
+.theme-card h3 { font-size: 1em; margin-bottom: 4px; }
+.theme-card p { font-size: 0.85em; color: var(--text-light); }
 .today-highlight {
     background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%);
     border: 2px solid var(--primary);
@@ -61,11 +64,13 @@
 
 <section class="themes">
     {% for theme in config.themes %}
-    <div class="theme-card">
+    {% if theme.id in themes %}
+    <a href="archive.html#theme-{{ theme.id }}" class="theme-card">
         <div class="icon">{{ theme.icon }}</div>
         <h3>{{ theme.name }}</h3>
-        <p>{{ theme.description }}</p>
-    </div>
+        <p>{{ themes[theme.id] | length }} 篇</p>
+    </a>
+    {% endif %}
     {% endfor %}
 </section>
 
@@ -88,8 +93,8 @@
     {% for article in latest[1:] %}
     <div class="article-item">
         <div class="cover">
-            {% if article.images %}
-            <img src="images/{{ article.images[0] }}" alt="{{ article.title }}">
+            {% if article.cover_b64 %}
+            <img src="{{ article.cover_b64 }}" alt="{{ article.title }}">
             {% else %}
             <span>{{ theme_config[article.theme].icon }}</span>
             {% endif %}

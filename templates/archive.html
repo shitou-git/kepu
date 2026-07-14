@@ -68,6 +68,64 @@
 .stat-item { text-align: center; }
 .stat-item .number { font-size: 2.5em; font-weight: 700; color: var(--primary); }
 .stat-item .label { color: var(--text-light); font-size: 0.9em; }
+.theme-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+.theme-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.95em;
+    transition: all 0.2s;
+}
+.theme-nav a:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+}
+.theme-section { margin-bottom: 40px; }
+.theme-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3em;
+    color: var(--primary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+}
+.theme-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+.theme-articles .archive-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+}
+.theme-articles .archive-item:hover { border-color: var(--primary); transform: translateX(4px); }
+.theme-articles .archive-item .date { min-width: 60px; text-align: center; color: var(--text-light); font-size: 0.85em; }
+.theme-articles .archive-item .date .day { font-size: 1.3em; font-weight: 600; color: var(--primary); }
+.theme-articles .archive-item h4 { flex: 1; font-size: 1em; }
 </style>
 {% endblock %}
 {% block content %}
@@ -90,6 +148,44 @@
         <div class="label">主题分类</div>
     </div>
 </div>
+
+<!-- 主题分类导航 -->
+<div class="theme-nav">
+    {% for theme in config.themes %}
+    {% if theme.id in themes %}
+    <a href="#theme-{{ theme.id }}">
+        <span>{{ theme.icon }}</span>
+        <span>{{ theme.name }}</span>
+        <span style="color:var(--text-light);font-size:0.85em">({{ themes[theme.id] | length }})</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!-- 按主题分组 -->
+{% for theme in config.themes %}
+{% if theme.id in themes %}
+<section class="theme-section" id="theme-{{ theme.id }}">
+    <h3><span>{{ theme.icon }}</span> {{ theme.name }}</h3>
+    <div class="theme-articles">
+        {% for article in themes[theme.id] %}
+        <a href="article/{{ article.date }}.html" class="archive-item">
+            <div class="date">
+                <div class="day">{{ article.date[-2:] }}</div>
+                <div>{{ article.date[5:7] }}月</div>
+            </div>
+            <h4>{{ article.title }}</h4>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endfor %}
+
+<h2 style="display:flex;align-items:center;gap:12px;margin:40px 0 24px;font-size:1.4em;color:var(--primary)">
+    <span>按月查看</span>
+    <span style="flex:1;height:1px;background:var(--border)"></span>
+</h2>
 
 <div class="timeline">
     {% for month in months %}
