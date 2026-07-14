@@ -4,12 +4,14 @@
 图片生成模块 - 使用 Agnes AI 图片生成 API 为文章生成配图
 """
 
+import io
 import os
 import json
 import requests
 import hashlib
 from pathlib import Path
 from typing import List, Optional
+from PIL import Image
 
 
 class ImageFinder:
@@ -18,6 +20,8 @@ class ImageFinder:
         self.api_base = "https://apihub.agnes-ai.com/v1"
         self.image_dir = Path("content/images")
         self.image_dir.mkdir(parents=True, exist_ok=True)
+        self.max_width = 500
+        self.quality = 55
 
     def search_images(self, queries: List[str], count: int = 3, date_str: str = "") -> List[str]:
         """
@@ -71,21 +75,35 @@ class ImageFinder:
         return None
 
     def _download_image(self, url: str, query: str, date_str: str, index: int) -> Optional[str]:
-        """下载图片到本地"""
+        """下载图片到本地并压缩为JPEG"""
         try:
             response = requests.get(url, timeout=30)
             response.raise_for_status()
-            
+
+            # 打开图片并压缩
+            img = Image.open(io.BytesIO(response.content))
+
+            if img.mode == "RGBA":
+                background = Image.new("RGB", img.size, (255, 255, 255))
+                background.paste(img, mask=img.split()[3])
+                img = background
+            elif img.mode != "RGB":
+                img = img.convert("RGB")
+
+            if img.width > self.max_width:
+                ratio = self.max_width / img.width
+                new_height = int(img.height * ratio)
+                img = img.resize((self.max_width, new_height), Image.LANCZOS)
+
             query_hash = hashlib.md5(query.encode()).hexdigest()[:8]
-            filename = f"{date_str}_{index}_{query_hash}.png"
+            filename = f"{date_str}_{index}_{query_hash}.jpg"
             filepath = self.image_dir / filename
-            
-            with open(filepath, "wb") as f:
-                f.write(response.content)
-            
+
+            img.save(filepath, format="JPEG", quality=self.quality, optimize=True)
+
             return str(filepath)
         except Exception as e:
-            print(f"图片下载失败: {e}")
+            print(f"图片下载/压缩失败: {e}")
             return None
 
     def _get_fallback_images(self, count: int, queries: List[str], date_str: str) -> List[str]:
