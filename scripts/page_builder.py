@@ -61,16 +61,16 @@ class SiteBuilder:
             elif img.mode != "RGB":
                 img = img.convert("RGB")
             
-            # 限制最大宽度 800px，保持比例
-            max_width = 800
+            # 限制最大宽度 600px，保持比例
+            max_width = 600
             if img.width > max_width:
                 ratio = max_width / img.width
                 new_height = int(img.height * ratio)
                 img = img.resize((max_width, new_height), Image.LANCZOS)
             
-            # 压缩为 JPEG，质量 75
+            # 压缩为 JPEG，质量 65
             buffer = io.BytesIO()
-            img.save(buffer, format="JPEG", quality=75, optimize=True)
+            img.save(buffer, format="JPEG", quality=65, optimize=True)
             data = buffer.getvalue()
             
             b64 = base64.b64encode(data).decode("utf-8")

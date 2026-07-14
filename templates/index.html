@@ -4,23 +4,23 @@
 .hero { text-align: center; padding: 20px 0 40px; }
 .hero h2 { font-size: 2em; color: var(--primary); margin-bottom: 10px; }
 .hero p { color: var(--text-light); font-size: 1.1em; }
-.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.themes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; justify-content: center; }
 .theme-card {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: var(--card);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
+    border-radius: 20px;
+    padding: 6px 14px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    transition: transform 0.2s, border-color 0.2s;
+    transition: all 0.2s;
     text-decoration: none;
     color: inherit;
+    font-size: 0.9em;
 }
-.theme-card:hover { transform: translateY(-3px); border-color: var(--primary); }
-.theme-card .icon { font-size: 2em; margin-bottom: 8px; }
-.theme-card h3 { font-size: 1em; margin-bottom: 4px; }
-.theme-card p { font-size: 0.85em; color: var(--text-light); }
+.theme-card:hover { border-color: var(--primary); background: var(--primary-light); }
+.theme-card span { font-size: 0.85em; color: var(--text-light); }
 .today-highlight {
     background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%);
     border: 2px solid var(--primary);
@@ -62,18 +62,6 @@
     <p>专为 6-12 岁小学生打造的科学杂志，每天 16:00 更新</p>
 </div>
 
-<section class="themes">
-    {% for theme in config.themes %}
-    {% if theme.id in themes %}
-    <a href="archive.html#theme-{{ theme.id }}" class="theme-card">
-        <div class="icon">{{ theme.icon }}</div>
-        <h3>{{ theme.name }}</h3>
-        <p>{{ themes[theme.id] | length }} 篇</p>
-    </a>
-    {% endif %}
-    {% endfor %}
-</section>
-
 {% if latest %}
 {% set today = latest[0] %}
 <section class="today-highlight">
@@ -108,6 +96,17 @@
     </div>
     {% endfor %}
 </div>
+
+<section class="themes">
+    {% for theme in config.themes %}
+    {% if theme.id in themes %}
+    <a href="archive.html#theme-{{ theme.id }}" class="theme-card">
+        {{ theme.name }}
+        <span>{{ themes[theme.id] | length }}</span>
+    </a>
+    {% endif %}
+    {% endfor %}
+</section>
 
 <div style="text-align:center;margin-top:40px">
     <a href="archive.html" class="btn btn-outline">查看全部往期内容</a>
