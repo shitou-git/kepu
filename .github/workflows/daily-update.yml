@@ -11,7 +11,7 @@ on:
         default: ''
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -45,6 +45,14 @@ jobs:
           INPUT_THEME: ${{ github.event.inputs.theme }}
         run: |
           python scripts/generate.py --theme "$INPUT_THEME"
+
+      - name: Commit generated content
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add content/
+          git commit -m "Auto-generate content for $(date +%Y-%m-%d)" || echo "No changes to commit"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main
 
       - name: Build site pages
         run: |
