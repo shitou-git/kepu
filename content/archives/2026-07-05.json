@@ -1,0 +1,34 @@
+{
+  "theme": "innovation",
+  "theme_name": "科学创新",
+  "date": "2026-07-05",
+  "title": "未来魔法：科学创新如何让世界变个样？",
+  "summary": "想知道未来的机器人会做饭吗？快来看看科学家如何用“脑洞大开”的创新，把想象变成现实！🚀",
+  "keywords": [
+    "科学创新",
+    "未来科技",
+    "智能生活",
+    "青少年科普"
+  ],
+  "content": "**导语：什么是科学创新？**\n\n嘿，小朋友！你有没有想过，为什么手机变得越来越薄，汽车不再冒黑烟，甚至机器人能帮你扫地？这一切都要归功于一个超级厉害的词——**科学创新**。\n\n简单来说，创新就是给旧的点子加点“魔法”，让它们变得更好、更聪明、更神奇！✨\n\n[IMAGE_1]\n\n**第一节：给物品装上“大脑”**\n\n你知道吗？现在的很多玩具和文具都变聪明了。\n\n想象一下，如果你的铅笔盒知道里面少了哪支笔，并自动提醒你补充，那该多酷啊！这就是**物联网**的功劳。科学家们把传感器（就像物品的“鼻子”和“眼睛”）装进日常用品里，让它们能感知周围的环境。\n\n[IMAGE_2]\n\n**第二节：绿色能源，大自然的礼物**\n\n以前，我们主要靠烧煤和石油来发电，但这会让空气变得脏脏的。现在，科学家正在从大自然中寻找答案。\n\n太阳能板像向日葵一样，追着太阳跑，把光变成电；风力发电机像巨大的风车，呼呼转着产生能量。这些清洁能源就像源源不断的魔法药水，让地球妈妈更健康！🌍\n\n**第三节：AI医生与太空快递员**\n\n最让人兴奋的是，人工智能（AI）正在成为我们的好帮手。\n\n在未来的医院，AI医生可以帮人类医生更快地发现疾病；而在太空中，创新的航天器可能不再需要复杂的燃料，而是利用阳光的力量慢慢飞向火星。是不是感觉像是在看科幻电影？但请记住，这些都是正在发生的科学创新哦！🛸\n\n[IMAGE_3]",
+  "fact_card": [
+    "第一台计算机ENIAC重达30吨，比现在的一头大象还重呢！",
+    "塑料瓶如果回收利用，只需要很少的能量就能变成新的衣服纤维。",
+    "科学家们正在研究如何用细菌“吃掉”海洋里的塑料垃圾。",
+    "未来的飞船可能会使用“离子推进器”，虽然慢，但能飞得更远更久。"
+  ],
+  "thinking": [
+    "如果你能发明一种帮助环保的新工具，它会是什么样子的？",
+    "你觉得未来的学校教室会变成什么样子？"
+  ],
+  "image_prompts": [
+    "[IMAGE_1]: A cute cartoon illustration of smart home devices, like a toaster that talks and a robot vacuum cleaner, glowing with soft blue light, colorful and engaging style.",
+    "[IMAGE_2]: A vibrant landscape showing solar panels shaped like sunflowers and giant wind turbines on green hills, sunny day, clean energy concept, children's book illustration style.",
+    "[IMAGE_3]: A futuristic hospital scene where a friendly robot doctor helps a child, with holographic screens in the background, warm lighting, sci-fi but cozy atmosphere."
+  ],
+  "images": [
+    "2026-07-05_1_905fda5e.png",
+    "2026-07-05_2_47571ce6.png",
+    "2026-07-05_1_114cba72.png"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "theme": "nature",
+  "theme_name": "自然与动物",
+  "date": "2026-07-04",
+  "title": "🦕 恐龙去哪了？穿越回白垩纪的最后一天！",
+  "summary": "2026年7月4日，我们带着时间机器回到6600万年前，看看恐龙消失前的最后时刻，揭秘那场改变地球命运的大灾难！🌍",
+  "keywords": [
+    "恐龙灭绝",
+    "小行星",
+    "白垩纪",
+    "古生物学",
+    "时间旅行"
+  ],
+  "content": "## 🚀 出发！穿越到6600万年前\n\n你知道吗？今天虽然是2026年的7月4日，但我们的意识已经乘坐“思维号”时间飞船，回到了恐龙时代的终点站——白垩纪晚期。🦖\n\n想象一下，你正站在一棵巨大的苏铁树下，空气湿热而温暖。天空中飞着像蝙蝠一样的翼龙，远处传来霸王龙低沉的吼声。这一切看起来多么壮观啊！但是，谁也没想到，这就是非鸟类恐龙在地球上的最后一个夏天。\n\n[IMAGE_1]\n\n## ☄️ 天空中的“不速之客”\n\n就在这样一个平静的午后，天文学家（如果有的话）会在天空中看到一个异常明亮的光点。那是一颗直径约10公里的小行星，它像一颗愤怒的流星，以每秒20公里的速度冲向地球！☄️\n\n*咔嚓！* 还没等你反应过来，它已经撞向了现在的墨西哥尤卡坦半岛。\n\n那一瞬间，撞击产生的能量相当于几十亿颗原子弹同时爆炸！💥 地面剧烈震动，巨大的海啸像一堵墙一样向四周涌去，火山喷发般的尘埃冲天而起，遮天蔽日。\n\n[IMAGE_2]\n\n## 🌑 漫长的“核冬天”\n\n撞击后的几周里，世界变得漆黑一片。大量的灰尘和二氧化硫进入大气层，阳光再也照不进地面。地球就像被关进了一个巨大的黑暗冰箱里。🧊\n\n植物因为无法进行光合作用而大片枯萎。草食性恐龙没有了食物，开始饿死；接着，肉食性恐龙也失去了猎物。食物链从底部开始崩塌，就像推倒的多米诺骨牌，一发不可收拾。📉\n\n## 🐦 谁是最后的幸存者？\n\n虽然巨大的恐龙灭绝了，但有些小动物活了下来。你知道吗？可能是那些体型较小、住在洞穴里、能吃种子和昆虫的鸟类祖先们。🐣\n\n它们躲过了严寒和饥饿，并在数百万年后演化成了我们现在看到的五彩斑斓的鸟儿。所以，下次当你看到窗外的小鸟时，记得它们可是恐龙的“远房亲戚”哦！\n\n[IMAGE_3]",
+  "fact_card": [
+    "恐龙灭绝并非一夜之间，撞击后的环境变化持续了数千年甚至更久。",
+    "鸟类是唯一幸存下来的恐龙后代，它们在分类学上属于“兽脚类恐龙”。",
+    "希克苏鲁伯陨石坑是目前地球上已知最大的撞击坑之一，深埋地下。",
+    "如果没有这次小行星撞击，哺乳动物可能永远无法崛起，人类也就不会存在啦！"
+  ],
+  "thinking": [
+    "如果你生活在恐龙时代，你会选择成为哪种恐龙？为什么？",
+    "除了小行星，你觉得还有哪些原因可能导致恐龙灭绝？（提示：想想气候变化或疾病）"
+  ],
+  "image_prompts": [
+    "[IMAGE_1] A vibrant prehistoric jungle scene from the Late Cretaceous period, featuring lush ferns and cycads, with a distant T-Rex silhouette, bright daylight, cinematic lighting, illustration style suitable for children's book.",
+    "[IMAGE_2] A massive asteroid hitting Earth's surface near the Yucatan Peninsula, creating a huge impact crater with explosive shockwaves, fireballs, and debris flying everywhere, dramatic perspective, dynamic composition.",
+    "[IMAGE_3] A small, bird-like dinosaur ancestor hiding in a dark cave, looking out at a gray, dusty sky with dim sunlight, conveying survival and resilience, soft focus background, emotional atmosphere."
+  ],
+  "images": [
+    "2026-07-04_1_8f88426e.png",
+    "2026-07-04_2_d25a11b1.png",
+    "2026-07-04_3_e2ccba74.png"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "theme": "physics",
+  "theme_name": "物理小实验",
+  "date": "2026-07-09",
+  "title": "🎈会“隐身”的彩虹泡泡：揭秘表面张力魔法！",
+  "summary": "今天我们要用一个简单的回形针，挑战水的“皮肤”！看看它是如何在水面上漂浮的？快来动手试试吧！",
+  "keywords": [
+    "物理小实验",
+    "表面张力",
+    "科学游戏",
+    "小学生科普"
+  ],
+  "content": "# 👋 嗨，小小科学家！\n\n你知道水是有“皮肤”的吗？别急着洗洗手哦！其实，在微观世界里，水分子之间手拉手，形成了一层看不见的弹性薄膜，这就是**表面张力**。\n\n今天，我们要利用这层神奇的“皮肤”，让一根铁做的回形针像小船一样漂浮在水面上。准备好了吗？魔法即将开始！✨\n\n## 🛠️ 准备魔法材料\n\n想要完成这个实验，你只需要家里常见的几样东西：\n1. 一个透明的玻璃杯或浅碗\n2. 清水\n3. 一枚回形针（或者一枚轻轻放的硬币）\n4. 一张纸巾\n5. 一点洗洁精（这是破解魔法的关键哦！）\n\n**[IMAGE_1]**\n\n## 🌊 第一步：让回形针“站”起来\n\n首先，把杯子装满水，直到水面微微鼓起，像一个小馒头一样凸出来，但不要溢出来。\n\n接着，把回形针轻轻放在那张纸巾上。然后，小心翼翼地用另一只手拿着纸巾的另一端，让它慢慢沉入水中。当纸巾湿透沉底后，你会发现——**回形针竟然稳稳地浮在水面上！**\n\n是不是很像变魔术？其实，是水的“皮肤”托住了它。因为回形针很轻，它压破了水分子的连接，但还没有重到戳破这层膜。\n\n**[IMAGE_2]**\n\n## 💥 第二步：施展“破坏魔法”\n\n现在，最刺激的时刻到了！请你在指尖沾一点点洗洁精。\n\n慢慢地将手指靠近浮着回形针的水面中心，滴入那一滴洗洁精。\n\n**“嗖”的一声！** 刚才还神气活现的回形针，瞬间就像断了气的船一样，“扑通”沉了下去！\n\n为什么会这样呢？洗洁精是一种表面活性剂，它会**打破**水分子之间的拉力，让那层强韧的“皮肤”变得脆弱不堪。没有了表面张力的支撑，重力的胜利就指日可待啦！\n\n**[IMAGE_3]**\n\n## 🔍 为什么水能“托”住铁针？\n\n你可以想象水分子是一群紧紧拥抱的小朋友。当回形针放上去时，他们挤在一起，形成一个有弹性的垫子。但是，洗洁精就像是一个“捣蛋鬼”，它插进小朋友中间，把他们推开了，拥抱消失了，垫子也就塌了。\n\n这就是物理学的魅力！看似简单的现象背后，藏着深深的科学原理。下次洗澡时，记得观察一下泡泡，那也是表面张力在跳舞哦！💃",
+  "fact_card": [
+    "表面张力不仅存在于水中，血液也在血管里流动时靠表面张力维持形态。",
+    "水黾（mǐng）这种小昆虫，就是依靠腿部的疏水结构和水的表面张力，在水面上快速奔跑而不沉没。",
+    "如果你在水里加盐，水的密度变大，表面张力也会略微改变，但这主要影响的是浮力，而不是表面张力的本质。",
+    "洗洁精去油也是利用它降低水的表面张力，让水更容易铺开包裹住油污。"
+  ],
+  "thinking": [
+    "如果不用回形针，尝试放一枚大头针或一片铝箔纸，它们能浮在水面上吗？为什么？",
+    "除了洗洁精，还有什么常见的液体（比如酒精、油）可以破坏水的表面张力呢？"
+  ],
+  "image_prompts": [
+    "[IMAGE_1] A bright and cheerful flat-lay photo on a white wooden table showing science experiment materials: a clear glass bowl filled with water, a silver paperclip, a small square piece of white tissue paper, and a bottle of dish soap, cinematic lighting, high resolution.",
+    "[IMAGE_2] Close-up shot of a silver paperclip gently resting on the surface of clear water in a transparent glass, supported by a piece of wet tissue paper being lowered away, visible surface tension meniscus around the clip, sharp focus, macro photography style.",
+    "[IMAGE_3] Action shot demonstrating the experiment result: a silver paperclip sinking rapidly into the bottom of a glass of water after a drop of soapy water is added, blurred background, dynamic motion blur, colorful and engaging scientific illustration style."
+  ],
+  "images": [
+    "2026-07-09_1_034b3c34.png",
+    "2026-07-09_2_4a682386.png"
+  ]
+}
