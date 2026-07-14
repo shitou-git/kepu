@@ -106,7 +106,8 @@ class SiteBuilder:
                 article=article,
                 prev=prev_article,
                 next=next_article,
-                theme_config={t["id"]: t for t in self.config["themes"]}
+                theme_config={t["id"]: t for t in self.config["themes"]},
+                config=self.config
             )
             
             (articles_dir / f"{date_str}.html").write_text(html, encoding="utf-8")
@@ -130,7 +131,8 @@ class SiteBuilder:
             articles=articles,
             months=sorted(months.keys(), reverse=True),
             month_groups=months,
-            theme_config={t["id"]: t for t in self.config["themes"]}
+            theme_config={t["id"]: t for t in self.config["themes"]},
+            config=self.config
         )
         
         (self.dist_dir / "archive.html").write_text(html, encoding="utf-8")

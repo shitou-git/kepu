@@ -22,13 +22,11 @@ class AIWriter:
 
     def _call_api(self, messages: list, temperature: Optional[float] = None) -> str:
         """调用 AgensAI API"""
-        if not self.api_key:
-            raise ValueError("未设置 AGENS_API_KEY 环境变量")
-
         headers = {
-            "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"
         }
+        if self.api_key:
+            headers["Authorization"] = f"Bearer {self.api_key}"
 
         payload = {
             "model": self.model,

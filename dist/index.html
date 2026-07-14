@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>少年科普杂志</title>
+    <meta name="description" content="专为小学生打造的每日科普杂志，涵盖航空航天、物理实验、榜样人物、自然动物等主题">
+    <style>
+        :root {
+            --primary: #2c7a7b;
+            --primary-light: #e6fffa;
+            --accent: #ed8936;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #319795 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        nav {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        nav .container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        nav a:hover, nav a.active { background: var(--primary-light); color: var(--primary); }
+        main { padding: 40px 0; min-height: 500px; }
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .card h2 { color: var(--primary); margin-bottom: 16px; font-size: 1.5em; }
+        .theme-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .article-list { display: grid; gap: 20px; }
+        .article-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+        .article-item:hover { transform: translateY(-4px); }
+        .article-item .cover {
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+        .article-item .cover img { width: 100%; height: 100%; object-fit: cover; }
+        .article-item .info { padding: 20px; }
+        .article-item h3 { font-size: 1.3em; margin-bottom: 8px; }
+        .article-item h3 a { color: var(--text); text-decoration: none; }
+        .article-item h3 a:hover { color: var(--primary); }
+        .article-item .meta { color: var(--text-light); font-size: 0.9em; margin-bottom: 10px; }
+        .article-item .summary { color: var(--text-light); font-size: 0.95em; }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        footer {
+            background: var(--text);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+        footer p { opacity: 0.8; font-size: 0.9em; }
+        @media (max-width: 768px) {
+            .article-item { grid-template-columns: 1fr; }
+            .article-item .cover { min-height: 180px; }
+            header h1 { font-size: 1.8em; }
+        }
+        
+<style>
+.hero { text-align: center; padding: 20px 0 40px; }
+.hero h2 { font-size: 2em; color: var(--primary); margin-bottom: 10px; }
+.hero p { color: var(--text-light); font-size: 1.1em; }
+.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.theme-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+}
+.theme-card:hover { transform: translateY(-4px); }
+.theme-card .icon { font-size: 2.5em; margin-bottom: 12px; }
+.theme-card h3 { font-size: 1.1em; margin-bottom: 6px; }
+.theme-card p { font-size: 0.9em; color: var(--text-light); }
+.today-highlight {
+    background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+}
+.today-highlight .label {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.today-highlight h2 { font-size: 1.8em; margin-bottom: 12px; }
+.today-highlight .meta { color: var(--text-light); margin-bottom: 20px; }
+.today-highlight .summary { font-size: 1.1em; margin-bottom: 24px; }
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 1.4em;
+}
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+</style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>少年科普杂志</h1>
+            <p>每天一点科学知识，点亮孩子好奇心</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="">首页</a>
+            <a href="archive.html" class="">往期回顾</a>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            
+<div class="hero">
+    <h2>每日科普，点亮好奇心</h2>
+    <p>专为 6-12 岁小学生打造的科学杂志，每天 16:00 更新</p>
+</div>
+
+<section class="themes">
+    
+    <div class="theme-card">
+        <div class="icon">🚀</div>
+        <h3>航空航天</h3>
+        <p>探索宇宙奥秘，了解航天科技</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">🔬</div>
+        <h3>物理小实验</h3>
+        <p>动手做实验，发现科学乐趣</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">⭐</div>
+        <h3>榜样人物</h3>
+        <p>学习科学家故事，树立远大理想</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">💡</div>
+        <h3>科学创新</h3>
+        <p>了解前沿科技，激发创新思维</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">🐼</div>
+        <h3>自然与动物</h3>
+        <p>探索自然世界，认识动物朋友</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">🇨🇳</div>
+        <h3>中国故事</h3>
+        <p>了解中国成就，培养民族自豪</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">📜</div>
+        <h3>古典文化</h3>
+        <p>传承传统文化，品味古韵今风</p>
+    </div>
+    
+    <div class="theme-card">
+        <div class="icon">🎖️</div>
+        <h3>少年军事</h3>
+        <p>了解国防知识，增强爱国意识</p>
+    </div>
+    
+</section>
+
+
+
+<section class="today-highlight">
+    <span class="label">今日更新</span>
+    <h2>火箭是怎么飞上天的？</h2>
+    <div class="meta">
+        <span class="theme-tag">🚀 航空航天</span>
+        <span style="margin-left:12px;color:var(--text-light)">2026-07-14</span>
+    </div>
+    <p class="summary">你知道吗？火箭能飞上天，靠的不是翅膀，而是一种叫做反作用力的神奇力量！</p>
+    <a href="article/2026-07-14.html" class="btn">阅读全文</a>
+</section>
+
+
+<h2 class="section-title">最近更新</h2>
+<div class="article-list">
+    
+    <div class="article-item">
+        <div class="cover">
+            
+            <span>🐼</span>
+            
+        </div>
+        <div class="info">
+            <span class="theme-tag">🐼 自然与动物</span>
+            <h3><a href="article/2026-07-13.html">大熊猫为什么爱吃竹子？</a></h3>
+            <div class="meta">2026-07-13 | 5分钟阅读</div>
+            <p class="summary">大熊猫的祖先是食肉动物，但现在它们99%的食物都是竹子，这背后藏着什么秘密呢？</p>
+        </div>
+    </div>
+    
+</div>
+
+<div style="text-align:center;margin-top:40px">
+    <a href="archive.html" class="btn btn-outline">查看全部往期内容</a>
+</div>
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>少年科普杂志 | 每日更新，陪伴成长 | 少年科普编辑部</p>
+        </div>
+    </footer>
+    
+</body>
+</html>

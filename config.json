@@ -69,8 +69,8 @@
     }
   ],
   "ai": {
-    "api_base": "https://api.agens.ai/v1",
-    "model": "agens-chat",
+    "api_base": "https://api.chatlz.dpdns.org/v1",
+    "model": "gpt-4o-mini",
     "temperature": 0.8,
     "max_tokens": 2000
   },

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>火箭是怎么飞上天的？ - 少年科普杂志</title>
+    <meta name="description" content="专为小学生打造的每日科普杂志，涵盖航空航天、物理实验、榜样人物、自然动物等主题">
+    <style>
+        :root {
+            --primary: #2c7a7b;
+            --primary-light: #e6fffa;
+            --accent: #ed8936;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #319795 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
+        header p { font-size: 1.1em; opacity: 0.9; }
+        nav {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        nav .container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        nav a:hover, nav a.active { background: var(--primary-light); color: var(--primary); }
+        main { padding: 40px 0; min-height: 500px; }
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .card h2 { color: var(--primary); margin-bottom: 16px; font-size: 1.5em; }
+        .theme-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .article-list { display: grid; gap: 20px; }
+        .article-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+        .article-item:hover { transform: translateY(-4px); }
+        .article-item .cover {
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+        .article-item .cover img { width: 100%; height: 100%; object-fit: cover; }
+        .article-item .info { padding: 20px; }
+        .article-item h3 { font-size: 1.3em; margin-bottom: 8px; }
+        .article-item h3 a { color: var(--text); text-decoration: none; }
+        .article-item h3 a:hover { color: var(--primary); }
+        .article-item .meta { color: var(--text-light); font-size: 0.9em; margin-bottom: 10px; }
+        .article-item .summary { color: var(--text-light); font-size: 0.95em; }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover { opacity: 0.9; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        footer {
+            background: var(--text);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+        footer p { opacity: 0.8; font-size: 0.9em; }
+        @media (max-width: 768px) {
+            .article-item { grid-template-columns: 1fr; }
+            .article-item .cover { min-height: 180px; }
+            header h1 { font-size: 1.8em; }
+        }
+        
+<style>
+.article-header {
+    text-align: center;
+    padding: 20px 0 30px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 30px;
+}
+.article-header h1 { font-size: 2em; margin-bottom: 16px; }
+.article-header .meta { color: var(--text-light); }
+.article-body {
+    font-size: 1.1em;
+    line-height: 2;
+}
+.article-body h2 {
+    color: var(--primary);
+    margin: 40px 0 20px;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-light);
+}
+.article-body h3 {
+    color: var(--text);
+    margin: 30px 0 15px;
+    font-size: 1.2em;
+}
+.article-body p { margin-bottom: 20px; }
+.article-body img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+}
+.article-body blockquote {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    padding: 20px;
+    margin: 24px 0;
+    border-radius: 0 12px 12px 0;
+    font-style: italic;
+}
+.fact-card {
+    background: linear-gradient(135deg, #fffaf0 0%, #fff 100%);
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    padding: 30px;
+    margin: 40px 0;
+}
+.fact-card h3 { color: var(--accent); margin-bottom: 16px; }
+.fact-card ul { list-style: none; }
+.fact-card li {
+    padding: 10px 0;
+    padding-left: 32px;
+    position: relative;
+}
+.fact-card li::before {
+    content: '💡';
+    position: absolute;
+    left: 0;
+}
+.thinking-box {
+    background: var(--primary-light);
+    border-radius: 16px;
+    padding: 30px;
+    margin: 40px 0;
+}
+.thinking-box h3 { color: var(--primary); margin-bottom: 16px; }
+.thinking-box ol { padding-left: 24px; }
+.thinking-box li { padding: 10px 0; }
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid var(--border);
+}
+.article-nav a {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+}
+.article-nav a:hover { border-color: var(--primary); }
+.article-nav a.next { text-align: right; }
+.article-nav .label { font-size: 0.85em; color: var(--text-light); margin-bottom: 8px; }
+.article-nav .title { font-weight: 600; color: var(--primary); }
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+.gallery img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+</style>
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>少年科普杂志</h1>
+            <p>每天一点科学知识，点亮孩子好奇心</p>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="">首页</a>
+            <a href="archive.html" class="">往期回顾</a>
+        </div>
+    </nav>
+    <main>
+        <div class="container">
+            
+<article class="card">
+    <div class="article-header">
+        <span class="theme-tag">🚀 航空航天</span>
+        <h1>火箭是怎么飞上天的？</h1>
+        <div class="meta">
+            2026-07-14 | 适合 6-12岁 | 5分钟阅读
+        </div>
+        
+        <div style="margin-top:12px">
+            
+            <span style="display:inline-block;background:var(--bg);padding:4px 12px;border-radius:12px;font-size:0.85em;margin:4px">火箭</span>
+            
+            <span style="display:inline-block;background:var(--bg);padding:4px 12px;border-radius:12px;font-size:0.85em;margin:4px">航天</span>
+            
+            <span style="display:inline-block;background:var(--bg);padding:4px 12px;border-radius:12px;font-size:0.85em;margin:4px">反作用力</span>
+            
+            <span style="display:inline-block;background:var(--bg);padding:4px 12px;border-radius:12px;font-size:0.85em;margin:4px">太空</span>
+            
+        </div>
+        
+    </div>
+
+    <div class="article-body">
+        
+
+        ## 想象一下<br><br>如果你手里有一个充满气的气球，突然松开手，会发生什么呢？没错！气球会嗖的一下飞出去，而且是朝着你松手的反方向飞！<br><br>火箭飞行的原理和这个气球一模一样，科学家给它起了个名字叫——反作用力。<br><br>## 火箭的大尾巴<br><br>你有没有注意到，火箭发射的时候，尾部会喷出长长的火焰？那不是火箭在烧屁股哦！<br><br>火箭肚子里装着特殊的燃料，点燃后会产生大量热气。这些热气就像气球里的空气一样，拼命想从火箭尾巴的小孔里冲出去。当热气呼呼地向下喷出时，火箭就会受到一个向上的推力，于是它就越飞越高啦！<br><br>## 太空中没有空气怎么办？<br><br>有小朋友可能会问：飞机需要空气才能飞，那火箭飞到没有空气的太空中，怎么还能继续飞呢？<br><br>这就要感谢反作用力的神奇之处了！反作用力不需要空气帮忙，它是燃料自己产生的力量。所以即使到了空荡荡的太空，火箭依然可以突突突地向前飞！<br><br>## 中国的火箭家族<br><br>你知道吗？我们中国也有自己的火箭家族呢！<br><br>- **长征二号**：它是最勤劳的快递小哥，经常把宇航员送到空间站<br>- **长征五号**：大家都叫它胖五，因为它又粗又壮，力气特别大，能举起很重的卫星<br>- **长征十一号**：它是闪电侠，可以在海上快速发射<br><br>2024年，我们的嫦娥六号探测器乘坐长征五号火箭，成功飞到了月球背面，还从那里带回了珍贵的月壤！这可是人类历史上第一次哦！
+
+        
+        <div class="fact-card">
+            <h3>知识小卡片</h3>
+            <ul>
+                
+                <li>火箭的速度要达到每秒7.9公里，才能摆脱地球的引力，这个速度叫做第一宇宙速度</li>
+                
+                <li>世界上最大的火箭是美国的土星五号，它有36层楼那么高！</li>
+                
+                <li>中国第一位进入太空的宇航员是杨利伟叔叔，他在2003年乘坐神舟五号飞船遨游太空</li>
+                
+                <li>火箭发射时喷射的火焰温度高达3000摄氏度，比火山岩浆还要热好几倍！</li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="thinking-box">
+            <h3>动动小脑筋</h3>
+            <ol>
+                
+                <li>如果你是一枚小火箭，你想飞去宇宙的哪个地方探险呢？</li>
+                
+                <li>生活中还有哪些东西利用了反作用力的原理？想一想，找一找！</li>
+                
+            </ol>
+        </div>
+        
+    </div>
+
+    <div class="article-nav">
+        
+        <a href="2026-07-13.html" class="prev">
+            <div class="label">上一篇</div>
+            <div class="title">大熊猫为什么爱吃竹子？</div>
+        </a>
+        
+        
+        <div></div>
+        
+    </div>
+</article>
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>少年科普杂志 | 每日更新，陪伴成长 | 少年科普编辑部</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
