@@ -99,6 +99,6 @@ jobs:
           git remote set-url origin "https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git"
           python scripts/generate.py --theme "$INPUT_THEME"
           python scripts/page_builder.py
-          git add content/ dist/ archives/
+          git add content/ dist/
           git diff --staged --quiet || git commit -m "📚 $(date +'%Y-%m-%d') 更新科普内容"
           git push
