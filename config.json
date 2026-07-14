@@ -1,4 +1,5 @@
 {
+  "version": "1.0.0",
   "site": {
     "title": "少年科普杂志",
     "subtitle": "每天一点科学知识，点亮孩子好奇心",
@@ -16,56 +17,78 @@
       "name": "航空航天",
       "description": "探索宇宙奥秘，了解航天科技",
       "icon": "🚀",
-      "weekdays": [1, 4]
+      "weekdays": [
+        1,
+        4
+      ]
     },
     {
       "id": "physics",
       "name": "物理小实验",
       "description": "动手做实验，发现科学乐趣",
       "icon": "🔬",
-      "weekdays": [2, 5]
+      "weekdays": [
+        2,
+        5
+      ]
     },
     {
       "id": "role_model",
       "name": "榜样人物",
       "description": "学习科学家故事，树立远大理想",
       "icon": "⭐",
-      "weekdays": [3, 6]
+      "weekdays": [
+        3,
+        6
+      ]
     },
     {
       "id": "innovation",
       "name": "科学创新",
       "description": "了解前沿科技，激发创新思维",
       "icon": "💡",
-      "weekdays": [1, 5]
+      "weekdays": [
+        1,
+        5
+      ]
     },
     {
       "id": "nature",
       "name": "自然与动物",
       "description": "探索自然世界，认识动物朋友",
       "icon": "🐼",
-      "weekdays": [2, 4]
+      "weekdays": [
+        2,
+        4
+      ]
     },
     {
       "id": "china_story",
       "name": "中国故事",
       "description": "了解中国成就，培养民族自豪",
       "icon": "🇨🇳",
-      "weekdays": [3, 6]
+      "weekdays": [
+        3,
+        6
+      ]
     },
     {
       "id": "classical",
       "name": "古典文化",
       "description": "传承传统文化，品味古韵今风",
       "icon": "📜",
-      "weekdays": [7]
+      "weekdays": [
+        7
+      ]
     },
     {
       "id": "military",
       "name": "少年军事",
       "description": "了解国防知识，增强爱国意识",
       "icon": "🎖️",
-      "weekdays": [7]
+      "weekdays": [
+        7
+      ]
     }
   ],
   "ai": {

@@ -32,7 +32,31 @@ class SiteBuilder:
         # 加载配置
         with open("config.json", "r", encoding="utf-8") as f:
             self.config = json.load(f)
-    
+
+    def bump_version(self):
+        """递增版本号并写回 config.json，用于避免浏览器加载旧缓存"""
+        try:
+            version = self.config.get("version", "1.0.0")
+            parts = version.split(".")
+            if len(parts) == 3:
+                parts[2] = str(int(parts[2]) + 1)
+                new_version = ".".join(parts)
+            else:
+                new_version = "1.0.1"
+            self.config["version"] = new_version
+
+            # 写回 config.json
+            self.config_path = Path("config.json")
+            self.config_path.write_text(
+                json.dumps(self.config, ensure_ascii=False, indent=2),
+                encoding="utf-8"
+            )
+            print(f"版本号更新: {version} -> {new_version}")
+            return new_version
+        except Exception as e:
+            print(f"版本号更新失败: {e}")
+            return self.config.get("version", "1.0.0")
+
     def clean_dist(self):
         """清理构建目录"""
         if self.dist_dir.exists():
@@ -266,6 +290,7 @@ class SiteBuilder:
     def build(self):
         """执行完整构建"""
         print("开始构建站点...")
+        self.bump_version()
         self.clean_dist()
         self.copy_assets()
         

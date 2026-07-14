@@ -70,6 +70,14 @@ jobs:
         run: |
           python scripts/page_builder.py
 
+      - name: Commit version bump
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add config.json
+          git commit -m "chore: bump build version [skip ci]" || echo "No version changes"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main || true
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
