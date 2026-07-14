@@ -77,6 +77,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -95,6 +96,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git remote set-url origin "https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git"
           python scripts/generate.py --theme "$INPUT_THEME"
           python scripts/page_builder.py
           git add content/ dist/ archives/
