@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: '0 0 * * *'
     - cron: '0 8 * * *'
+  push:
+    branches:
+      - main
+    paths:
+      - 'content/**'
+      - 'templates/**'
+      - 'scripts/**'
+      - 'config.json'
+      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       theme:
@@ -40,6 +49,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Generate daily content
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         env:
           AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
           UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
@@ -48,6 +58,7 @@ jobs:
           python scripts/generate.py --theme "$INPUT_THEME"
 
       - name: Commit generated content
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
