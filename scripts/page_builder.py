@@ -8,9 +8,11 @@ import json
 import shutil
 import re
 import base64
+import io
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 import markdown
+from PIL import Image
 
 
 class SiteBuilder:
@@ -43,18 +45,36 @@ class SiteBuilder:
         pass
 
     def image_to_base64(self, image_path: str) -> str:
-        """将图片转为 base64 data URL"""
+        """将图片压缩后转为 base64 data URL"""
         try:
             filepath = self.content_dir / "images" / image_path
             if not filepath.exists():
                 return ""
-            with open(filepath, "rb") as f:
-                data = f.read()
-            ext = filepath.suffix.lower().replace(".", "")
-            if ext == "jpg":
-                ext = "jpeg"
+            
+            img = Image.open(filepath)
+            
+            # 转换 RGBA 为 RGB（JPEG 不支持透明通道）
+            if img.mode == "RGBA":
+                background = Image.new("RGB", img.size, (255, 255, 255))
+                background.paste(img, mask=img.split()[3])
+                img = background
+            elif img.mode != "RGB":
+                img = img.convert("RGB")
+            
+            # 限制最大宽度 800px，保持比例
+            max_width = 800
+            if img.width > max_width:
+                ratio = max_width / img.width
+                new_height = int(img.height * ratio)
+                img = img.resize((max_width, new_height), Image.LANCZOS)
+            
+            # 压缩为 JPEG，质量 75
+            buffer = io.BytesIO()
+            img.save(buffer, format="JPEG", quality=75, optimize=True)
+            data = buffer.getvalue()
+            
             b64 = base64.b64encode(data).decode("utf-8")
-            return f"data:image/{ext};base64,{b64}"
+            return f"data:image/jpeg;base64,{b64}"
         except Exception as e:
             print(f"图片转 base64 失败: {e}")
             return ""
