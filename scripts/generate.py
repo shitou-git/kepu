@@ -92,17 +92,21 @@ class MagazineGenerator:
         
         index = []
         if index_file.exists():
-            index = json.loads(index_file.read_text(encoding="utf-8"))
+            try:
+                index = json.loads(index_file.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                print("警告: 索引文件损坏，重新创建")
+                index = []
         
         # 添加新条目到开头
         index.insert(0, {
-            "date": article["date"],
-            "theme": article["theme"],
-            "theme_name": article["theme_name"],
-            "title": article["title"],
-            "summary": article["summary"],
-            "keywords": article["keywords"],
-            "images": article.get("images", [])[:1]  # 只保存首张图
+            "date": article.get("date", ""),
+            "theme": article.get("theme", ""),
+            "theme_name": article.get("theme_name", ""),
+            "title": article.get("title", "").replace('"', "'"),
+            "summary": article.get("summary", "").replace('"', "'"),
+            "keywords": article.get("keywords", []),
+            "images": article.get("images", [])[:1]
         })
         
         # 去重（按日期）
