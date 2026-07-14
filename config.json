@@ -69,9 +69,9 @@
     }
   ],
   "ai": {
-    "api_base": "https://api.chatlz.dpdns.org/v1",
-    "model": "gpt-4o-mini",
-    "temperature": 0.8,
+    "api_base": "https://apihub.agnes-ai.com/v1",
+    "model": "agnes-2.0-flash",
+    "temperature": 0.85,
     "max_tokens": 2000
   },
   "content": {

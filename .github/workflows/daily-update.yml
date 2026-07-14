@@ -40,6 +40,7 @@ jobs:
 
       - name: Generate daily content
         env:
+          AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
           UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
           INPUT_THEME: ${{ github.event.inputs.theme }}
         run: |
