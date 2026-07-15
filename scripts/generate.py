@@ -77,25 +77,36 @@ class MagazineGenerator:
         print(f"当前时间（{timezone}）: {today}")
         print(f"今日日期: {date_str}")
         
-        # 获取今日2个主题
         themes = self.get_today_themes(today, override_theme)
-        print(f"今日将生成 {len(themes)} 篇文章")
+        
+        existing_themes = set()
+        for f in self.content_dir.glob(f"{date_str}*.json"):
+            try:
+                data = json.loads(f.read_text(encoding="utf-8"))
+                if data.get("theme"):
+                    existing_themes.add(data["theme"])
+            except Exception:
+                pass
+        
+        pending_themes = [t for t in themes if t["id"] not in existing_themes]
+        
+        if not pending_themes:
+            print(f"今日 {date_str} 的 {len(themes)} 篇文章均已生成，跳过")
+            return []
+        
+        print(f"今日待生成 {len(pending_themes)}/{len(themes)} 篇文章")
         
         generated = []
-        for idx, theme in enumerate(themes):
-            # 同一天多篇文章用 序号 区分文件名
-            if len(themes) > 1:
-                file_date_str = f"{date_str}_{idx+1}"
-            else:
-                file_date_str = date_str
+        for idx, theme in enumerate(pending_themes):
+            existing_count = len([f for f in self.content_dir.glob(f"{date_str}*.json")])
+            file_date_str = f"{date_str}_{existing_count + 1}"
             
-            # 检查是否已生成
             article_file = self.content_dir / f"{file_date_str}.json"
             if article_file.exists():
-                print(f"内容已存在: {article_file}")
+                print(f"内容已存在，跳过: {article_file}")
                 continue
             
-            print(f"\n[{idx+1}/{len(themes)}] 主题: {theme['name']} ({theme['id']})")
+            print(f"\n[{idx+1}/{len(pending_themes)}] 主题: {theme['name']} ({theme['id']})")
             
             # 生成文章
             print("正在生成文章...")
