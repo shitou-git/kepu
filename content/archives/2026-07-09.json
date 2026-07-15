@@ -3,33 +3,26 @@
   "theme_name": "物理小实验",
   "date": "2026-07-09",
   "title": "厨房里的魔法实验室：揭秘身边的物理小实验",
-  "summary": "走进厨房，发现科学就在身边！通过简单的家庭小实验，探索浮力、气压与静电的秘密，让物理变得好玩又神奇。",
+  "summary": "生鸡蛋突然浮出水面？熟鸡蛋自己钻进玻璃瓶？石头老师带你用家常物件，揭开空气与电荷的隐藏游戏。",
   "keywords": [
-    "物理小实验",
-    "儿童科普",
-    "科学原理",
-    "家庭实验",
-    "浮力"
+    "浮力",
+    "大气压强",
+    "静电现象",
+    "厨房物理",
+    "儿童实验"
   ],
-  "content": "你想知道为什么生鸡蛋能沉在水底，而熟鸡蛋却能跳舞吗？想象一下，你的厨房其实是一个藏满秘密的魔法实验室，只要找到正确的“咒语”——也就是科学原理，普通的食材也能变出惊人的魔术。今天，我们就一起拿起放大镜，去揭开那些日常现象背后隐藏的物理学真相吧！🧪\n\n## 沉与浮的舞蹈：密度与浮力的奥秘\n\n你知道吗？阿基米德爷爷可是发现了浮力原理的大科学家。他曾经激动地跳进浴缸大喊：“尤里卡！”（意思是“我发现了！”）。这个原理告诉我们，物体在水里受到的向上托力，等于它排开的水的重量。\n\n让我们做一个经典的实验：**盐水浮蛋**。准备一杯清水，放入一枚生鸡蛋，你会发现鸡蛋乖乖沉到了杯底。这是因为鸡蛋的密度比清水大。现在，慢慢往水里加盐并搅拌，直到盐完全溶解。奇迹发生了！鸡蛋竟然慢慢浮了起来。这是因为加了盐的水密度变大了，当盐水的密度超过鸡蛋的密度时，浮力就战胜了重力，把鸡蛋托起来了。\n\n在现实生活中，这个原理非常重要。比如死海，因为湖水含盐量极高，人跳进去就像躺在床上一样，怎么游都不会沉下去，这简直就是天然的“漂浮泳池”。此外，潜水艇也是利用改变自身重量（吸入或排出水）来调节浮沉的。你可以试试，如果在清水里加糖，鸡蛋也会浮起来吗？快去试试看吧！🥚💧\n\n[IMAGE_1]\n\n## 瓶子的气球：大气压强的隐形大手\n\n接下来，我们要请出一位看不见的魔术师——大气压强。我们虽然生活在空气中，却常常感觉不到它的存在，直到它“推”了我们一把。\n\n做一个**瓶吞气球**的实验。找一个塑料瓶，把一个气球套在瓶口上，但先不要吹气。这时候，气球松松垮垮地挂在瓶口。现在，请你双手紧紧握住瓶身，用力挤压瓶子，然后迅速松开手。哇！气球会被瓶子“吸”进去了吗？不，反过来，如果你先吹大气球的一部分在瓶内，再松开瓶身，或者更简单地，把瓶子加热后迅速冷却，你会发现一个更大的奇迹：如果把一个剥了壳的熟鸡蛋放在瓶口，点燃纸条投入瓶中，火焰熄灭后，鸡蛋就会被大气压“咯噔”一声吞进瓶子里。\n\n这是因为燃烧消耗了氧气并使空气膨胀溢出，冷却后瓶内气压降低，外部强大的大气压就把鸡蛋推了进去。生活中，吸管喝饮料就是利用了大气压：你吸走管内的空气，管内气压变小，外面的大气压就把饮料压进了你的嘴里。🥤🌬️\n\n[IMAGE_2]\n\n## 静电的小调皮：摩擦产生的能量\n\n最后，我们来聊聊调皮的“静电宝宝”。在干燥的天气里，你有没有过这样的经历：脱毛衣时听到“噼啪”声，或者梳头时头发飞起来像狮子王？这就是静电在作怪。\n\n做这个**自制验电器**的小实验。你需要一个塑料梳子、一张纸巾和一些碎纸屑。先用纸巾快速摩擦塑料梳子几十下，这是为了把电子从纸巾转移到梳子上，让梳子带上负电荷。然后，慢慢靠近桌面上的碎纸屑。神奇的事情发生了！纸屑会像被施了魔法一样，争先恐后地跳起来粘在梳子上。这是因为带电的梳子吸引了轻小的纸屑，这叫“静电感应”。\n\n静电不仅好玩，还有大用处。比如复印机就是利用静电吸附碳粉来打印文字的；工厂里的静电除尘器也能吸走空气中的灰尘，保护我们的健康。不过，飞机在飞行时也会积累大量静电，所以起落架上都有金属线接地，防止火花引发危险。下次洗头时，试着看看你的头发是不是也在和静电玩耍呢？✨💇‍♀️\n\n[IMAGE_3]",
-  "fact_card": [
-    "**死海之谜**：死海的盐度是普通海洋的8.6倍，人体在水中受到的浮力大大增加，所以人可以轻松躺在水面上看书。",
-    "**马德堡半球**：1654年，科学家奥托·冯·格里克证明了大气压的存在，他用16匹马才拉开了两个扣在一起的真空铜半球。",
-    "**静电防御**：油罐车后面拖着一条铁链，是为了把运输过程中摩擦产生的静电导入大地，防止火花引起爆炸。"
-  ],
-  "thinking": [
-    "如果不用盐水，而是用酒精代替清水来做浮蛋实验，鸡蛋会发生什么变化？为什么？",
-    "冬天穿毛衣时，为什么容易看到蓝色的小火花？这种现象在夏天潮湿的时候为什么很少出现？"
-  ],
+  "content": "上周六早上，我蹲在厨房水槽边，盯着平底锅里的一颗生鸡蛋发呆。水刚冒泡，那小家伙“扑通”一声就沉到了锅底。我赶紧抓了三勺盐扔进去，轻轻搅匀。再捏一把胡椒面撒向水面时，奇怪的一幕发生了——刚才还老实沉底的鸡蛋，晃晃悠悠地",
+  "fact_card": [],
+  "thinking": [],
   "image_prompts": [
-    "A colorful children's cartoon illustration: a clear glass beaker filled with saltwater where a raw egg is floating in the middle, with salt crystals visible at the bottom, a curious child watching with amazed expression in a kitchen, labels showing density concept, bright warm colors, educational style",
-    "A fun cartoon illustration for children: a plastic bottle with a balloon stretched over the mouth, the balloon being pushed into the bottle by invisible air pressure shown with arrows, a surprised child watching in a kitchen, colorful and playful style, science experiment illustration",
-    "A playful children's cartoon illustration: a plastic comb that was rubbed with a tissue attracting small paper bits floating in the air, static electricity sparks shown as small lightning bolts, a laughing child with hair standing up, kitchen background, bright fun colors, educational style"
+    "物理小实验 illustration for children",
+    "kids science education physics",
+    "colorful cartoon physics science"
   ],
   "file_id": "2026-07-09",
   "images": [
-    "2026-07-09_v2_1_331d6462.jpg",
-    "2026-07-09_v2_1_0e40b055.jpg",
-    "2026-07-09_v2_1_b0ed87dd.jpg"
+    "2026-07-09_1_65b07995.jpg",
+    "2026-07-09_2_a8079267.jpg",
+    "2026-07-09_3_20d2cd42.jpg"
   ]
 }
