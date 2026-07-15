@@ -58,6 +58,8 @@ class ImageFinder:
 
     def _generate_image(self, prompt: str) -> Optional[str]:
         """使用 Agnes AI 图片生成 API 生成图片"""
+        style_modifier = ", watercolor hand-drawn style, cartoon characters, Pixar animation style, colorful children's illustration, no realistic human portraits, 2D flat art"
+        
         try:
             url = f"{self.api_base}/images/generations"
             headers = {
@@ -66,7 +68,7 @@ class ImageFinder:
             }
             payload = {
                 "model": "agnes-image-2.1-flash",
-                "prompt": prompt,
+                "prompt": prompt + style_modifier,
                 "size": "2K",
                 "ratio": "16:9",
                 "extra_body": {

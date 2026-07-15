@@ -78,6 +78,17 @@ class MagazineGenerator:
         print(f"当前时间（{timezone}）: {today}")
         print(f"今日日期: {date_str}")
         
+        if override_theme:
+            target_theme = None
+            for t in self.config["themes"]:
+                if t["id"] == override_theme or t["name"] == override_theme:
+                    target_theme = t
+                    break
+            if not target_theme:
+                print(f"警告: 未找到主题 '{override_theme}'")
+                return []
+            return self._generate_for_theme(target_theme, date_str)
+        
         date = today
         weekday = date.isoweekday()
         
@@ -162,6 +173,40 @@ class MagazineGenerator:
             generated.append(article)
         
         return generated
+    
+    def _generate_for_theme(self, theme, date_str):
+        """为指定主题生成一篇文章"""
+        existing_count = len([f for f in self.content_dir.glob(f"{date_str}*.json")])
+        file_date_str = f"{date_str}_{existing_count + 1}"
+        
+        article_file = self.content_dir / f"{file_date_str}.json"
+        if article_file.exists():
+            print(f"内容已存在，跳过: {article_file}")
+            return []
+        
+        print(f"\n生成主题: {theme['name']} ({theme['id']})")
+        
+        print("正在生成文章...")
+        article = self.writer.generate_article(theme["id"], theme["name"], date_str)
+        article["date"] = date_str
+        article["file_id"] = file_date_str
+        
+        print("正在搜索配图...")
+        image_paths = self.finder.search_images(
+            article.get("image_prompts", []),
+            count=self.config["content"]["image_count"],
+            date_str=file_date_str
+        )
+        article["images"] = [Path(p).name for p in image_paths]
+        
+        article_file.write_text(
+            json.dumps(article, ensure_ascii=False, indent=2),
+            encoding="utf-8"
+        )
+        print(f"文章已保存: {article_file}")
+        
+        self.update_index(article)
+        return [article]
 
     def update_index(self, article: dict):
         """更新内容索引"""
