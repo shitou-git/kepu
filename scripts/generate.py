@@ -170,12 +170,16 @@ class MagazineGenerator:
         index = []
         if index_file.exists():
             try:
-                index = json.loads(index_file.read_text(encoding="utf-8"))
+                raw = index_file.read_text(encoding="utf-8")
+                data = json.loads(raw)
+                if isinstance(data, dict) and "articles" in data:
+                    index = data["articles"]
+                elif isinstance(data, list):
+                    index = data
             except json.JSONDecodeError:
                 print("警告: 索引文件损坏，重新创建")
                 index = []
         
-        # 添加新条目到开头
         index.insert(0, {
             "date": article.get("date", ""),
             "theme": article.get("theme", ""),
@@ -186,16 +190,16 @@ class MagazineGenerator:
             "images": article.get("images", [])[:1]
         })
         
-        # 去重（按日期）
         seen = set()
         unique = []
         for item in index:
-            if item["date"] not in seen:
-                seen.add(item["date"])
+            key = f"{item.get('date', '')}_{item.get('title', '')}"
+            if key not in seen:
+                seen.add(key)
                 unique.append(item)
         
         index_file.write_text(
-            json.dumps(unique, ensure_ascii=False, indent=2),
+            json.dumps({"articles": unique}, ensure_ascii=False, indent=2),
             encoding="utf-8"
         )
         print(f"索引已更新，共 {len(unique)} 篇文章")

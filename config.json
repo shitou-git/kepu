@@ -95,7 +95,7 @@
     "api_base": "https://apihub.agnes-ai.com/v1",
     "model": "agnes-2.0-flash",
     "temperature": 0.85,
-    "max_tokens": 4000
+    "max_tokens": 8000
   },
   "content": {
     "article_length": 1500,

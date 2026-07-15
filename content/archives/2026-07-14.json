@@ -1,27 +1,33 @@
 {
-  "theme": "physics",
-  "theme_name": "物理小实验",
+  "theme": "aerospace",
+  "theme_name": "航空航天",
   "date": "2026-07-14",
-  "title": "魔法实验室：家里也能做的超酷物理实验",
-  "summary": "不用去科技馆，客厅茶几就能变身为魔法现场。牛奶喷发、水杯悬空，科学原来这么好玩！",
+  "title": "带着风筝去太空：航空航天大冒险",
+  "summary": "昨晚窗外的流星划过，你猜它是天上的星星，还是人类造出来的“铁鸟”？",
   "keywords": [
-    "表面张力",
-    "大气压强",
-    "静电现象",
-    "家庭实验",
-    "儿童科普"
+    "航空航天",
+    "火箭原理",
+    "太空生活",
+    "航空发展史",
+    "深空探测"
   ],
-  "content": "上周清理厨房，我顺手把半盒快过期的纯牛奶倒进浅盘，滴了几滴色素，又用棉签蘸了点洗洁精轻轻一碰。结果你猜怎么着？颜色像中了邪一样，“唰”地四散奔逃，简直像个微型火山在爆发。说实话，我第一次做这个实验的时候也吓了一跳。其实这不是什么巫术，是液体表面张力在悄悄“逃跑”。今天咱们不背干巴巴的公式，就靠家里的杯子、纸片、塑料梳，把客厅变成你的私人物理实验室。准备好放大镜和好奇心了吗？咱们直接上手。\n\n## 牛奶火山：表面张力的“逃跑游戏”\n\n准备一个白瓷",
-  "fact_card": [],
-  "thinking": [],
+  "content": "昨晚窗外的流星划过，你猜它是天上的星星，还是人类造出来的“铁鸟”？\n\n上周我在科技馆看到个小男孩，手里攥着个没打结的气球。他松手的那一刻，“嗖”地一下，气球像发了疯似的在天花板上乱窜。你想想，明明没人推它，它是怎么自己跑起来的？\n\n说白了，这跟火箭上天是同一个道理。火箭肚子里装满了燃料，点火后它们剧烈燃烧，变成高温高压的气体。这些气体只能往一个方向挤——从火箭屁股后面的喷管里“哧溜”一下喷出去。气体拼命往后逃，火箭是不是就得往前顶？这就是反冲力。牛顿早就发现啦，作用力和反作用力就像一对较劲的兄弟，谁也不让谁。\n\n说实话，我第一次摸透这个窍门，还是小时候玩水枪。按住喷头时，水压把枪身往后撞得虎口发麻，那震颤感和火箭发射台一模一样。现在的工程师更聪明，他们让火箭喷管像向日葵一样灵活转动，靠改变气流方向来“走路”，就算到了没有空气的真空里，照样能一路狂奔。\n\n其实这股劲儿早就藏在咱们的日常里了。消防水管喷水救火，粗大的水管会往后蹦；你用力拍篮球，手掌也会感到一股回弹的力。下次看窜天猴升空，或者玩甩干衣服，特意留神那股反方向的推力。你猜猜，如果给风筝装个微型喷气包，它能不能不靠风，自己追着云往上爬？\n\n[IMAGE_1]\n\n说实话，你要是第一次看宇航员喝水，准得乐出声。国际空间站里，一位航天员轻轻捏瘪水袋，棕色的咖啡没流出来，反而“噗”地弹出一颗圆滚滚的水球。它悬在半空，慢悠悠地转着圈，像颗透明的大玻璃珠。你想想，平时咱们倒水，水往低处流；可到了天上，水偏要往高处飘。这可不是变魔术，而是失重在捣鬼。\n\n说白了，太空不是没有重力，而是飞船和里面的一切都在以同样的速度绕着地球“往下掉”。因为掉得太默契，反而感觉不到重量了。这时候，水的表面张力就成了绝对的老大。没有重力拉扯，水分子互相紧紧拉手，缩成最省力的形状，自然就变成了完美的球体。要是想让它飘进嘴里，还得用吸管小心地“钓”，不然它全糊你脸上了。\n\n睡觉更荒唐。没有床板托着背，人一松手就会在舱里翻滚。所以宇航员都得把自己塞进固定在舱壁上的睡袋里，手脚还得套上绑带，不然半夜翻个身，人可能直接飘到通风口打转儿。我小时候翻看航天老照片，总觉得漂浮的宇航员像一群快乐的企鹅。其实这股“拽力”现在正帮咱们设计高效的净水过滤膜呢。\n\n下次你洗完澡，盯着洗手台的水珠看一会儿。去拿几张不同材质的纸片，观察水滴在上面会怎么“变身”。去试试观察水滴在不同材质上的形状变化吧！\n\n[IMAGE_2]\n\n小时候我总爱在院墙边放风筝，竹骨桑皮纸，风一吹就摇摇晃晃往上窜。一百年前莱特兄弟的“飞行者一号”也差不多这德行。那架木架子布翅膀的玩意儿，第一次离地只飞了十几米，还在半空打转。你想想，那时候连把鸡蛋带上天都费劲，可如今咱们的探测器早就能在别的星球表面“自驾游”啦。\n\n这跨度咋就这么大？说白了，飞机和飞船靠的本事根本不同。飞机得“借风使力”，机翼上下气流速度不同，憋出向上的升力，所以它死死离不开大气层。可出了地球没空气咋办？说实话，原理看着玄乎，其实特简单：发动机拼命往下喷火，高温气体狠狠推了火箭一把，推力直接等于反推力。我童年时在老家看老式火箭模型点火，那声巨响到现在还记得。没有空气也能蹿天，牛顿第三定律就是太空里的“隐形方向盘”。\n\n其实这道理跟咱们穿旱冰鞋起步一个样。脚蹬着地往后用力，地面就把人往前送。周末再去公园玩的时候，试试轻轻往后推身边的矮墙，感受下自己身体微微后仰的反冲力。大自然的所有飞行秘密，往往就藏在这些互相较劲的劲儿里头。下次仰望夜空，说不定能看出点不一样的门道。\n\n[IMAGE_3]",
+  "fact_card": [
+    "火箭起飞时的推力足足能顶起大约50万辆小汽车！土星五号火箭第一级发动机每秒产生的拉力超300万磅，相当于几百架大飞机同时往后猛推，难怪气球松手就能“嗖”地窜上天。",
+    "在太空中你能吹出直径超过30厘米的大水球泡泡！失重让水的表面张力变成“隐形橡皮筋”，把水滴紧紧裹成圆球，这种水球在空间站里能飘好几天都不破，比地球上的水珠结实多啦。",
+    "飞机最高只能飞到约1.2万米高空，因为那里空气稀薄机翼“抓不住风”，但火箭自带燃料不怕没空气，能一路冲破大气层把探测器送到38万公里外的月球“自驾游”。",
+    "宇航员在太空待久了身高能多出3厘米！因为失重让脊椎骨像弹簧一样放松拉长，不过别羡慕太久，一回到地球重力环境，过几天就会“缩水”回原来的高度啦。"
+  ],
+  "thinking": [
+    "如果让你用身边的废旧材料（比如吸管、气球或纸盒）设计一个能靠“反冲力”自己前进的小装置，你会怎么搭配它们？在动手制作和测试时，你观察到了哪些有趣的发现或遇到了什么新挑战？",
+    "如果你去查阅资料或动手实验，对比油、肥皂水等不同液体在光滑与粗糙表面上的“变形记”，你觉得除了重力和表面张力，还有哪些看不见的自然力量可能在悄悄影响它们的模样？"
+  ],
   "image_prompts": [
-    "物理小实验 illustration for children",
-    "kids science education physics",
-    "colorful cartoon physics science"
+    "A cheerful 8-year-old boy in a red t-shirt stands in a sunlit living room, having just released an untied white balloon that zooms rapidly toward the ceiling. Bold orange motion lines show air rushing backward from the balloon opening while the balloon moves forward. Beside him, a stylized cartoon rocket sits on a green launchpad, its engine glowing with bright yellow and red exhaust flames shooting downward, visually linking the balloon's flight to rocket thrust. Crisp outlines, vibrant primary colors, and clear directional arrows designed for children aged 6-12.",
+    "Inside the modular white interior of the International Space Station, a young astronaut in a light gray flight suit gently squeezes a flexible brown liquid pouch. A perfectly spherical, glossy water droplet floats weightlessly in mid-air, reflecting the station's overhead LED panels and equipment racks. Subtle translucent lines trace the water molecules clustering tightly together. In the background, another crew member rests securely inside a wall-mounted sleeping bag fastened with elastic straps. Clean educational visuals, bright ambient lighting, and playful proportions tailored for young readers.",
+    "A split-composition scene contrasting two aircraft under a gradient sky fading from blue atmosphere to black space. On the left, a vintage wooden biplane with cream fabric wings glides through fluffy white clouds, with smooth blue airflow curves highlighting the wing's upper surface and a small cloud icon labeled \"needs air.\" On the right, a sleek silver rocket ascends into a star-filled void, emitting a thick cone of orange and yellow exhaust gases that push it upward, accompanied by a vacuum flask icon labeled \"works in space.\" At the bottom center, a curious 9-year-old girl in a denim jacket and aviator goggles holds a folded paper airplane. Bold colors, clear scientific diagrams, and engaging character designs for ages 6-12."
   ],
-  "file_id": "2026-07-14",
   "images": [
-    "2026-07-14_1_65b07995.jpg",
-    "2026-07-14_3_20d2cd42.jpg"
+    "2026-07-14_2_54d1d3ba.jpg"
   ]
 }

@@ -1,35 +1,34 @@
 {
-  "theme": "nature",
-  "theme_name": "自然与动物",
+  "theme": "aerospace",
+  "theme_name": "航空航天",
   "date": "2026-07-13",
-  "title": "动物界的“超级导航员”：它们如何找到回家的路？",
-  "summary": "鸟儿迁徙、蜜蜂跳舞，动物们拥有惊人的方向感。今天我们一起揭秘这些神奇的“天然指南针”，看看大自然是如何赋予它们超能力的！🌍🧭",
+  "title": "从纸飞机到空间站：航空航天带你摸星星的秘密",
+  "summary": "清晨院子里的风筝突然挣脱了线，摇身一变成了逆风而上的火箭，直直冲向云端。",
   "keywords": [
-    "动物导航",
-    "地球磁场",
-    "生物钟",
-    "自然奥秘"
+    "航空航天",
+    "空气动力学",
+    "火箭推进",
+    "空间站",
+    "航天探索"
   ],
-  "content": "你知道吗？每天清晨，当你睁开眼看到阳光时，也许有数百万只候鸟正在天空中飞翔，准备跨越数千公里去更温暖的地方过冬。而当你放学回家时，家里的猫咪可能已经准确地在门口等你了。🐱 为什么它们不需要手机地图，也能精准地找到方向？这背后隐藏着大自然最神奇的秘密之一——动物导航。想象一下，如果你被丢在一个完全陌生的巨大森林里，四周没有路标，也没有信号，你会怎么办？动物们可是有着我们人类无法想象的“内置GPS”系统！让我们一起揭开这个谜团，探索动物界那些令人惊叹的“超级导航员”吧。✨\n\n## 天空中的隐形地图：地球磁场的秘密 🧭\n\n很多孩子可能听说过“指南针”，但它能指北是因为里面有一根被磁化的指针。其实，地球本身就像一个巨大的磁铁，周围包裹着一层看不见的“磁力网”，这就是地球磁场。许多鸟类，比如著名的北极燕鸥，它们是世界上最长途迁徙的动物，每年从北极飞到南极，再飞回来，行程长达4万公里！这相当于绕地球赤道一整圈呢。🌏\n\n[IMAGE_1]\n\n那么，鸟类是怎么感知磁场的呢？科学家发现，鸟类的眼睛和喙部含有特殊的蛋白质和微小晶体，能够“看”到磁场的线条。你可以想象成它们在视野里戴上了一副特殊的3D眼镜，抬头就能看到天空中有淡淡的蓝色或红色线条，那就是它们的“空中高速公路”。除了磁场，太阳和星星也是它们的灯塔。白天看太阳，晚上看星星，再加上磁场的指引，即使在大雾天或者阴天，它们也能保持大致的方向。\n\n[IMAGE_2]\n\n在现实生活中，这项技术也被应用到了人类的航空领域。早期的飞行员在没有雷达的时候，经常依赖这种“磁航向”来飞行。现在，虽然我们有卫星导航，但在某些极端环境下，仿生学科学家正在研究如何制造出更小巧、更省电的微型导航芯片，模仿动物的磁感应机制。🕊️ 想象一下，未来的无人机或许也能像鸽子一样，通过感知微弱的地磁变化来定位，即使在GPS信号被干扰时也能安全返航。这不仅仅是奇迹，更是物理学与生物学的完美结合。\n\n[IMAGE_3]",
+  "content": "清晨院子里的风筝突然挣脱了线，摇身一变成了逆风而上的火箭，直直冲向云端。\n\n上周在科学角，我拿了一张长纸条放在嘴唇底下。你猜怎么着？我使劲往上吹气，纸条非但没往下掉，反而乖乖地飘了起来！你想想，明明是吹下来的风，为什么会把它托起来？\n\n这其实藏着一只“隐形大手”，物理学家管它叫伯努利原理。说白了，空气也有脾气：跑得快的时候，力气就变小；跑得慢的时候，力气反而变大。飞机翅膀的上面是鼓起来的，空气跑过去路程长、速度就快，压力变小了；翅膀下面相对平坦，空气跑得慢，压力就大。这一高一低，下面的大力气就把翅膀往上推，几十吨的铁疙瘩就这么被稳稳托上了天。说实话，我小时候第一次在旧课本上看到这个原理时，也挠了半天头，后来自己对着电风扇吹毛巾，才咂摸出味儿来。\n\n放风筝也是同样的道理。风筝迎着风斜过去，背面的空气挤在一起跑得慢，正面的空气顺畅流过得快，那股托举的劲儿就出来了。回家拿张A4纸再吹一次试试，或者下次坐飞机靠窗坐，低头看看机翼的截面。你还会发现，洗澡时热水一开，浴帘总爱往腿上贴，也是这只手在暗中发力哦！\n\n[IMAGE_1]\n\n小时候我扎气球玩，吹得圆滚滚的，手一松，“嗖”的一下它就在屋里乱窜。你想想，明明没有绳子拉着它，它为啥能自己跑起来？其实，大火箭起飞也是这个道理。\n\n说白了，火箭就是个会喷气的“超级气球”。发动机里装着煤油或液氢，点火后燃料剧烈燃烧，温度瞬间飙到几千度。你想想高压锅喷气吧？里面的气体拼命膨胀，只能找出口。火箭尾部那个长长的喇叭口就是唯一的通道。高温高压的气体从喷管“轰”地冲出去，反作用力就把火箭稳稳托上天。牛顿早就发现，力是相互的，气体往后蹬，火箭就往前冲。\n\n说实话，这原理天天都在你身边转悠。你看公园里的自动旋转喷头，水从一边喷出，喷头就跟着反向转；你背的电动吹叶机，风机把树叶往后猛吹，机器就稳稳停在地上不动。当年科学家科罗廖夫为了算准燃料配比，曾在图纸堆里熬红了眼。如今咱们能坐上飞船去空间站，全靠这股子“反推力”一步步挣脱地球的引力。\n\n下次你站在溜冰场上试着往后蹬地，感受脚底传来的那股推力。你猜猜，如果地面绝对光滑，你还能靠什么方式往前走？去试试看吧。\n\n[IMAGE_2]\n\n你见过汤勺里的水不往嘴里流吗？在国际空间站里，宇航员吃饭可得费老大劲了。汤得装在特制的密封袋里，用吸管“啵”地吸进去；要是手一松，一块面包屑就能像小导弹似的飘满整个舱壁。说白了，这不是他们故意调皮，而是太空中没有“上下”之分。\n\n你想想，咱们地球上的东西往下掉，是因为地球引力拉着它们。可飞船绕着地球飞的时候，其实一直在高速“自由落体”，人和物体失重了，自然就飘了起来。睡觉怎么办？宇航员直接钻进固定在墙上的睡袋，拉链一扣，就算翻跟头也不会滚走。吃饭的桌面和工具全铺满魔术贴，连剪刀都得拴根弹性绳，不然一抬手就飞进通风口了。\n\n这种“飘着过日子”的本事，正是太空搭“乐高房子”的关键。模块对接全靠磁吸卡扣和机械臂，不怕零件乱跑。说到未来去火星种土豆，说实话，火星重力只有地球的三分之一，普通土壤站不住脚，水也会乱飘。所以科学家改用无土栽培，把营养液直接送到植物根部，就像给庄稼打点滴。这招可灵了，现在咱们城市里的立体蔬菜工厂、甚至医院的营养泵，全都借了这套思路。\n\n下次你吃果冻或者玩弹簧秤的时候，仔细看看液体和重物是怎么被“拉”住的，那里面藏着的，就是人类跟重力较劲的聪明法子。\n\n[IMAGE_3]",
   "fact_card": [
-    "北极燕鸥每年的迁徙路程可达4万公里，相当于绕地球赤道一圈，它们依靠地球磁场和星象导航。",
-    "蜜蜂的“8字舞”中，舞蹈的角度对应太阳的角度，舞蹈的频率对应花丛的距离，是一套精密的语言。",
-    "蝙蝠发出的超声波频率可达10万赫兹以上，远高于人耳能听到的2万赫兹上限，因此我们听不见它们“说话”。",
-    "海豚利用声呐不仅能导航，还能“看”穿物体的内部结构，甚至能分辨出金属球和橡胶球的区别。"
+    "喷气客机巡航速度大约900公里/小时，机翼上方气流跑得飞快才产生升力！冷知识是：蜜蜂翅膀每秒能扇动200多次，它可不靠伯努利原理，而是靠翅膀画“8”字卷出小旋风把自己托起来的哦！",
+    "火箭起飞时的推力足足有几千吨，大概相当于1000多辆小汽车同时往后拽！为了飞得更远，火箭还会像蜕皮一样把空燃料舱“咔嚓”扔掉，加速到每秒11.2公里就能彻底挣脱地球引力啦！",
+    "太空中水不会乖乖往下流，而是会变成圆滚滚的“漂浮水球”，全靠液体自带的“隐形皮肤”（表面张力）紧紧抱住它们！而且因为脊柱不再被重力压扁，宇航员在空间站待一天，身高能悄悄长高3厘米左右呢！",
+    "科学家把海拔100公里的地方定为“卡门线”，火箭冲过这条隐形红线就算正式打卡太空啦！飞船外壳穿的“防热铠甲”其实像陶瓷饼干一样轻，却能挡住穿越大气层时几千度的高温摩擦哦！"
   ],
   "thinking": [
-    "如果让你设计一款帮助视障人士出行的智能手表，你会借鉴哪种动物的导航本领？为什么？",
-    "在没有太阳、没有星星、也没有磁场的深海中，你觉得哪些动物会拥有最独特的导航方式？试着猜猜看。"
+    "如果让你用不同的材料（比如硬纸板、塑料片、薄布）和形状尝试制作“机翼”，你觉得怎样设计才能让它在吹风机的气流中托举得更稳？你可以动手试试看，并观察气流速度变化时它们的表现有什么不同。",
+    "在太空中液体和物体都会漂浮，如果你要为未来的火星基地设计一款日常用品（比如水杯、餐具或文具），你会怎么改造它，让它既能适应低重力环境，又方便宇航员使用？你可以先观察地球上的防滑或固定设计，再发挥想象画出你的创意草图。"
   ],
   "image_prompts": [
-    "A colorful children's book illustration showing a flock of migratory birds flying in a V-formation against a twilight sky, with visible magnetic field lines overlaid like a glowing map, vibrant colors, whimsical style.",
-    "A close-up view inside a honeycomb where a bee is performing an energetic figure-eight dance, surrounded by attentive worker bees, with animated arrows indicating direction relative to the sun, bright and engaging cartoon style.",
-    "A cute bat flying through a dark forest at night, emitting visible sound waves that bounce off trees and insects, creating a radar-like visualization of its surroundings, soft lighting, educational poster style."
+    "A cheerful 8-year-old child standing on a sunny suburban lawn, holding a colorful diamond-shaped kite in one hand and blowing gently over a white A4 paper held horizontally under their chin with the other hand, soft blue airflow lines curve smoothly over the top of the paper while denser red lines press underneath visually demonstrating the pressure difference, in the background a stylized cross-section of an airplane wing floats semi-transparently in the sky connected by dotted lines to the paper with bright yellow arrows pointing upward to show lift, the scene uses vibrant warm daylight colors clean vector-style edges and a friendly educational composition tailored for children aged 6-12.",
+    "A dynamic indoor-to-outdoor split scene featuring a smiling 7-year-old boy releasing a fully inflated red balloon that zooms across a cozy living room leaving a curved motion trail on the right a massive silver rocket with bright orange flames blasts off vertically from a launchpad surrounded by billowing white steam clouds thick glowing blue arrows point downward from the rocket nozzle representing high-speed exhaust gases while bold green upward arrows push against the rocket base clearly illustrating action and reaction forces the sky is a crisp gradient blue with fluffy clouds using saturated primary colors clean geometric shapes and exaggerated but accurate physics diagrams designed specifically for young learners.",
+    "Inside a brightly lit International Space Station module with sleek white curved walls and rows of control panels two astronauts in white space suits float weightlessly one astronaut holds a silver sealed food pouch to their mouth using a flexible straw while tiny golden crumb particles drift slowly in mid-air around them tools like a silver wrench and a notebook are securely fastened to a nearby table covered in bright orange Velcro strips in the background a transparent cylindrical plant growth chamber shows green seedlings with nutrient droplets suspended in water connected by thin tubes the scene uses soft ambient lighting pastel and metallic color palettes clear spatial depth and detailed zero-gravity physics cues optimized for children educational books."
   ],
-  "file_id": "2026-07-13",
   "images": [
-    "2026-07-13_1_ace806f0.jpg",
-    "2026-07-13_2_2c1b4586.jpg",
-    "2026-07-13_3_18c121f6.jpg"
+    "2026-07-13_1_71ce9014.jpg",
+    "2026-07-13_3_eefc4401.jpg"
   ]
 }
