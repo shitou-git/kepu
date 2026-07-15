@@ -23,14 +23,14 @@
     "如果让你设计一款帮助灾区救援的无人机，你会给它安装哪些特殊的“眼睛”或“工具”来帮助受灾群众？"
   ],
   "image_prompts": [
-    "A cute cartoon bat flying in a dark cave, emitting sound waves that bounce off rocks and insects, educational infographic style, bright colors, suitable for children aged 6-12",
-    "A detailed illustration of a military reconnaissance drone hovering high above a green valley, transmitting camera images to a control station, futuristic technology theme, child-friendly illustration style",
-    "A split scene showing a modern fighter jet with stealth features flying alongside a radar dish detecting signals, emphasizing the concept of electronic warfare and detection, vibrant and engaging visual style for kids"
+    "A cute bat flying in a dark cave emitting sound waves that bounce off rocks and insects, echolocation principle illustrated with visible sound wave rings, educational science infographic style for children, bright colors against dark cave background",
+    "A military reconnaissance drone flying high above a green valley, equipped with cameras and sensors, transmitting live video feed to a ground control station, modern technology theme, child-friendly educational illustration style",
+    "A modern stealth fighter jet flying alongside a radar dish on the ground, showing how stealth design deflects radar waves, electronic warfare concept, vibrant educational illustration for children, dynamic action scene"
   ],
   "file_id": "2026-06-27",
   "images": [
-    "2026-06-27_1_039a52e9.jpg",
-    "2026-06-27_2_91bed15c.jpg",
-    "2026-06-27_3_a4cf1f39.jpg"
+    "2026-06-27_1_f7246234.jpg",
+    "2026-06-27_2_4fe4f38f.jpg",
+    "2026-06-27_3_b0ff191d.jpg"
   ]
 }
