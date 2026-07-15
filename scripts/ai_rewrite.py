@@ -255,6 +255,43 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         
         return questions[:2]
 
+    def generate_section_titles(self, sections_content: list, theme_name: str) -> list:
+        """根据3个小节的正文内容，生成3个有趣的小节标题"""
+        system_prompt = """你是一位少儿科普杂志的高级编辑，擅长给文章段落起有趣的小标题。
+
+要求：
+1. 根据每段内容提炼一个生动有趣的小标题
+2. 标题要吸引孩子，带点好奇心或画面感
+3. 每个标题不超过15个字
+4. 风格活泼，可以用比喻、拟人、悬念等手法
+5. 不要用"第一节""第一部分"这种干巴巴的标题"""
+
+        sections_text = ""
+        for i, content in enumerate(sections_content, 1):
+            sections_text += f"第{i}段内容：\n{content[:300]}\n\n"
+
+        user_prompt = f"""请为以下「{theme_name}」主题的3个段落分别生成一个有趣的小标题：
+
+{sections_text}
+输出格式：每行一个标题，按顺序排列，共3个。"""
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+
+        result = self._call_api(messages, temperature=0.7)
+        
+        titles = []
+        for line in result.split("\n"):
+            line = line.strip()
+            if line:
+                line = re.sub(r'^\d+[\.\)]\s*', '', line)
+                line = line.strip('"「」『』')
+                titles.append(line)
+        
+        return titles[:3]
+
     def generate_article(self, theme: str, theme_name: str, date_str: str) -> dict:
         """分步生成完整文章"""
         print("  第1步：生成大纲...")
