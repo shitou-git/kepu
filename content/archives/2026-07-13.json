@@ -2,33 +2,35 @@
   "theme": "aerospace",
   "theme_name": "航空航天",
   "date": "2026-07-13",
-  "title": "从纸飞机到空间站：航空航天带你摸星星的秘密",
-  "summary": "清晨院子里的风筝突然挣脱了线，摇身一变成了逆风而上的火箭，直直冲向云端。",
+  "title": "从后院纸飞机到火星漫游：揭秘航空航天",
+  "summary": "清晨的风托起一只歪歪扭扭的纸飞机，它究竟要飞多远才能摸到星星？",
   "keywords": [
     "航空航天",
-    "空气动力学",
-    "火箭推进",
+    "火箭原理",
     "空间站",
-    "航天探索"
+    "深空探测",
+    "科学启蒙"
   ],
-  "content": "清晨院子里的风筝突然挣脱了线，摇身一变成了逆风而上的火箭，直直冲向云端。\n\n上周在科学角，我拿了一张长纸条放在嘴唇底下。你猜怎么着？我使劲往上吹气，纸条非但没往下掉，反而乖乖地飘了起来！你想想，明明是吹下来的风，为什么会把它托起来？\n\n这其实藏着一只“隐形大手”，物理学家管它叫伯努利原理。说白了，空气也有脾气：跑得快的时候，力气就变小；跑得慢的时候，力气反而变大。飞机翅膀的上面是鼓起来的，空气跑过去路程长、速度就快，压力变小了；翅膀下面相对平坦，空气跑得慢，压力就大。这一高一低，下面的大力气就把翅膀往上推，几十吨的铁疙瘩就这么被稳稳托上了天。说实话，我小时候第一次在旧课本上看到这个原理时，也挠了半天头，后来自己对着电风扇吹毛巾，才咂摸出味儿来。\n\n放风筝也是同样的道理。风筝迎着风斜过去，背面的空气挤在一起跑得慢，正面的空气顺畅流过得快，那股托举的劲儿就出来了。回家拿张A4纸再吹一次试试，或者下次坐飞机靠窗坐，低头看看机翼的截面。你还会发现，洗澡时热水一开，浴帘总爱往腿上贴，也是这只手在暗中发力哦！\n\n[IMAGE_1]\n\n小时候我扎气球玩，吹得圆滚滚的，手一松，“嗖”的一下它就在屋里乱窜。你想想，明明没有绳子拉着它，它为啥能自己跑起来？其实，大火箭起飞也是这个道理。\n\n说白了，火箭就是个会喷气的“超级气球”。发动机里装着煤油或液氢，点火后燃料剧烈燃烧，温度瞬间飙到几千度。你想想高压锅喷气吧？里面的气体拼命膨胀，只能找出口。火箭尾部那个长长的喇叭口就是唯一的通道。高温高压的气体从喷管“轰”地冲出去，反作用力就把火箭稳稳托上天。牛顿早就发现，力是相互的，气体往后蹬，火箭就往前冲。\n\n说实话，这原理天天都在你身边转悠。你看公园里的自动旋转喷头，水从一边喷出，喷头就跟着反向转；你背的电动吹叶机，风机把树叶往后猛吹，机器就稳稳停在地上不动。当年科学家科罗廖夫为了算准燃料配比，曾在图纸堆里熬红了眼。如今咱们能坐上飞船去空间站，全靠这股子“反推力”一步步挣脱地球的引力。\n\n下次你站在溜冰场上试着往后蹬地，感受脚底传来的那股推力。你猜猜，如果地面绝对光滑，你还能靠什么方式往前走？去试试看吧。\n\n[IMAGE_2]\n\n你见过汤勺里的水不往嘴里流吗？在国际空间站里，宇航员吃饭可得费老大劲了。汤得装在特制的密封袋里，用吸管“啵”地吸进去；要是手一松，一块面包屑就能像小导弹似的飘满整个舱壁。说白了，这不是他们故意调皮，而是太空中没有“上下”之分。\n\n你想想，咱们地球上的东西往下掉，是因为地球引力拉着它们。可飞船绕着地球飞的时候，其实一直在高速“自由落体”，人和物体失重了，自然就飘了起来。睡觉怎么办？宇航员直接钻进固定在墙上的睡袋，拉链一扣，就算翻跟头也不会滚走。吃饭的桌面和工具全铺满魔术贴，连剪刀都得拴根弹性绳，不然一抬手就飞进通风口了。\n\n这种“飘着过日子”的本事，正是太空搭“乐高房子”的关键。模块对接全靠磁吸卡扣和机械臂，不怕零件乱跑。说到未来去火星种土豆，说实话，火星重力只有地球的三分之一，普通土壤站不住脚，水也会乱飘。所以科学家改用无土栽培，把营养液直接送到植物根部，就像给庄稼打点滴。这招可灵了，现在咱们城市里的立体蔬菜工厂、甚至医院的营养泵，全都借了这套思路。\n\n下次你吃果冻或者玩弹簧秤的时候，仔细看看液体和重物是怎么被“拉”住的，那里面藏着的，就是人类跟重力较劲的聪明法子。\n\n[IMAGE_3]",
+  "content": "清晨的风托起一只歪歪扭扭的纸飞机，它究竟要飞多远才能摸到星星？\n\n去年夏天，我在科技馆看到一枚火箭腾空而起，尾焰把夜空烧得通红。其实，让这几十吨重的“大铁罐”飞上天的秘密，早就藏在你我小时候玩的玩具里。\n\n德国科学家冯·布劳恩小时候可迷折纸飞机了。他总爱跑到山坡上，双手一松，看小纸片打着旋儿往上窜。后来他主持设计土星五号火箭时，脑子里转的依然是这股劲儿。\n\n说白了，火箭升空靠的是反作用力。你往气球里吹满气，一松手，空气从后面猛喷出去，气球就往前冲。火箭也是这个道理，只不过它喷的不是空气，而是燃料燃烧产生的高温气体。你想想，气体拼命往下压，火箭就会拼命往上顶。这种力量根本不需要空气帮忙，所以哪怕在真空的外太空，照样能一路加速冲刺。\n\n其实生活中到处藏着这种推力。穿旱冰鞋推墙会后退，消防员抓高压水枪会被往后拽。下次去公园玩滑板，不妨让朋友在后面轻轻推你一下，感受那股“你退我进”的默契。抬头看看逆风飘起的风筝，或者试试往平静的水面扔石子。多留意这些身边的瞬间，说不定哪天，你的奇思妙想就能装进真正的飞船里。\n\n[IMAGE_1]\n\n昨天视频连线，我瞧见王亚平阿姨在空间站里飘着剥橘子。橘子瓣刚脱皮，就慢悠悠地散开，像一群小金鱼在水里游。她伸手一捞，橘子瓣就乖乖停在她指尖。这可不是变魔术，而是我们在太空常听到的“失重”。\n\n你想想，为什么东西会飘起来？其实并非地球引力消失，而是空间站正以每秒七点九公里的速度紧贴地表狂奔。这种高速横飞产生的惯性，刚好抵消了下坠的趋势。简单讲，宇航员和空间站就像在玩一场永不停歇的“自由落体”，谁也追不上谁，自然就飘起来了。在这微重力环境里，睡觉必须把自己绑进睡袋，不然半夜一翻身就会撞翻仪器柜；吃饭得用带魔术贴的餐盘，连喝水都得挤进密封袋，用吸管慢慢抿。\n\n人造卫星也是这样，只不过它们披着看不见的壳。就像放风筝，地球引力是拽着线的风，卫星的速度是那阵托举的风。只要速度够快，风筝就不会落地。现在咱们手机里的导航定位、天气云图，全靠这些“隐形风筝”日夜不停地传递信号。\n\n下次看到皮球被扔出去划过一道弧线落地，不妨琢磨一下：如果给它装上翅膀，让它跑得再快一点，是不是就能一直绕着操场飞而不掉下来了？去操场试试抛接球，感受速度和高度的关系吧。\n\n[IMAGE_2]\n\n红色沙漠深处，一辆六轮小车突然刹住了。镜头缓缓推近，一块灰扑扑的石头出现在屏幕中央。它看着普通，却藏着火星曾经有水的惊天秘密！\n\n探测器可不会乱跑。它沿着干涸的古河床轨迹慢慢爬，每走一段就停下来扫描一圈。科学家在地面用无线电发指令，车子就举起机械臂，把微型激光对准石头表面。光斑一照，矿物受热会释放出特定颜色的光。说白了，不同化学成分对光的“脾气”截然不同。如果光谱仪捕捉到黏土或硫酸盐的峰值信号，那就实锤了这儿以前肯定泡过水。换句话说，探测器就像个随身携带的化学实验室，隔着十万公里给石头做精密化验。\n\n我七岁时跟着爷爷在河滩找贝壳化石，他总说石头是地球的日记本。现在想想，火星车正是靠着这些“日记”，才还原出远古水系的路线图。其实地質学家在地球找矿藏，用的也是这套光谱分析的老办法。\n\n既然天上地下都离不开天体运转的规律，咱们也来亲手模拟一次。今晚拉上窗帘，关掉主灯，把手电筒固定在桌上当太阳。拿起一颗乒乓球，手臂伸直绕着它缓慢画圈。注意观察：球面上哪边永远亮着？哪边渐渐变暗？记住这个明暗交替的节奏，下次去阳台抬头看月亮，你就能自己判断它正走到轨道的哪个位置。去试试吧，科学就在你手里转圈圈。\n\n[IMAGE_3]",
   "fact_card": [
-    "喷气客机巡航速度大约900公里/小时，机翼上方气流跑得飞快才产生升力！冷知识是：蜜蜂翅膀每秒能扇动200多次，它可不靠伯努利原理，而是靠翅膀画“8”字卷出小旋风把自己托起来的哦！",
-    "火箭起飞时的推力足足有几千吨，大概相当于1000多辆小汽车同时往后拽！为了飞得更远，火箭还会像蜕皮一样把空燃料舱“咔嚓”扔掉，加速到每秒11.2公里就能彻底挣脱地球引力啦！",
-    "太空中水不会乖乖往下流，而是会变成圆滚滚的“漂浮水球”，全靠液体自带的“隐形皮肤”（表面张力）紧紧抱住它们！而且因为脊柱不再被重力压扁，宇航员在空间站待一天，身高能悄悄长高3厘米左右呢！",
-    "科学家把海拔100公里的地方定为“卡门线”，火箭冲过这条隐形红线就算正式打卡太空啦！飞船外壳穿的“防热铠甲”其实像陶瓷饼干一样轻，却能挡住穿越大气层时几千度的高温摩擦哦！"
+    "火箭发动机喷出的废气温度能飙到3000℃以上，可它用的液氢燃料却冷到零下253℃，简直是在太空中玩“冰火两重天”！",
+    "宇航员在空间站待久了，身高竟然能悄悄长高5厘米左右！因为微重力让脊椎骨之间的软骨舒展开，回地球后几天就会恢复原样。",
+    "月球上没有风和雨水，阿波罗宇航员留下的脚印和车辙印，可能已经默默躺在那儿几亿年了，堪称太阳系里保存最久的“拓荒纪念”。",
+    "国际空间站绕地球飞一圈只要90分钟，这意味着宇航员每天能看到16次日出和日落，他们睡觉都得靠戴眼罩来骗过大脑的“生物钟”。"
   ],
   "thinking": [
-    "如果让你用不同的材料（比如硬纸板、塑料片、薄布）和形状尝试制作“机翼”，你觉得怎样设计才能让它在吹风机的气流中托举得更稳？你可以动手试试看，并观察气流速度变化时它们的表现有什么不同。",
-    "在太空中液体和物体都会漂浮，如果你要为未来的火星基地设计一款日常用品（比如水杯、餐具或文具），你会怎么改造它，让它既能适应低重力环境，又方便宇航员使用？你可以先观察地球上的防滑或固定设计，再发挥想象画出你的创意草图。"
+    "如果让你用生活中的废旧材料（如纸筒、气球、胶带）设计一个“微型反冲飞行器”，你觉得改变它的形状、配重或喷气方向，会对飞行轨迹产生什么影响？你可以通过哪些简单的对比实验来验证自己的猜想？",
+    "火星车靠分析岩石的“光谱日记”寻找远古线索，其实我们身边的泥土、树叶甚至厨房里的食材也有独特的“化学指纹”。如果你去户外收集几种不同的自然样本，除了肉眼观察，还可以借助什么简单工具或查阅哪些资料，来探索它们背后隐藏的环境故事呢？"
   ],
   "image_prompts": [
-    "A cheerful 8-year-old child standing on a sunny suburban lawn, holding a colorful diamond-shaped kite in one hand and blowing gently over a white A4 paper held horizontally under their chin with the other hand, soft blue airflow lines curve smoothly over the top of the paper while denser red lines press underneath visually demonstrating the pressure difference, in the background a stylized cross-section of an airplane wing floats semi-transparently in the sky connected by dotted lines to the paper with bright yellow arrows pointing upward to show lift, the scene uses vibrant warm daylight colors clean vector-style edges and a friendly educational composition tailored for children aged 6-12.",
-    "A dynamic indoor-to-outdoor split scene featuring a smiling 7-year-old boy releasing a fully inflated red balloon that zooms across a cozy living room leaving a curved motion trail on the right a massive silver rocket with bright orange flames blasts off vertically from a launchpad surrounded by billowing white steam clouds thick glowing blue arrows point downward from the rocket nozzle representing high-speed exhaust gases while bold green upward arrows push against the rocket base clearly illustrating action and reaction forces the sky is a crisp gradient blue with fluffy clouds using saturated primary colors clean geometric shapes and exaggerated but accurate physics diagrams designed specifically for young learners.",
-    "Inside a brightly lit International Space Station module with sleek white curved walls and rows of control panels two astronauts in white space suits float weightlessly one astronaut holds a silver sealed food pouch to their mouth using a flexible straw while tiny golden crumb particles drift slowly in mid-air around them tools like a silver wrench and a notebook are securely fastened to a nearby table covered in bright orange Velcro strips in the background a transparent cylindrical plant growth chamber shows green seedlings with nutrient droplets suspended in water connected by thin tubes the scene uses soft ambient lighting pastel and metallic color palettes clear spatial depth and detailed zero-gravity physics cues optimized for children educational books."
+    "A cheerful cartoon boy with messy hair and round safety goggles stands on a sunlit grassy hillside, gently releasing a slightly crumpled yellow paper airplane that leaves a soft trail of glowing blue exhaust flames and tiny sparkling stars as it climbs toward a bright azure sky. Nearby, a small wooden skateboard and a colorful kite rest on the green grass, while a distant cartoon rocket lifts off with a fiery plume in the background. Rendered in a delicate watercolor hand-drawn style with smooth Pixar-inspired character proportions, vibrant and luminous color palette, clean illustrative outlines, and explicitly designed as a non-realistic cartoon scene for children aged 6 to 12.",
+    "Inside a spacious cartoon space station module with curved white panels and large circular windows revealing a blue Earth below, a friendly female astronaut with a tidy hair bun floats weightlessly in a cozy light-blue flight suit. She gently reaches out to catch a single floating orange segment that drifts like a golden fish, surrounded by other suspended items including a sealed water pouch, a loose pencil, and a small floating notebook. Created in a charming watercolor hand-drawn aesthetic with rounded Pixar-style facial features, warm ambient lighting, bright yet soft colors, and strictly avoiding any realistic human photography or photorealism, tailored for young readers.",
+    "On rolling red sand dunes under a crisp twilight Martian sky, a cute six-wheeled cartoon exploration rover with large camera-lens eyes and a flexible antenna pauses beside a smooth gray boulder. The rover’s articulated mechanical arm extends forward, projecting a sharp glowing blue laser beam onto the rock’s surface, causing subtle shimmering mineral sparkles to dance in the air. In the foreground, a curious cartoon child in a simplified white space suit kneels on the red soil, holding a small magnifying glass and watching the laser scan with wide excited eyes. Executed in a playful watercolor hand-drawn technique with smooth Pixar-inspired character designs, saturated bright hues, clean illustrative lines, and explicitly crafted as a fictional cartoon scene for children’s educational books."
   ],
+  "file_id": "2026-07-13",
   "images": [
-    "2026-07-13_1_71ce9014.jpg",
-    "2026-07-13_3_eefc4401.jpg"
+    "2026-07-13_1_e089da06.jpg",
+    "2026-07-13_2_803ceba9.jpg",
+    "2026-07-13_3_43b21cbb.jpg"
   ]
 }
