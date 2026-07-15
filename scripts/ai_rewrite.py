@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-AI 改写模块 - 分步解耦生成策略
-步骤：大纲 → 正文 → 图片提示词 → 知识卡片
-"""
 
 import os
 import json
@@ -48,49 +44,49 @@ class AIWriter:
                 data = response.json()
                 return data["choices"][0]["message"]["content"].strip()
             except Exception as e:
-                print(f"API 调用失败 (重试 {retry+1}/{max_retries}): {e}")
+                print(f"API failed (retry {retry+1}/{max_retries}): {e}")
                 if retry < max_retries - 1:
                     time.sleep(10 * (retry + 1))
-        raise Exception(f"API 调用失败，已重试 {max_retries} 次")
+        raise Exception(f"API failed after {max_retries} retries")
 
     def _build_storyteller_prompt(self) -> str:
-        return """你是一位给孩子讲了十年科学故事的老师，叫"石头老师"。
+        return """You are a teacher who has been telling science stories to children for ten years.
         
-你的风格：
-- 用讲故事的方式讲科学，像跟孩子聊天一样
-- 开头用一个具体的生活场景或小悬念引入
-- 段落长短交错，有节奏感
-- 讲到有趣的地方会感叹，讲到深奥的地方会放慢解释
-- 偶尔讲个科学家的趣事或自己的童年回忆
-- 结尾会引导孩子去观察和思考
+Your style:
+- Tell science like storytelling, chatting with kids
+- Start with a real life scene or a small suspense
+- Mix short and long paragraphs for rhythm
+- Exclaim at fun parts, explain slowly at deep parts
+- Occasionally tell a scientist's anecdote or your childhood memory
+- End by guiding children to observe and think
 
-写作原则：
-1. 科学知识必须准确，数据、年份要核实
-2. 必须联系生活实际，让孩子能理解
-3. 语言简单易懂，适合6-12岁孩子
-4. 不要用"你知道吗""想象一下"这种模板化开头
-5. 不要用"因此""综上所述"这种书面套话
-6. 严禁使用"说白了""说实话""你想想""这么说吧"等口头禅，这些词会显得刻意做作、不自然。直接把意思讲清楚即可，不需要用过渡词铺垫"""
+Writing principles:
+1. Science must be accurate, verify data and years
+2. Must connect to real life for understanding
+3. Simple language suitable for 6-12 years old
+4. No template openings like "Do you know" or "Imagine"
+5. No formal phrases like "Therefore" or "In conclusion"
+6. No filler words like "to put it simply" or "to be honest"""
 
     def generate_outline(self, theme_name: str, date_str: str) -> Dict:
         system_prompt = self._build_storyteller_prompt()
         
-        user_prompt = f"""请为「{theme_name}」主题构思一篇科普文章的大纲。
+        user_prompt = f"""Create an outline for a science article about "{theme_name}".
 
-要求：
-- 标题要吸引人，包含主题关键词
-- 导语用一句话制造悬念或描绘场景（50字以内）
-- 3个小节标题，每个标题都要有趣味性
-- 每个小节一句话说明要讲什么内容
+Requirements:
+- Attractive title containing theme keywords
+- Summary: one sentence with suspense or scene (within 50 chars)
+- 3 section titles, each interesting
+- One sentence description for each section
 
-输出格式：
-TITLE: [标题]
-SUMMARY: [导语]
+Output format:
+TITLE: [title]
+SUMMARY: [summary]
 SECTIONS:
-1. [小节标题1]: [一句话说明]
-2. [小节标题2]: [一句话说明]
-3. [小节标题3]: [一句话说明]
-KEYWORDS: [3-5个关键词，逗号分隔]"""
+1. [section1]: [description]
+2. [section2]: [description]
+3. [section3]: [description]
+KEYWORDS: [3-5 keywords, comma separated]"""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -116,7 +112,7 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
                 outline["keywords"] = [k.strip() for k in line.replace("KEYWORDS:", "").strip().split(",") if k.strip()]
             elif line.startswith("SECTIONS:"):
                 continue
-            elif re.match(r'^\d+\.\s*', line):
+            elif re.match(r"^\d+\.\s*", line):
                 parts = line[2:].strip().split(":", 1)
                 if len(parts) == 2:
                     outline["sections"].append({
@@ -130,23 +126,23 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
                          outline_title: str, prev_section_text: str = "") -> str:
         system_prompt = self._build_storyteller_prompt()
         
-        context = f"\n上一小节内容参考：{prev_section_text[:200]}..." if prev_section_text else ""
+        context = f"\nPrevious section reference: {prev_section_text[:200]}..." if prev_section_text else ""
         
-        user_prompt = f"""请写一篇「{theme_name}」主题科普文章的一个小节。
+        user_prompt = f"""Write a section for a science article about "{theme_name}".
 
-文章标题：{outline_title}
-本小节标题：{section_title}
-本小节要讲：{section_desc}
+Article title: {outline_title}
+Section title: {section_title}
+What to cover: {section_desc}
 
-要求：
-- 字数300-500字，讲透一个知识点
-- 先讲现象/故事，再解释原理，最后联系生活应用
-- 语言生动，像跟孩子聊天
-- 段落长短交错，不要每段都差不多长
-- 在小节末尾放 [IMAGE] 标记（独占一行）
+Requirements:
+- 300-500 words, cover one knowledge point thoroughly
+- Start with phenomenon/story, explain principle, connect to life
+- Vivid language like chatting with kids
+- Mix short and long paragraphs
+- Put [IMAGE] marker at the end (on its own line)
 
-输出格式：
-[正文内容，Markdown格式，末尾放[IMAGE]标记]""" + context
+Output format:
+[Content in Markdown, with [IMAGE] marker at end]""" + context
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -157,26 +153,26 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         return result
 
     def generate_image_prompts(self, content: str, theme_name: str) -> List[str]:
-        system_prompt = """你是一位专业的儿童科普插画师，擅长根据文章内容创作精确的图片提示词。
+        system_prompt = """You are a professional children's science illustrator, skilled at creating precise image prompts.
 
-要求：
-1. 提示词必须严格对应文章中的具体场景
-2. 包含人物、动作、环境细节
-3. 风格：水彩手绘风格，卡通人物，皮克斯动画风格，色彩明亮，适合6-12岁儿童
-4. 绝对禁止真实人物照片或写实人像，全部使用卡通/插画/动画风格表现人物
-5. 英文描述，详细具体
-6. 严禁使用笼统描述（如"science illustration"）
+Requirements:
+1. Prompts must strictly correspond to specific scenes in the article
+2. Include characters, actions, environment details
+3. Style: watercolor hand-drawn, cartoon characters, Pixar animation style, bright colors, suitable for 6-12 years old
+4. Absolutely no realistic human photos or portraits, use cartoon/illustration/animation style
+5. English description, detailed and specific
+6. No vague descriptions like "science illustration"
 
-输出格式：每行一个提示词，共3个，分别对应文章中的3个[IMAGE]标记位置"""
+Output format: One prompt per line, 3 total, corresponding to the 3 [IMAGE] markers"""
 
-        user_prompt = f"""请根据以下文章内容，为3个图片标记分别生成精确的图片提示词：
+        user_prompt = f"""Generate precise image prompts for 3 image markers based on the following article:
 
-文章主题：{theme_name}
+Article theme: {theme_name}
 
-文章内容：
+Article content:
 {content}
 
-请输出3个英文图片提示词，每行一个。"""
+Output 3 English image prompts, one per line."""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -189,25 +185,25 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         for line in result.split("\n"):
             line = line.strip()
             if line and not line.startswith("---"):
-                line = re.sub(r'^\d+[\.\)]\s*', '', line)
+                line = re.sub(r"^\d+[\.\)]\s*", "", line)
                 prompts.append(line)
         
         return prompts[:3]
 
     def generate_fact_card(self, content: str, theme_name: str) -> List[str]:
-        system_prompt = """你是一位少儿科普编辑，擅长提炼趣味知识点。
+        system_prompt = """You are a children's science editor, skilled at extracting interesting knowledge points.
 
-要求：
-1. 从文章中提取3-4条有趣的知识点
-2. 每条知识点要简洁明了，包含数字或独特的冷知识
-3. 语言口语化，适合小学生阅读
-4. 不要重复文章内容，而是补充延伸知识"""
+Requirements:
+1. Extract 3-4 interesting knowledge points from the article
+2. Each point should be concise, contain numbers or unique trivia
+3. Oral language, suitable for primary school students
+4. Don't repeat article content, provide supplementary knowledge"""
 
-        user_prompt = f"""请从以下「{theme_name}」文章中提取3-4条趣味知识点：
+        user_prompt = f"""Extract 3-4 interesting knowledge points from the following "{theme_name}" article:
 
 {content}
 
-输出格式：每行一条，用•开头"""
+Output format: One per line, starting with •"""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -226,18 +222,18 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         return facts[:4]
 
     def generate_thinking(self, content: str, theme_name: str) -> List[str]:
-        system_prompt = """你是一位善于引导孩子思考的老师。
+        system_prompt = """You are a teacher skilled at guiding children to think.
 
-要求：
-1. 根据文章内容提出2个引发思考的问题
-2. 问题要开放，鼓励孩子去观察、实验或查阅资料
-3. 不要有标准答案，培养好奇心和探索精神"""
+Requirements:
+1. Ask 2 thought-provoking questions based on the article
+2. Questions should be open-ended, encouraging observation, experiment or research
+3. No standard answers, foster curiosity and exploration"""
 
-        user_prompt = f"""请根据以下「{theme_name}」文章提出2个引发思考的问题：
+        user_prompt = f"""Ask 2 thought-provoking questions based on the following "{theme_name}" article:
 
 {content}
 
-输出格式：每行一个问题"""
+Output format: One question per line"""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -256,24 +252,23 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         return questions[:2]
 
     def generate_section_titles(self, sections_content: list, theme_name: str) -> list:
-        """根据3个小节的正文内容，生成3个有趣的小节标题"""
-        system_prompt = """你是一位少儿科普杂志的高级编辑，擅长给文章段落起有趣的小标题。
+        system_prompt = """You are a senior editor of children's science magazine, skilled at creating fun section titles.
 
-要求：
-1. 根据每段内容提炼一个生动有趣的小标题
-2. 标题要吸引孩子，带点好奇心或画面感
-3. 每个标题不超过15个字
-4. 风格活泼，可以用比喻、拟人、悬念等手法
-5. 不要用"第一节""第一部分"这种干巴巴的标题"""
+Requirements:
+1. Create a vivid and interesting title for each section based on content
+2. Titles should attract kids, with curiosity or visual appeal
+3. Each title no more than 15 characters
+4. Lively style, use metaphors, personification, suspense
+5. No dry titles like "Section 1" or "Part 1"""
 
         sections_text = ""
         for i, content in enumerate(sections_content, 1):
-            sections_text += f"第{i}段内容：\n{content[:300]}\n\n"
+            sections_text += f"Section {i} content:\n{content[:300]}\n\n"
 
-        user_prompt = f"""请为以下「{theme_name}」主题的3个段落分别生成一个有趣的小标题：
+        user_prompt = f"""Create fun titles for 3 sections of a "{theme_name}" article:
 
 {sections_text}
-输出格式：每行一个标题，按顺序排列，共3个。"""
+Output format: One title per line, 3 total, in order."""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -286,30 +281,29 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         for line in result.split("\n"):
             line = line.strip()
             if line:
-                line = re.sub(r'^\d+[\.\)]\s*', '', line)
+                line = re.sub(r"^\d+[\.\)]\s*", "", line)
                 line = line.strip('"「」『』')
                 titles.append(line)
         
         return titles[:3]
 
     def generate_article(self, theme: str, theme_name: str, date_str: str) -> dict:
-        """分步生成完整文章"""
-        print("  第1步：生成大纲...")
+        print("  Step 1: Generating outline...")
         outline = self.generate_outline(theme_name, date_str)
         
         if not outline["title"] or len(outline["sections"]) < 3:
-            raise Exception("大纲生成不完整")
+            raise Exception("Outline incomplete")
         
-        print(f"    标题: {outline['title']}")
-        print(f"    导语: {outline['summary']}")
-        print(f"    小节: {[s['title'] for s in outline['sections']]}")
+        print(f"    Title: {outline['title']}")
+        print(f"    Summary: {outline['summary']}")
+        print(f"    Sections: {[s['title'] for s in outline['sections']]}")
 
-        print("\n  第2步：生成正文（分3个小节）...")
+        print("\n  Step 2: Generating content (3 sections)...")
         sections_with_titles = []
         prev_text = ""
         
         for i, section in enumerate(outline["sections"], 1):
-            print(f"    生成第{i}小节: {section['title']}")
+            print(f"    Generating section {i}: {section['title']}")
             text = self.generate_section(
                 theme_name, section["title"], section["description"],
                 outline["title"], prev_text
@@ -324,20 +318,20 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         content = content.replace("[IMAGE]", "[IMAGE_2]", 1)
         content = content.replace("[IMAGE]", "[IMAGE_3]", 1)
         
-        content = re.sub(r'(\S)\n\[IMAGE_', r'\1\n\n[IMAGE_', content)
-        content = re.sub(r'\[IMAGE_(\d+)\]\n(\S)', r'[IMAGE_\1]\n\n\2', content)
+        content = re.sub(r"(\S)\n\[IMAGE_", r"\1\n\n[IMAGE_", content)
+        content = re.sub(r"\[IMAGE_(\d+)\]\n(\S)", r"[IMAGE_\1]\n\n\2", content)
 
-        print("\n  第3步：生成图片提示词...")
+        print("\n  Step 3: Generating image prompts...")
         image_prompts = self.generate_image_prompts(content, theme_name)
-        print(f"    图片提示词: {image_prompts}")
+        print(f"    Image prompts: {image_prompts}")
 
-        print("\n  第4步：生成知识小卡片...")
+        print("\n  Step 4: Generating fact cards...")
         fact_card = self.generate_fact_card(content, theme_name)
-        print(f"    知识卡片: {fact_card}")
+        print(f"    Fact cards: {fact_card}")
 
-        print("\n  第5步：生成思考题...")
+        print("\n  Step 5: Generating thinking questions...")
         thinking = self.generate_thinking(content, theme_name)
-        print(f"    思考题: {thinking}")
+        print(f"    Thinking questions: {thinking}")
 
         return {
             "theme": theme,
@@ -357,6 +351,6 @@ if __name__ == "__main__":
     writer = AIWriter()
     article = writer.generate_article("aerospace", "航空航天", "2026-07-15")
     print("\n" + "="*60)
-    print("生成结果:")
+    print("Generated result:")
     print("="*60)
     print(json.dumps(article, ensure_ascii=False, indent=2))
