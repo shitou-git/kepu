@@ -64,7 +64,7 @@ class MagazineGenerator:
             return self.config["themes"][:2]
 
     def generate_daily(self, override_theme: str = ""):
-        """生成今日科普内容（每天2篇）"""
+        """生成今日科普内容（每天4篇，分上午/下午两批）"""
         timezone = self.config["schedule"].get("timezone", "Asia/Shanghai")
         
         if HAS_ZONEINFO:
@@ -73,11 +73,38 @@ class MagazineGenerator:
             today = datetime.now()
         
         date_str = today.strftime("%Y-%m-%d")
+        current_hour = today.hour
         
         print(f"当前时间（{timezone}）: {today}")
         print(f"今日日期: {date_str}")
         
-        themes = self.get_today_themes(today, override_theme)
+        date = today
+        weekday = date.isoweekday()
+        
+        all_matched = []
+        for theme in self.config["themes"]:
+            if weekday in theme["weekdays"]:
+                all_matched.append(theme)
+        
+        if len(all_matched) < 2:
+            for t in self.config["themes"]:
+                if t["id"] not in [m["id"] for m in all_matched]:
+                    all_matched.append(t)
+                    if len(all_matched) >= 4:
+                        break
+        
+        all_matched = all_matched[:4]
+        
+        batch_size = 2
+        if current_hour >= 16:
+            batch_start = 2
+            print("当前为下午批次（16:00后），生成第3-4篇")
+        else:
+            batch_start = 0
+            print("当前为上午批次（16:00前），生成第1-2篇")
+        
+        batch_themes = all_matched[batch_start:batch_start + batch_size]
+        print(f"本批次主题: {[t['name'] for t in batch_themes]}")
         
         existing_themes = set()
         for f in self.content_dir.glob(f"{date_str}*.json"):
@@ -88,13 +115,13 @@ class MagazineGenerator:
             except Exception:
                 pass
         
-        pending_themes = [t for t in themes if t["id"] not in existing_themes]
+        pending_themes = [t for t in batch_themes if t["id"] not in existing_themes]
         
         if not pending_themes:
-            print(f"今日 {date_str} 的 {len(themes)} 篇文章均已生成，跳过")
+            print(f"本批次 {len(batch_themes)} 篇文章均已生成，跳过")
             return []
         
-        print(f"今日待生成 {len(pending_themes)}/{len(themes)} 篇文章")
+        print(f"本批次待生成 {len(pending_themes)}/{len(batch_themes)} 篇文章")
         
         generated = []
         for idx, theme in enumerate(pending_themes):
