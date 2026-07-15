@@ -26,7 +26,8 @@
     margin: 30px 0 15px;
     font-size: 1.2em;
 }
-.article-body p { margin-bottom: 20px; }
+.article-body p { margin-bottom: 20px; text-indent: 2em; }
+.article-body p:first-child { text-indent: 0; }
 .article-body img {
     display: block;
     margin: 20px auto;
@@ -47,15 +48,17 @@
     background: linear-gradient(135deg, #fffaf0 0%, #fff 100%);
     border: 2px solid var(--accent);
     border-radius: 16px;
-    padding: 30px;
-    margin: 40px 0;
+    padding: 16px 20px;
+    margin: 24px 0;
 }
-.fact-card h3 { color: var(--accent); margin-bottom: 16px; }
+.fact-card h3 { color: var(--accent); margin-bottom: 8px; font-size: 1.1em; }
 .fact-card ul { list-style: none; }
 .fact-card li {
-    padding: 10px 0;
-    padding-left: 32px;
+    padding: 4px 0;
+    padding-left: 28px;
     position: relative;
+    font-size: 0.95em;
+    line-height: 1.6;
 }
 .fact-card li::before {
     content: '💡';
@@ -65,12 +68,12 @@
 .thinking-box {
     background: var(--primary-light);
     border-radius: 16px;
-    padding: 30px;
-    margin: 40px 0;
+    padding: 16px 20px;
+    margin: 24px 0;
 }
-.thinking-box h3 { color: var(--primary); margin-bottom: 16px; }
+.thinking-box h3 { color: var(--primary); margin-bottom: 8px; font-size: 1.1em; }
 .thinking-box ol { padding-left: 24px; }
-.thinking-box li { padding: 10px 0; }
+.thinking-box li { padding: 4px 0; font-size: 0.95em; line-height: 1.6; }
 .article-nav {
     display: flex;
     justify-content: space-between;
