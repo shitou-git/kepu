@@ -11,6 +11,12 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
+try:
+    from zoneinfo import ZoneInfo
+    HAS_ZONEINFO = True
+except ImportError:
+    HAS_ZONEINFO = False
+
 # 将 scripts 目录加入路径
 sys.path.insert(0, str(Path(__file__).parent))
 
@@ -59,8 +65,17 @@ class MagazineGenerator:
 
     def generate_daily(self, override_theme: str = ""):
         """生成今日科普内容（每天2篇）"""
-        today = datetime.now()
+        timezone = self.config["schedule"].get("timezone", "Asia/Shanghai")
+        
+        if HAS_ZONEINFO:
+            today = datetime.now(ZoneInfo(timezone))
+        else:
+            today = datetime.now()
+        
         date_str = today.strftime("%Y-%m-%d")
+        
+        print(f"当前时间（{timezone}）: {today}")
+        print(f"今日日期: {date_str}")
         
         # 获取今日2个主题
         themes = self.get_today_themes(today, override_theme)

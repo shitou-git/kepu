@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
     - cron: '0 8 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 16 * * *'
+    - cron: '0 20 * * *'
   push:
     branches:
       - main
@@ -54,11 +57,17 @@ jobs:
           AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
           UNSPLASH_API_KEY: ${{ secrets.UNSPLASH_API_KEY }}
           INPUT_THEME: ${{ github.event.inputs.theme }}
+          TZ: Asia/Shanghai
         run: |
+          echo "当前时间: $(date)"
+          echo "事件类型: ${{ github.event_name }}"
+          echo "INPUT_THEME: $INPUT_THEME"
           python scripts/generate.py --theme "$INPUT_THEME"
 
       - name: Commit generated content
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          TZ: Asia/Shanghai
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
