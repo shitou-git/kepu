@@ -92,8 +92,8 @@
     {% for article in latest[1:] %}
     <div class="article-item">
         <div class="cover">
-            {% if article.cover_b64 %}
-            <img src="{{ article.cover_b64 }}" alt="{{ article.title }}">
+            {% if article.cover_url %}
+            <img src="{{ article.cover_url }}" alt="{{ article.title }}" loading="lazy">
             {% else %}
             <span>{{ theme_config[article.theme].icon }}</span>
             {% endif %}

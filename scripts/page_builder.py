@@ -7,8 +7,6 @@
 import json
 import shutil
 import re
-import base64
-import io
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 import markdown
@@ -64,19 +62,23 @@ class SiteBuilder:
         self.dist_dir.mkdir()
     
     def copy_assets(self):
-        """复制静态资源"""
-        # 图片已内嵌为 base64，无需复制
-        pass
+        """复制并压缩图片到 dist/images/，独立文件可走浏览器缓存"""
+        img_src_dir = self.content_dir / "images"
+        self.img_dst_dir = self.dist_dir / "images"
+        self.img_dst_dir.mkdir(parents=True, exist_ok=True)
 
-    def image_to_base64(self, image_path: str) -> str:
-        """将图片压缩后转为 base64 data URL"""
+        if not img_src_dir.exists():
+            return
+
+        for img_file in img_src_dir.glob("*.jpg"):
+            dst = self.img_dst_dir / img_file.name
+            self._compress_image(img_file, dst)
+
+    def _compress_image(self, src: Path, dst: Path):
+        """压缩图片并保存为 JPEG"""
         try:
-            filepath = self.content_dir / "images" / image_path
-            if not filepath.exists():
-                return ""
-            
-            img = Image.open(filepath)
-            
+            img = Image.open(src)
+
             # 转换 RGBA 为 RGB（JPEG 不支持透明通道）
             if img.mode == "RGBA":
                 background = Image.new("RGB", img.size, (255, 255, 255))
@@ -84,24 +86,30 @@ class SiteBuilder:
                 img = background
             elif img.mode != "RGB":
                 img = img.convert("RGB")
-            
-            # 限制最大宽度 500px，保持比例
-            max_width = 500
+
+            # 限制最大宽度 440px，保持比例
+            max_width = 440
             if img.width > max_width:
                 ratio = max_width / img.width
                 new_height = int(img.height * ratio)
                 img = img.resize((max_width, new_height), Image.LANCZOS)
-            
-            # 压缩为 JPEG，质量 55
-            buffer = io.BytesIO()
-            img.save(buffer, format="JPEG", quality=55, optimize=True)
-            data = buffer.getvalue()
-            
-            b64 = base64.b64encode(data).decode("utf-8")
-            return f"data:image/jpeg;base64,{b64}"
+
+            # 压缩为 JPEG，质量 45
+            img.save(dst, format="JPEG", quality=45, optimize=True)
         except Exception as e:
-            print(f"图片转 base64 失败: {e}")
+            print(f"图片压缩失败 {src}: {e}")
+            # 失败时直接复制原文件，保证图片不缺失
+            try:
+                shutil.copy(src, dst)
+            except Exception:
+                pass
+
+    def image_to_url(self, image_path: str, prefix: str = "images/") -> str:
+        """返回图片的相对 URL（图片已由 copy_assets 压缩到 dist/images/）"""
+        if not image_path:
             return ""
+        filename = Path(image_path).name
+        return f"{prefix}{filename}"
     
     def load_articles(self) -> list:
         """加载所有文章数据"""
@@ -127,12 +135,12 @@ class SiteBuilder:
         # 最新文章
         latest = articles[:7] if articles else []
         
-        # 给最新文章生成封面 base64
+        # 给最新文章生成封面图 URL
         for article in latest:
             if article.get("images"):
-                article["cover_b64"] = self.image_to_base64(article["images"][0])
+                article["cover_url"] = self.image_to_url(article["images"][0], "images/")
             else:
-                article["cover_b64"] = ""
+                article["cover_url"] = ""
         
         # 按主题分组
         themes = {}
@@ -170,10 +178,11 @@ class SiteBuilder:
             prev_article = articles[idx + 1] if idx >= 0 and idx + 1 < len(articles) else None
             next_article = articles[idx - 1] if idx > 0 else None
             
-            # 渲染文章内容（Markdown -> HTML + 图片替换为 base64）
+            # 渲染文章内容（Markdown -> HTML + 图片替换为相对路径）
             article["content_html"] = self.render_content(
                 article.get("content", ""),
-                article.get("images", [])
+                article.get("images", []),
+                img_prefix="../images/"
             )
             
             html = template.render(
@@ -222,9 +231,9 @@ class SiteBuilder:
         (self.dist_dir / "archive.html").write_text(html, encoding="utf-8")
         print("归档页构建完成")
     
-    def render_content(self, content: str, images: list) -> str:
+    def render_content(self, content: str, images: list, img_prefix: str = "../images/") -> str:
         """
-        将 Markdown 内容转换为 HTML，并替换图片标记为 base64
+        将 Markdown 内容转换为 HTML，并替换图片标记为图片 URL
         图片标记 [IMAGE_N] 会被替换到对应段落末尾
         """
         # 清理 AI 生成的图片提示词描述
@@ -277,9 +286,9 @@ class SiteBuilder:
         # 先将 [IMAGE_N] 替换为临时占位符（使用不会被Markdown解析的格式）
         placeholders = {}
         for i, img in enumerate(images):
-            img_src = self.image_to_base64(img)
+            img_src = self.image_to_url(img, img_prefix)
             if img_src:
-                img_html = f'<img src="{img_src}" alt="配图" class="article-image"/>'
+                img_html = f'<img src="{img_src}" alt="配图" class="article-image" loading="lazy"/>'
             else:
                 img_html = ""
 

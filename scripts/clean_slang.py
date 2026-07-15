@@ -38,11 +38,12 @@ def clean_text(text):
     # 合并连续逗号
     text = re.sub(r'，[，,]+', '，', text)
     text = re.sub(r'[，,]{2,}', '，', text)
-    # 清理句首逗号
-    text = re.sub(r'^[，,\s]+', '', text)
-    # 清理换行后的逗号
-    text = re.sub(r'\n[，,\s]+', '\n', text)
-    # 合并多余空行
+    # 清理句首逗号（只清行首的逗号，不碰换行）
+    text = re.sub(r'(?<=\n)[，,]+', '', text)
+    text = re.sub(r'^[，,]+', '', text)
+    # 清理换行后的逗号（注意：\s 不能包含 \n，否则会吞掉段落分隔的空行）
+    text = re.sub(r'\n[，, \t]+', '\n', text)
+    # 合并多余空行，保留段落分隔
     text = re.sub(r'\n{3,}', '\n\n', text)
 
     return text
