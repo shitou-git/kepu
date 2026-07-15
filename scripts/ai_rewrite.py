@@ -268,7 +268,7 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
         print(f"    小节: {[s['title'] for s in outline['sections']]}")
 
         print("\n  第2步：生成正文（分3个小节）...")
-        sections_text = []
+        sections_with_titles = []
         prev_text = ""
         
         for i, section in enumerate(outline["sections"], 1):
@@ -277,10 +277,11 @@ KEYWORDS: [3-5个关键词，逗号分隔]"""
                 theme_name, section["title"], section["description"],
                 outline["title"], prev_text
             )
-            sections_text.append(text)
+            section_with_title = f"### {section['title']}\n\n{text}"
+            sections_with_titles.append(section_with_title)
             prev_text = text
 
-        content = outline["summary"] + "\n\n" + "\n\n".join(sections_text)
+        content = outline["summary"] + "\n\n" + "\n\n".join(sections_with_titles)
         
         content = content.replace("[IMAGE]", "[IMAGE_1]", 1)
         content = content.replace("[IMAGE]", "[IMAGE_2]", 1)
