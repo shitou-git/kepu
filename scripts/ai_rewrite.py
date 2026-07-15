@@ -5,6 +5,7 @@ import os
 import json
 import re
 import time
+import random
 import requests
 from typing import Optional, Dict, List
 
@@ -68,7 +69,7 @@ Writing principles:
 5. No formal phrases like "Therefore" or "In conclusion"
 6. No filler words like "to put it simply" or "to be honest"""
 
-    def generate_outline(self, theme_name: str, date_str: str) -> Dict:
+    def generate_outline(self, theme_name: str, date_str: str, section_count: int = 3) -> Dict:
         system_prompt = self._build_storyteller_prompt()
         
         user_prompt = f"""Create an outline for a science article about "{theme_name}".
@@ -76,7 +77,7 @@ Writing principles:
 Requirements:
 - Attractive title containing theme keywords
 - Summary: one sentence with suspense or scene (within 50 chars)
-- 3 section titles, each interesting
+- {section_count} section titles, each interesting
 - One sentence description for each section
 
 Output format:
@@ -85,7 +86,7 @@ SUMMARY: [summary]
 SECTIONS:
 1. [section1]: [description]
 2. [section2]: [description]
-3. [section3]: [description]
+...
 KEYWORDS: [3-5 keywords, comma separated]"""
 
         messages = [
@@ -152,7 +153,7 @@ Output format:
         result = self._call_api(messages, temperature=0.75)
         return result
 
-    def generate_image_prompts(self, content: str, theme_name: str) -> List[str]:
+    def generate_image_prompts(self, content: str, theme_name: str, image_count: int = 3) -> List[str]:
         system_prompt = """You are a professional children's science illustrator, skilled at creating precise image prompts.
 
 Requirements:
@@ -163,16 +164,16 @@ Requirements:
 5. English description, detailed and specific
 6. No vague descriptions like "science illustration"
 
-Output format: One prompt per line, 3 total, corresponding to the 3 [IMAGE] markers"""
+Output format: One prompt per line, corresponding to each [IMAGE] marker in order"""
 
-        user_prompt = f"""Generate precise image prompts for 3 image markers based on the following article:
+        user_prompt = f"""Generate precise image prompts for {image_count} image markers based on the following article:
 
 Article theme: {theme_name}
 
 Article content:
 {content}
 
-Output 3 English image prompts, one per line."""
+Output {image_count} English image prompts, one per line."""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -188,7 +189,7 @@ Output 3 English image prompts, one per line."""
                 line = re.sub(r"^\d+[\.\)]\s*", "", line)
                 prompts.append(line)
         
-        return prompts[:3]
+        return prompts[:image_count]
 
     def generate_fact_card(self, content: str, theme_name: str) -> List[str]:
         system_prompt = """You are a children's science editor, skilled at extracting interesting knowledge points.
@@ -252,6 +253,7 @@ Output format: One question per line"""
         return questions[:2]
 
     def generate_section_titles(self, sections_content: list, theme_name: str) -> list:
+        section_count = len(sections_content)
         system_prompt = """You are a senior editor of children's science magazine, skilled at creating fun section titles.
 
 Requirements:
@@ -265,10 +267,10 @@ Requirements:
         for i, content in enumerate(sections_content, 1):
             sections_text += f"Section {i} content:\n{content[:300]}\n\n"
 
-        user_prompt = f"""Create fun titles for 3 sections of a "{theme_name}" article:
+        user_prompt = f"""Create fun titles for {section_count} sections of a "{theme_name}" article:
 
 {sections_text}
-Output format: One title per line, 3 total, in order."""
+Output format: One title per line, {section_count} total, in order."""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -285,20 +287,24 @@ Output format: One title per line, 3 total, in order."""
                 line = line.strip('"「」『』')
                 titles.append(line)
         
-        return titles[:3]
+        return titles[:section_count]
 
     def generate_article(self, theme: str, theme_name: str, date_str: str) -> dict:
-        print("  Step 1: Generating outline...")
-        outline = self.generate_outline(theme_name, date_str)
+        section_count = random.randint(2, 4)
+        print(f"  Random section count: {section_count}")
         
-        if not outline["title"] or len(outline["sections"]) < 3:
+        print("  Step 1: Generating outline...")
+        outline = self.generate_outline(theme_name, date_str, section_count)
+        
+        if not outline["title"] or len(outline["sections"]) < 2:
             raise Exception("Outline incomplete")
         
+        actual_sections = len(outline["sections"])
         print(f"    Title: {outline['title']}")
         print(f"    Summary: {outline['summary']}")
-        print(f"    Sections: {[s['title'] for s in outline['sections']]}")
+        print(f"    Sections ({actual_sections}): {[s['title'] for s in outline['sections']]}")
 
-        print("\n  Step 2: Generating content (3 sections)...")
+        print(f"\n  Step 2: Generating content ({actual_sections} sections)...")
         sections_with_titles = []
         prev_text = ""
         
@@ -314,16 +320,15 @@ Output format: One title per line, 3 total, in order."""
 
         content = outline["summary"] + "\n\n" + "\n\n".join(sections_with_titles)
         
-        content = content.replace("[IMAGE]", "[IMAGE_1]", 1)
-        content = content.replace("[IMAGE]", "[IMAGE_2]", 1)
-        content = content.replace("[IMAGE]", "[IMAGE_3]", 1)
+        for i in range(1, actual_sections + 1):
+            content = content.replace("[IMAGE]", f"[IMAGE_{i}]", 1)
         
         content = re.sub(r"(\S)\n\[IMAGE_", r"\1\n\n[IMAGE_", content)
         content = re.sub(r"\[IMAGE_(\d+)\]\n(\S)", r"[IMAGE_\1]\n\n\2", content)
 
         print("\n  Step 3: Generating image prompts...")
-        image_prompts = self.generate_image_prompts(content, theme_name)
-        print(f"    Image prompts: {image_prompts}")
+        image_prompts = self.generate_image_prompts(content, theme_name, actual_sections)
+        print(f"    Image prompts ({len(image_prompts)}): {image_prompts}")
 
         print("\n  Step 4: Generating fact cards...")
         fact_card = self.generate_fact_card(content, theme_name)
@@ -343,7 +348,8 @@ Output format: One title per line, 3 total, in order."""
             "content": content,
             "fact_card": fact_card,
             "thinking": thinking,
-            "image_prompts": image_prompts
+            "image_prompts": image_prompts,
+            "section_count": actual_sections
         }
 
 

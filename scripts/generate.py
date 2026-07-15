@@ -154,9 +154,10 @@ class MagazineGenerator:
             
             # 搜索配图
             print("正在搜索配图...")
+            image_prompts = article.get("image_prompts", [])
             image_paths = self.finder.search_images(
-                article.get("image_prompts", []),
-                count=self.config["content"]["image_count"],
+                image_prompts,
+                count=len(image_prompts),
                 date_str=file_date_str
             )
             article["images"] = [Path(p).name for p in image_paths]
@@ -192,9 +193,10 @@ class MagazineGenerator:
         article["file_id"] = file_date_str
         
         print("正在搜索配图...")
+        image_prompts = article.get("image_prompts", [])
         image_paths = self.finder.search_images(
-            article.get("image_prompts", []),
-            count=self.config["content"]["image_count"],
+            image_prompts,
+            count=len(image_prompts),
             date_str=file_date_str
         )
         article["images"] = [Path(p).name for p in image_paths]
