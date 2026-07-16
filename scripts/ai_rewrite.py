@@ -167,6 +167,7 @@ Requirements:
 - Vivid language like chatting with kids
 - Mix short and long paragraphs
 - Put [IMAGE] marker at the end (on its own line)
+- DO NOT include the section title in your output, only the body content
 
 Output format:
 [Content in Markdown, with [IMAGE] marker at end]""" + context
