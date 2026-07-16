@@ -63,8 +63,10 @@ class MagazineGenerator:
         else:
             return self.config["themes"][:2]
 
-    def generate_daily(self, override_theme: str = ""):
-        """生成今日科普内容（每天4篇，分上午/下午两批）"""
+    def generate_daily(self, override_theme: str = "", force_all: bool = False):
+        """生成今日科普内容（每天4篇，分上午/下午两批）
+        force_all: 强制生成今日所有主题，不受批次限制（手动触发时使用）
+        """
         timezone = self.config["schedule"].get("timezone", "Asia/Shanghai")
         
         if HAS_ZONEINFO:
@@ -106,16 +108,21 @@ class MagazineGenerator:
         
         all_matched = all_matched[:4]
         
-        batch_size = 2
-        if current_hour >= 16:
-            batch_start = 2
-            print("当前为下午批次（16:00后），生成第3-4篇")
+        if force_all:
+            batch_themes = all_matched
+            print(f"手动触发，生成今日全部 {len(batch_themes)} 篇文章")
+            print(f"今日主题: {[t['name'] for t in batch_themes]}")
         else:
-            batch_start = 0
-            print("当前为上午批次（16:00前），生成第1-2篇")
-        
-        batch_themes = all_matched[batch_start:batch_start + batch_size]
-        print(f"本批次主题: {[t['name'] for t in batch_themes]}")
+            batch_size = 2
+            if current_hour >= 16:
+                batch_start = 2
+                print("当前为下午批次（16:00后），生成第3-4篇")
+            else:
+                batch_start = 0
+                print("当前为上午批次（16:00前），生成第1-2篇")
+            
+            batch_themes = all_matched[batch_start:batch_start + batch_size]
+            print(f"本批次主题: {[t['name'] for t in batch_themes]}")
         
         existing_themes = set()
         for f in self.content_dir.glob(f"{date_str}*.json"):
@@ -349,6 +356,7 @@ def main():
     parser.add_argument("--historical", "-H", action="store_true", help="为每个主题生成历史文章")
     parser.add_argument("--count", "-c", type=int, default=2, help="每个主题生成的文章数")
     parser.add_argument("--start-date", "-s", default="", help="开始日期（YYYY-MM-DD）")
+    parser.add_argument("--force-all", "-f", action="store_true", help="强制生成今日全部主题，不受批次限制")
     args = parser.parse_args()
     
     gen = MagazineGenerator()
@@ -358,7 +366,7 @@ def main():
     elif args.batch > 0:
         gen.generate_batch(args.batch)
     else:
-        gen.generate_daily(args.theme)
+        gen.generate_daily(args.theme, force_all=args.force_all)
 
 
 if __name__ == "__main__":
