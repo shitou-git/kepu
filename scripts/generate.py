@@ -94,17 +94,20 @@ class MagazineGenerator:
         date = today
         weekday = date.isoweekday()
         
-        all_matched = []
-        for theme in self.config["themes"]:
-            if weekday in theme["weekdays"]:
-                all_matched.append(theme)
-        
-        if len(all_matched) < 2:
-            for t in self.config["themes"]:
-                if t["id"] not in [m["id"] for m in all_matched]:
-                    all_matched.append(t)
-                    if len(all_matched) >= 4:
-                        break
+        if force_all:
+            all_matched = self.config["themes"][:4]
+        else:
+            all_matched = []
+            for theme in self.config["themes"]:
+                if weekday in theme["weekdays"]:
+                    all_matched.append(theme)
+            
+            if len(all_matched) < 2:
+                for t in self.config["themes"]:
+                    if t["id"] not in [m["id"] for m in all_matched]:
+                        all_matched.append(t)
+                        if len(all_matched) >= 4:
+                            break
         
         all_matched = all_matched[:4]
         
