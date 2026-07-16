@@ -151,21 +151,85 @@
 .theme-articles .archive-item .date { min-width: 60px; text-align: center; color: var(--text-light); font-size: 0.85em; }
 .theme-articles .archive-item .date .day { font-size: 1.3em; font-weight: 600; color: var(--primary); }
 .theme-articles .archive-item h4 { flex: 1; font-size: 1em; }
+
+/* 折叠面板样式 */
+.collapse-section { margin-bottom: 32px; }
+.collapse-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 12px 0;
+    border-bottom: 2px solid var(--border);
+    user-select: none;
+    transition: all 0.2s;
+}
+.collapse-header:hover { opacity: 0.8; }
+.collapse-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3em;
+    color: var(--primary);
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.collapse-header .arrow {
+    font-size: 0.8em;
+    transition: transform 0.3s;
+    color: var(--text-light);
+}
+.collapse-section.open .collapse-header .arrow {
+    transform: rotate(90deg);
+}
+.collapse-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+.collapse-section.open .collapse-content {
+    max-height: 5000px;
+}
+.collapse-content-inner { padding-top: 20px; }
+
+/* 主题折叠头部计数 */
+.theme-count {
+    font-size: 0.7em;
+    color: var(--text-light);
+    font-weight: normal;
+}
+
+/* 按月折叠样式 */
+.month-collapse { margin-bottom: 12px; }
+.month-collapse .collapse-header {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+.month-collapse .collapse-header h4 {
+    font-size: 1.1em;
+    color: var(--primary);
+    margin: 0;
+    position: relative;
+    padding-left: 16px;
+}
+.month-collapse .collapse-header h4::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 50%;
+    border: 2px solid var(--card);
+}
+.month-collapse .collapse-content-inner { padding: 12px 0; }
+.month-articles { display: grid; gap: 12px; }
 </style>
 {% endblock %}
 {% block content %}
-<!-- 主题分类导航 - 移至导航栏下方 -->
-<div class="theme-nav">
-    {% for theme in config.themes %}
-    {% if theme.id in themes %}
-    <a href="#theme-{{ theme.id }}">
-        <span>{{ theme.name }}</span>
-        <span style="color:var(--text-light);font-size:0.85em">({{ themes[theme.id] | length }})</span>
-    </a>
-    {% endif %}
-    {% endfor %}
-</div>
-
 <div class="archive-header">
     <h2>往期回顾</h2>
     <p>所有科普文章归档，随时回顾精彩知识</p>
@@ -186,50 +250,95 @@
     </div>
 </div>
 
-<!-- 按主题分组 -->
-{% for theme in config.themes %}
-{% if theme.id in themes %}
-<section class="theme-section" id="theme-{{ theme.id }}">
-    <h3><span>{{ theme.icon }}</span> {{ theme.name }}</h3>
-    <div class="theme-articles">
-        {% for article in themes[theme.id] %}
-        <a href="article/{{ article.file_id }}.html" class="archive-item">
-            <div class="date">
-                <div class="day">{{ article.date[-2:] }}</div>
-                <div>{{ article.date[5:7] }}月</div>
-            </div>
-            <h4>{{ article.title }}</h4>
-        </a>
-        {% endfor %}
+<!-- 按主题分组（折叠） -->
+<section class="theme-section collapse-section" id="theme-section">
+    <div class="collapse-header" onclick="toggleCollapse('theme-section')">
+        <h3><span>📚</span> 主题归档 <span class="theme-count">({{ themes | length }}个主题)</span></h3>
+        <span class="arrow">▶</span>
     </div>
-</section>
-{% endif %}
-{% endfor %}
-
-<h2 style="display:flex;align-items:center;gap:12px;margin:40px 0 24px;font-size:1.4em;color:var(--primary)">
-    <span>按月查看</span>
-    <span style="flex:1;height:1px;background:var(--border)"></span>
-</h2>
-
-<div class="timeline">
-    {% for month in months %}
-    <div class="month-group">
-        <div class="month-label">{{ month }}</div>
-        <div class="month-articles">
-            {% for article in month_groups[month] %}
-            <a href="article/{{ article.file_id }}.html" class="archive-item">
-                <div class="date">
-                    <div class="day">{{ article.date[-2:] }}</div>
-                    <div>{{ article.date[5:7] }}月</div>
+    <div class="collapse-content">
+        <div class="collapse-content-inner">
+            {% for theme in config.themes %}
+            {% if theme.id in themes %}
+            <div class="collapse-section" id="theme-{{ theme.id }}">
+                <div class="collapse-header" onclick="toggleCollapse('theme-{{ theme.id }}')">
+                    <h4 style="display:flex;align-items:center;gap:10px;margin:0;font-size:1.1em;color:var(--text)">
+                        <span>{{ theme.icon }}</span>
+                        {{ theme.name }}
+                        <span style="font-size:0.8em;color:var(--text-light);font-weight:normal">({{ themes[theme.id] | length }}篇)</span>
+                    </h4>
+                    <span class="arrow">▶</span>
                 </div>
-                <div class="content">
-                    <h4>{{ article.title }}</h4>
-                    <span class="theme theme-tag">{{ theme_config[article.theme].icon }} {{ article.theme_name }}</span>
+                <div class="collapse-content">
+                    <div class="collapse-content-inner">
+                        <div class="theme-articles">
+                            {% for article in themes[theme.id] %}
+                            <a href="article/{{ article.file_id }}.html" class="archive-item">
+                                <div class="date">
+                                    <div class="day">{{ article.date[-2:] }}</div>
+                                    <div>{{ article.date[5:7] }}月</div>
+                                </div>
+                                <h4>{{ article.title }}</h4>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-            </a>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
-    {% endfor %}
-</div>
+</section>
+
+<!-- 按月查看（折叠） -->
+<section class="collapse-section" id="month-section">
+    <div class="collapse-header" onclick="toggleCollapse('month-section')">
+        <h3><span>📅</span> 按月查看 <span class="theme-count">({{ months | length }}个月)</span></h3>
+        <span class="arrow">▶</span>
+    </div>
+    <div class="collapse-content">
+        <div class="collapse-content-inner">
+            <div class="timeline">
+                {% for month in months %}
+                <div class="month-collapse collapse-section" id="month-{{ loop.index }}">
+                    <div class="collapse-header" onclick="toggleCollapse('month-{{ loop.index }}')">
+                        <h4>{{ month }}</h4>
+                        <span class="arrow">▶</span>
+                    </div>
+                    <div class="collapse-content">
+                        <div class="collapse-content-inner">
+                            <div class="month-articles">
+                                {% for article in month_groups[month] %}
+                                <a href="article/{{ article.file_id }}.html" class="archive-item">
+                                    <div class="date">
+                                        <div class="day">{{ article.date[-2:] }}</div>
+                                        <div>{{ article.date[5:7] }}月</div>
+                                    </div>
+                                    <div class="content">
+                                        <h4>{{ article.title }}</h4>
+                                        <span class="theme theme-tag">{{ theme_config[article.theme].icon }} {{ article.theme_name }}</span>
+                                    </div>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function toggleCollapse(id) {
+    var el = document.getElementById(id);
+    if (el.classList.contains('open')) {
+        el.classList.remove('open');
+    } else {
+        el.classList.add('open');
+    }
+}
+</script>
 {% endblock %}
