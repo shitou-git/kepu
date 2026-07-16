@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-07-16",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "越过月球去旅行：宇宙探索大冒险",
+      "summary": "火箭尾部喷出橘红色的火焰，把小宇航员稳稳托向漆黑的夜空。",
+      "keywords": [
+        "宇宙探索",
+        "航天器",
+        "月球探测",
+        "火星漫游",
+        "深空观测"
+      ],
+      "images": [
+        "2026-07-16_5_1_9d1ab4c4.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-16",
       "theme": "world_history",
       "theme_name": "世界历史",
       "title": "世界历史：藏在古老地图里的秘密",
