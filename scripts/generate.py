@@ -63,8 +63,10 @@ class MagazineGenerator:
         else:
             return self.config["themes"][:2]
 
-    def generate_daily(self, override_theme: str = ""):
-        """生成今日科普内容（每次只生成1篇文章）"""
+    def generate_daily(self, override_theme: str = "", force: bool = False):
+        """生成今日科普内容（每次只生成1篇文章）
+        force: 强制生成，忽略今日已生成限制（手动触发时使用）
+        """
         timezone = self.config["schedule"].get("timezone", "Asia/Shanghai")
         
         if HAS_ZONEINFO:
@@ -111,14 +113,18 @@ class MagazineGenerator:
             except Exception:
                 pass
         
-        pending_themes = [t for t in all_matched if t["id"] not in existing_themes]
-        
-        if not pending_themes:
-            print("今日所有主题文章均已生成，跳过")
-            return []
-        
-        target_theme = random.choice(pending_themes)
-        print(f"生成主题: {target_theme['name']} ({target_theme['id']})")
+        if force:
+            target_theme = random.choice(all_matched)
+            print(f"手动触发，强制生成主题: {target_theme['name']} ({target_theme['id']})")
+        else:
+            pending_themes = [t for t in all_matched if t["id"] not in existing_themes]
+            
+            if not pending_themes:
+                print("今日所有主题文章均已生成，跳过")
+                return []
+            
+            target_theme = random.choice(pending_themes)
+            print(f"生成主题: {target_theme['name']} ({target_theme['id']})")
         
         generated = []
         theme = target_theme
@@ -329,6 +335,7 @@ def main():
     parser.add_argument("--historical", "-H", action="store_true", help="为每个主题生成历史文章")
     parser.add_argument("--count", "-c", type=int, default=2, help="每个主题生成的文章数")
     parser.add_argument("--start-date", "-s", default="", help="开始日期（YYYY-MM-DD）")
+    parser.add_argument("--force", "-f", action="store_true", help="强制生成，忽略今日已生成限制")
     args = parser.parse_args()
     
     gen = MagazineGenerator()
@@ -338,7 +345,7 @@ def main():
     elif args.batch > 0:
         gen.generate_batch(args.batch)
     else:
-        gen.generate_daily(args.theme)
+        gen.generate_daily(args.theme, force=args.force)
 
 
 if __name__ == "__main__":
