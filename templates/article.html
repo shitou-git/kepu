@@ -101,6 +101,11 @@
 .article-nav a.next { flex-direction: row-reverse; }
 .article-nav .label { font-size: 0.85em; color: var(--text-light); white-space: nowrap; }
 .article-nav .title { font-weight: 600; color: var(--primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 640px) {
+    .article-nav { flex-direction: column; gap: 10px; }
+    .article-nav a.next { flex-direction: row; }
+    .article-nav .title { white-space: normal; }
+}
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
