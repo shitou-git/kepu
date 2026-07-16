@@ -67,7 +67,7 @@ Writing principles:
 3. Simple language suitable for 6-12 years old
 4. No template openings like "Do you know" or "Imagine"
 5. No formal phrases like "Therefore" or "In conclusion"
-6. No filler words like "to put it simply" or "to be honest"""
+6. ABSOLUTELY NO filler words or verbal tics. Banned phrases include: 简单讲, 简单来说, 换句话说, 你会发现, 是不是, 说白了, 说实话, 你想想, 这么说吧, 讲真, 老实说, 其实吧, 其实呢, 众所周知, 毫无疑问, 显而易见, 不难发现, 事实上, 实际上, 总而言之, 综上所述, 由此可见. Just state the meaning directly without transitional filler words."""
 
     def generate_outline(self, theme_name: str, date_str: str, section_count: int = 3) -> Dict:
         system_prompt = self._build_storyteller_prompt()
