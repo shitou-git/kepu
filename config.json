@@ -1,5 +1,5 @@
 {
-  "version": "1.0.51",
+  "version": "1.0.52",
   "site": {
     "title": "少年科普杂志",
     "subtitle": "每天一点科学知识，点亮孩子好奇心",
@@ -13,10 +13,10 @@
   },
   "themes": [
     {
-      "id": "aerospace",
-      "name": "航空航天",
-      "description": "探索宇宙奥秘，了解航天科技",
-      "icon": "🚀",
+      "id": "cosmic_exploration",
+      "name": "宇宙探索",
+      "description": "探索宇宙星空，了解航天科技",
+      "icon": "🌌",
       "weekdays": [
         1,
         4
@@ -73,12 +73,12 @@
       ]
     },
     {
-      "id": "astronomy_geography",
-      "name": "天文地理",
-      "description": "探索宇宙星空，了解地球奥秘",
-      "icon": "🌌",
+      "id": "life_science",
+      "name": "生命科学",
+      "description": "探索人体奥秘，了解生命科学",
+      "icon": "🧬",
       "weekdays": [
-        4,
+        5,
         7
       ]
     },

@@ -10,6 +10,8 @@ from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+os.environ["AGENS_API_KEY"] = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
+
 from ai_rewrite import AIWriter
 from image_search import ImageFinder
 
@@ -29,14 +31,15 @@ def main():
 
     # 定义每个主题需要生成的文章数
     theme_counts = {
-        "role_model": 2,      # 榜样人物
-        "innovation": 2,      # 科学创新
-        "nature": 2,          # 自然与动物
-        "world_history": 2,   # 世界历史
-        "astronomy_geography": 1,  # 天文地理
-        "classical": 1,       # 古典文化
-        "military": 1,        # 少年军事
-        "physics": 1,         # 物理小实验（已有1篇，再补1篇）
+        "role_model": 2,       # 榜样人物
+        "innovation": 2,       # 科学创新
+        "nature": 2,           # 自然与动物
+        "world_history": 2,    # 世界历史
+        "life_science": 1,     # 生命科学（新增）
+        "classical": 1,        # 古典文化
+        "military": 1,         # 少年军事
+        "physics": 1,          # 物理小实验（已有1篇，再补1篇）
+        "cosmic_exploration": 1,  # 宇宙探索（新增）
     }
 
     # 检查已有文章的主题

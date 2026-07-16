@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-07-16",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "生命科学：藏在树叶与心跳里的奇妙密码",
+      "summary": "雨后草丛里的小虫突然不动了，它的生命暂停了吗？",
+      "keywords": [
+        "生命科学",
+        "细胞结构",
+        "DNA遗传",
+        "生态互动",
+        "自然观察"
+      ],
+      "images": [
+        "2026-07-16_3_1_773a5c8a.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-16",
       "theme": "nature",
       "theme_name": "自然与动物",
       "title": "树叶沙沙响：自然与动物的生命密码",
@@ -19,8 +36,8 @@
     },
     {
       "date": "2026-07-16",
-      "theme": "aerospace",
-      "theme_name": "航空航天",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
       "title": "冲破云层与星空：航空航天奇迹之旅",
       "summary": "火箭尾部喷出烈焰的瞬间，金属巨鸟正悄悄挣脱地球引力向深空进发。",
       "keywords": [
@@ -36,8 +53,8 @@
     },
     {
       "date": "2026-07-14",
-      "theme": "aerospace",
-      "theme_name": "航空航天",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
       "title": "航空航天大冒险：从纸飞机到火星车的飞天秘籍",
       "summary": "你吹出的纸飞机为什么只能飞几米，而火箭却能带着卫星冲破云层？",
       "keywords": [
@@ -53,8 +70,8 @@
     },
     {
       "date": "2026-07-13",
-      "theme": "aerospace",
-      "theme_name": "航空航天",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
       "title": "从后院纸飞机到火星漫游：揭秘航空航天",
       "summary": "清晨的风托起一只歪歪扭扭的纸飞机，它究竟要飞多远才能摸到星星？",
       "keywords": [
@@ -272,8 +289,8 @@
     },
     {
       "date": "2026-07-13",
-      "theme": "aerospace",
-      "theme_name": "航空航天",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
       "title": "从纸飞机到空间站：航空航天带你摸星星的秘密",
       "summary": "清晨院子里的风筝突然挣脱了线，摇身一变成了逆风而上的火箭，直直冲向云端。",
       "keywords": [
