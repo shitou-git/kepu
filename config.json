@@ -1,5 +1,5 @@
 {
-  "version": "1.0.49",
+  "version": "1.0.51",
   "site": {
     "title": "少年科普杂志",
     "subtitle": "每天一点科学知识，点亮孩子好奇心",
@@ -63,13 +63,23 @@
       ]
     },
     {
-      "id": "china_story",
-      "name": "中国故事",
-      "description": "了解中国成就，培养民族自豪",
-      "icon": "🇨🇳",
+      "id": "world_history",
+      "name": "世界历史",
+      "description": "探索人类文明，了解世界历史",
+      "icon": "🌍",
       "weekdays": [
         3,
         6
+      ]
+    },
+    {
+      "id": "astronomy_geography",
+      "name": "天文地理",
+      "description": "探索宇宙星空，了解地球奥秘",
+      "icon": "🌌",
+      "weekdays": [
+        4,
+        7
       ]
     },
     {

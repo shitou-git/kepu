@@ -32,7 +32,8 @@ def main():
         "role_model": 2,      # 榜样人物
         "innovation": 2,      # 科学创新
         "nature": 2,          # 自然与动物
-        "china_story": 2,     # 中国故事
+        "world_history": 2,   # 世界历史
+        "astronomy_geography": 1,  # 天文地理
         "classical": 1,       # 古典文化
         "military": 1,        # 少年军事
         "physics": 1,         # 物理小实验（已有1篇，再补1篇）
