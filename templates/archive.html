@@ -180,7 +180,7 @@
     transition: transform 0.3s;
     color: var(--text-light);
 }
-.collapse-section.open .collapse-header .arrow {
+.collapse-section.open > .collapse-header > .arrow {
     transform: rotate(90deg);
 }
 .collapse-content {
@@ -188,7 +188,7 @@
     overflow: hidden;
     transition: max-height 0.3s ease-out;
 }
-.collapse-section.open .collapse-content {
+.collapse-section.open > .collapse-content {
     max-height: 5000px;
 }
 .collapse-content-inner { padding-top: 20px; }
