@@ -77,17 +77,19 @@ Writing principles:
 Requirements:
 - Attractive title containing theme keywords
 - Summary: one sentence with suspense or scene (within 50 chars)
-- {section_count} section titles, each interesting
+- Exactly {section_count} section titles, each interesting
 - One sentence description for each section
 
 Output format:
 TITLE: [title]
 SUMMARY: [summary]
 SECTIONS:
-1. [section1]: [description]
-2. [section2]: [description]
+1. [section title 1]: [description]
+2. [section title 2]: [description]
 ...
-KEYWORDS: [3-5 keywords, comma separated]"""
+KEYWORDS: [3-5 keywords, comma separated]
+
+IMPORTANT: Output exactly {section_count} sections. Use the exact format above."""
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -103,23 +105,47 @@ KEYWORDS: [3-5 keywords, comma separated]"""
             "keywords": []
         }
 
-        for line in result.split("\n"):
+        lines = result.split("\n")
+        in_sections = False
+        
+        for line in lines:
             line = line.strip()
-            if line.startswith("TITLE:"):
-                outline["title"] = line.replace("TITLE:", "").strip()
-            elif line.startswith("SUMMARY:"):
-                outline["summary"] = line.replace("SUMMARY:", "").strip()
-            elif line.startswith("KEYWORDS:"):
-                outline["keywords"] = [k.strip() for k in line.replace("KEYWORDS:", "").strip().split(",") if k.strip()]
-            elif line.startswith("SECTIONS:"):
+            if not line:
                 continue
-            elif re.match(r"^\d+\.\s*", line):
-                parts = line[2:].strip().split(":", 1)
-                if len(parts) == 2:
-                    outline["sections"].append({
-                        "title": parts[0].strip(),
-                        "description": parts[1].strip()
-                    })
+            
+            if line.upper().startswith("TITLE:"):
+                outline["title"] = line[len("TITLE:"):].strip().strip('"*')
+            elif line.upper().startswith("SUMMARY:"):
+                outline["summary"] = line[len("SUMMARY:"):].strip().strip('"*')
+            elif line.upper().startswith("KEYWORDS:"):
+                kw_line = line[len("KEYWORDS:"):].strip()
+                outline["keywords"] = [k.strip() for k in re.split(r'[,，]', kw_line) if k.strip()]
+                in_sections = False
+            elif line.upper().startswith("SECTION"):
+                in_sections = True
+                continue
+            elif re.match(r"^\d+[\.、]", line):
+                in_sections = True
+                match = re.match(r"^\d+[\.、]\s*(.+)", line)
+                if match:
+                    content = match.group(1).strip()
+                    if ":" in content:
+                        parts = content.split(":", 1)
+                        title = parts[0].strip().strip('"*')
+                        desc = parts[1].strip().strip('"*')
+                        if title and desc:
+                            outline["sections"].append({"title": title, "description": desc})
+                    elif "：" in content:
+                        parts = content.split("：", 1)
+                        title = parts[0].strip().strip('"*')
+                        desc = parts[1].strip().strip('"*')
+                        if title and desc:
+                            outline["sections"].append({"title": title, "description": desc})
+            elif in_sections and line and not line.startswith("-") and not line.startswith("*"):
+                pass
+
+        if len(outline["sections"]) > section_count:
+            outline["sections"] = outline["sections"][:section_count]
 
         return outline
 
@@ -294,10 +320,16 @@ Output format: One title per line, {section_count} total, in order."""
         print(f"  Random section count: {section_count}")
         
         print("  Step 1: Generating outline...")
-        outline = self.generate_outline(theme_name, date_str, section_count)
+        outline = None
+        for attempt in range(3):
+            outline = self.generate_outline(theme_name, date_str, section_count)
+            if outline["title"] and len(outline["sections"]) >= 2:
+                break
+            print(f"    Outline incomplete (attempt {attempt+1}/3), retrying...")
+            time.sleep(2)
         
         if not outline["title"] or len(outline["sections"]) < 2:
-            raise Exception("Outline incomplete")
+            raise Exception(f"Outline incomplete after 3 retries (got {len(outline['sections'])} sections)")
         
         actual_sections = len(outline["sections"])
         print(f"    Title: {outline['title']}")

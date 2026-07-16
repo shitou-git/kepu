@@ -146,32 +146,36 @@ class MagazineGenerator:
             
             print(f"\n[{idx+1}/{len(pending_themes)}] 主题: {theme['name']} ({theme['id']})")
             
-            # 生成文章
-            print("正在生成文章...")
-            article = self.writer.generate_article(theme["id"], theme["name"], date_str)
-            article["date"] = date_str
-            article["file_id"] = file_date_str
-            
-            # 搜索配图
-            print("正在搜索配图...")
-            image_prompts = article.get("image_prompts", [])
-            image_paths = self.finder.search_images(
-                image_prompts,
-                count=len(image_prompts),
-                date_str=file_date_str
-            )
-            article["images"] = [Path(p).name for p in image_paths]
-            
-            # 保存文章数据
-            article_file.write_text(
-                json.dumps(article, ensure_ascii=False, indent=2),
-                encoding="utf-8"
-            )
-            print(f"文章已保存: {article_file}")
-            
-            # 更新索引
-            self.update_index(article)
-            generated.append(article)
+            try:
+                # 生成文章
+                print("正在生成文章...")
+                article = self.writer.generate_article(theme["id"], theme["name"], date_str)
+                article["date"] = date_str
+                article["file_id"] = file_date_str
+                
+                # 搜索配图
+                print("正在搜索配图...")
+                image_prompts = article.get("image_prompts", [])
+                image_paths = self.finder.search_images(
+                    image_prompts,
+                    count=len(image_prompts),
+                    date_str=file_date_str
+                )
+                article["images"] = [Path(p).name for p in image_paths]
+                
+                # 保存文章数据
+                article_file.write_text(
+                    json.dumps(article, ensure_ascii=False, indent=2),
+                    encoding="utf-8"
+                )
+                print(f"文章已保存: {article_file}")
+                
+                # 更新索引
+                self.update_index(article)
+                generated.append(article)
+            except Exception as e:
+                print(f"生成失败，跳过: {e}")
+                continue
         
         return generated
     
@@ -187,28 +191,32 @@ class MagazineGenerator:
         
         print(f"\n生成主题: {theme['name']} ({theme['id']})")
         
-        print("正在生成文章...")
-        article = self.writer.generate_article(theme["id"], theme["name"], date_str)
-        article["date"] = date_str
-        article["file_id"] = file_date_str
-        
-        print("正在搜索配图...")
-        image_prompts = article.get("image_prompts", [])
-        image_paths = self.finder.search_images(
-            image_prompts,
-            count=len(image_prompts),
-            date_str=file_date_str
-        )
-        article["images"] = [Path(p).name for p in image_paths]
-        
-        article_file.write_text(
-            json.dumps(article, ensure_ascii=False, indent=2),
-            encoding="utf-8"
-        )
-        print(f"文章已保存: {article_file}")
-        
-        self.update_index(article)
-        return [article]
+        try:
+            print("正在生成文章...")
+            article = self.writer.generate_article(theme["id"], theme["name"], date_str)
+            article["date"] = date_str
+            article["file_id"] = file_date_str
+            
+            print("正在搜索配图...")
+            image_prompts = article.get("image_prompts", [])
+            image_paths = self.finder.search_images(
+                image_prompts,
+                count=len(image_prompts),
+                date_str=file_date_str
+            )
+            article["images"] = [Path(p).name for p in image_paths]
+            
+            article_file.write_text(
+                json.dumps(article, ensure_ascii=False, indent=2),
+                encoding="utf-8"
+            )
+            print(f"文章已保存: {article_file}")
+            
+            self.update_index(article)
+            return [article]
+        except Exception as e:
+            print(f"生成失败，跳过: {e}")
+            return []
 
     def update_index(self, article: dict):
         """更新内容索引"""
