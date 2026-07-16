@@ -1,0 +1,11 @@
+{
+  "name": "kepu-magazine",
+  "version": "1.0.0",
+  "description": "少年科普杂志 - 每日更新科普知识",
+  "scripts": {
+    "build": "pip install jinja2 markdown Pillow -q && python3 scripts/page_builder.py",
+    "preview": "cd dist && python3 -m http.server 8000"
+  },
+  "author": "",
+  "license": "MIT"
+}
