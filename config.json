@@ -3,7 +3,7 @@
   "site": {
     "title": "少年科普杂志",
     "subtitle": "每天一点科学知识，点亮孩子好奇心",
-    "description": "专为小学生打造的每日科普杂志，涵盖航空航天、物理实验、榜样人物、自然动物等主题",
+    "description": "专为小学生打造的每日科普杂志，涵盖航空航天、科学实验、榜样人物、自然动物等主题",
     "author": "",
     "url": "https://your-username.github.io/kepu"
   },
@@ -15,7 +15,7 @@
     {
       "id": "cosmic_exploration",
       "name": "宇宙探索",
-      "description": "探索宇宙星空，了解航天科技",
+      "description": "探索宇宙星空，了解航天科技及天文地理知识",
       "icon": "🌌",
       "weekdays": [
         1,
@@ -24,8 +24,8 @@
     },
     {
       "id": "physics",
-      "name": "物理小实验",
-      "description": "动手做实验，发现科学乐趣",
+      "name": "科学小实验",
+      "description": "动手做物理、化学小实验，发现科学乐趣",
       "icon": "🔬",
       "weekdays": [
         2,
