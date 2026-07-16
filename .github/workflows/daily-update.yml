@@ -58,12 +58,7 @@ jobs:
           echo "当前时间: $(date)"
           echo "事件类型: ${{ github.event_name }}"
           echo "INPUT_THEME: $INPUT_THEME"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -z "$INPUT_THEME" ]; then
-            echo "手动触发，强制生成今日全部主题"
-            python scripts/generate.py --force-all
-          else
-            python scripts/generate.py --theme "$INPUT_THEME"
-          fi
+          python scripts/generate.py --theme "$INPUT_THEME"
 
       - name: Commit generated content
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

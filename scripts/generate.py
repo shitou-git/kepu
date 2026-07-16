@@ -63,10 +63,8 @@ class MagazineGenerator:
         else:
             return self.config["themes"][:2]
 
-    def generate_daily(self, override_theme: str = "", force_all: bool = False):
-        """生成今日科普内容（每天4篇，分上午/下午两批）
-        force_all: 强制生成今日所有主题，不受批次限制（手动触发时使用）
-        """
+    def generate_daily(self, override_theme: str = ""):
+        """生成今日科普内容（每次只生成1篇文章）"""
         timezone = self.config["schedule"].get("timezone", "Asia/Shanghai")
         
         if HAS_ZONEINFO:
@@ -91,41 +89,18 @@ class MagazineGenerator:
                 return []
             return self._generate_for_theme(target_theme, date_str)
         
+        import random
+        
         date = today
         weekday = date.isoweekday()
         
-        if force_all:
-            all_matched = self.config["themes"][:4]
-        else:
-            all_matched = []
-            for theme in self.config["themes"]:
-                if weekday in theme["weekdays"]:
-                    all_matched.append(theme)
-            
-            if len(all_matched) < 2:
-                for t in self.config["themes"]:
-                    if t["id"] not in [m["id"] for m in all_matched]:
-                        all_matched.append(t)
-                        if len(all_matched) >= 4:
-                            break
+        all_matched = []
+        for theme in self.config["themes"]:
+            if weekday in theme["weekdays"]:
+                all_matched.append(theme)
         
-        all_matched = all_matched[:4]
-        
-        if force_all:
-            batch_themes = all_matched
-            print(f"手动触发，生成今日全部 {len(batch_themes)} 篇文章")
-            print(f"今日主题: {[t['name'] for t in batch_themes]}")
-        else:
-            batch_size = 2
-            if current_hour >= 16:
-                batch_start = 2
-                print("当前为下午批次（16:00后），生成第3-4篇")
-            else:
-                batch_start = 0
-                print("当前为上午批次（16:00前），生成第1-2篇")
-            
-            batch_themes = all_matched[batch_start:batch_start + batch_size]
-            print(f"本批次主题: {[t['name'] for t in batch_themes]}")
+        if len(all_matched) == 0:
+            all_matched = self.config["themes"]
         
         existing_themes = set()
         for f in self.content_dir.glob(f"{date_str}*.json"):
@@ -136,56 +111,51 @@ class MagazineGenerator:
             except Exception:
                 pass
         
-        pending_themes = [t for t in batch_themes if t["id"] not in existing_themes]
+        pending_themes = [t for t in all_matched if t["id"] not in existing_themes]
         
         if not pending_themes:
-            print(f"本批次 {len(batch_themes)} 篇文章均已生成，跳过")
+            print("今日所有主题文章均已生成，跳过")
             return []
         
-        print(f"本批次待生成 {len(pending_themes)}/{len(batch_themes)} 篇文章")
+        target_theme = random.choice(pending_themes)
+        print(f"生成主题: {target_theme['name']} ({target_theme['id']})")
         
         generated = []
-        for idx, theme in enumerate(pending_themes):
-            existing_count = len([f for f in self.content_dir.glob(f"{date_str}*.json")])
-            file_date_str = f"{date_str}_{existing_count + 1}"
+        theme = target_theme
+        
+        existing_count = len([f for f in self.content_dir.glob(f"{date_str}*.json")])
+        file_date_str = f"{date_str}_{existing_count + 1}"
+        
+        article_file = self.content_dir / f"{file_date_str}.json"
+        if article_file.exists():
+            print(f"内容已存在，跳过: {article_file}")
+            return []
+        
+        try:
+            print("正在生成文章...")
+            article = self.writer.generate_article(theme["id"], theme["name"], date_str)
+            article["date"] = date_str
+            article["file_id"] = file_date_str
             
-            article_file = self.content_dir / f"{file_date_str}.json"
-            if article_file.exists():
-                print(f"内容已存在，跳过: {article_file}")
-                continue
+            print("正在搜索配图...")
+            image_prompts = article.get("image_prompts", [])
+            image_paths = self.finder.search_images(
+                image_prompts,
+                count=len(image_prompts),
+                date_str=file_date_str
+            )
+            article["images"] = [Path(p).name for p in image_paths]
             
-            print(f"\n[{idx+1}/{len(pending_themes)}] 主题: {theme['name']} ({theme['id']})")
+            article_file.write_text(
+                json.dumps(article, ensure_ascii=False, indent=2),
+                encoding="utf-8"
+            )
+            print(f"文章已保存: {article_file}")
             
-            try:
-                # 生成文章
-                print("正在生成文章...")
-                article = self.writer.generate_article(theme["id"], theme["name"], date_str)
-                article["date"] = date_str
-                article["file_id"] = file_date_str
-                
-                # 搜索配图
-                print("正在搜索配图...")
-                image_prompts = article.get("image_prompts", [])
-                image_paths = self.finder.search_images(
-                    image_prompts,
-                    count=len(image_prompts),
-                    date_str=file_date_str
-                )
-                article["images"] = [Path(p).name for p in image_paths]
-                
-                # 保存文章数据
-                article_file.write_text(
-                    json.dumps(article, ensure_ascii=False, indent=2),
-                    encoding="utf-8"
-                )
-                print(f"文章已保存: {article_file}")
-                
-                # 更新索引
-                self.update_index(article)
-                generated.append(article)
-            except Exception as e:
-                print(f"生成失败，跳过: {e}")
-                continue
+            self.update_index(article)
+            generated.append(article)
+        except Exception as e:
+            print(f"生成失败，跳过: {e}")
         
         return generated
     
@@ -359,7 +329,6 @@ def main():
     parser.add_argument("--historical", "-H", action="store_true", help="为每个主题生成历史文章")
     parser.add_argument("--count", "-c", type=int, default=2, help="每个主题生成的文章数")
     parser.add_argument("--start-date", "-s", default="", help="开始日期（YYYY-MM-DD）")
-    parser.add_argument("--force-all", "-f", action="store_true", help="强制生成今日全部主题，不受批次限制")
     args = parser.parse_args()
     
     gen = MagazineGenerator()
@@ -369,7 +338,7 @@ def main():
     elif args.batch > 0:
         gen.generate_batch(args.batch)
     else:
-        gen.generate_daily(args.theme, force_all=args.force_all)
+        gen.generate_daily(args.theme)
 
 
 if __name__ == "__main__":
