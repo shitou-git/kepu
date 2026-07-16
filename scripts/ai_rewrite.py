@@ -74,6 +74,14 @@ Writing principles:
         
         user_prompt = f"""Create an outline for a science article about "{theme_name}".
 
+Theme scope guidance:
+- "自然与动物" can cover: land animals, plants, marine life, ocean ecosystems, underwater creatures
+- "宇宙探索" can cover: astronomy, stars, planets, spacecraft, satellites, space exploration
+- "世界历史" can cover: ancient civilizations, historical events, famous historical figures
+- "生命科学" can cover: human body, cells, DNA, health, growth, biological processes
+- "科学创新" can cover: new technology, inventions, future tech, scientific breakthroughs
+- "榜样人物" can cover: scientists, inventors, explorers, their stories and achievements
+
 Requirements:
 - Attractive title containing theme keywords
 - Summary: one sentence with suspense or scene (within 50 chars)
