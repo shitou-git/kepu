@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-07-17",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "生命科学探险：寻找身体里的隐形小工匠",
+      "summary": "晨光落在窗台，你突然发现手指上的小伤口竟然悄悄愈合了！",
+      "keywords": [
+        "生命科学",
+        "细胞",
+        "DNA",
+        "人体健康",
+        "成长发育"
+      ],
+      "images": [
+        "2026-07-17_1_1_e50141f4.jpg"
+      ]
+    },
+    {
       "date": "2026-07-16",
       "theme": "cosmic_exploration",
       "theme_name": "宇宙探索",

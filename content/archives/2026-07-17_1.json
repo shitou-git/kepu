@@ -1,0 +1,34 @@
+{
+  "theme": "life_science",
+  "theme_name": "生命科学",
+  "date": "2026-07-17",
+  "title": "生命科学探险：寻找身体里的隐形小工匠",
+  "summary": "晨光落在窗台，你突然发现手指上的小伤口竟然悄悄愈合了！",
+  "keywords": [
+    "生命科学",
+    "细胞",
+    "DNA",
+    "人体健康",
+    "成长发育"
+  ],
+  "content": "晨光落在窗台，你突然发现手指上的小伤口竟然悄悄愈合了！\n\n### 细胞王国里的忙碌日常\n\n清晨拉开窗帘，阳光洒在脸上，你伸了个懒腰。骨骼咔哒轻响，眼睛眨了眨，捕捉到窗外的麻雀。哇，这一切根本不需要你发号施令，身体里早就有一支看不见的施工队在干活！\n\n你的身体藏着好几万亿个微小生命工厂。它们的名字叫细胞。每个细胞都在悄悄为你建造强壮的骨骼和明亮的眼睛。小时候我趴在旧显微镜前看过草履虫游动，现在科学家把细胞比作勤劳的小工匠一点也不夸张。这些工匠收到大脑寄来的图纸后，就会开始搬运建筑材料。蛋白质是砖头，钙质是水泥，它们一层层堆叠起来，变成坚硬的骨头。眼角膜里的细胞则排列成整齐的格子，像透明的玻璃窗，让光线舒服地跑进眼睛里。\n\n细胞工作的时候特别专注。它们不会偷懒，也不会搞错零件。如果你吃下牛奶和鸡蛋，这些食物里的营养就会变成细胞工厂的燃料。白天它们全力施工，晚上你熟睡时，它们还会偷偷修补白天磨损的零件。骨骼变粗，视力变稳，都是这些小工匠夜以继日的功劳。\n\n明天早上刷牙时，你可以对着镜子仔细看看自己的牙齿和眼珠。试着去观察，这些闪闪发亮、坚硬结实的地方，正有多少个看不见的小工匠在默默加班呢？\n\n[IMAGE_1]\n\n### 基因地图上的成长密码\n\n你注意到没有？去年套不进的校服袖子，今年突然空了一大截。换牙期掉落的门牙，悄悄被更坚固的恒牙接替。这些变化从来不是变魔术，而是藏在细胞核里的一本厚厚说明书在翻页。\n\n科学家把这本说明书叫作DNA。它就像一条无限拉长的彩色拉链，上面只有四种颜色的字母：A、T、C、G。这些字母排成特殊的单词，就组成了“基因”。每个基因都在喊口令：“现在该长高！”“该让骨头变硬！”或者“该把头发染黑！”我小时候总爱拿粉笔在门框上刻身高线，妈妈笑着说那是你在和身体里的图纸赛跑。\n\n这本说明书极其精密。它不会让你长出翅膀，也不会让皮肤变成树叶，因为它已经把你独特的成长路线提前写好了。从第一声啼哭到换上运动鞋，图纸上的指令一帧一帧地执行，你的模样就慢慢定格。\n\n下次量体温或者量身高的时候，不妨摸摸自己的胸口。那里正有一支庞大的队伍在朗读那本无形的书。去观察家里不同年纪的植物叶片，或者看看宠物狗小时候和长大后的毛发变化。大自然里藏着无数本类似的说明书，你能找到它们变化的规律吗？\n\n[IMAGE_2]",
+  "fact_card": [
+    "你知道吗？你每天睡觉的时候，身体其实正在悄悄“换装”！我们每小时会自然脱落3万到4万个皮肤细胞，所以枕头上的碎屑里，其实藏着好多你昨天穿过的“旧衣服”哦。",
+    "文章里把DNA比作彩色拉链，但它其实是个“超级长卷”！如果把单个细胞里的DNA全部拉直展开，长度竟然能达到2米，却能轻松折叠塞进比头发丝还细的细胞核里。",
+    "你小时候摸到的软软骨头，其实经历过一场“大合并”！刚出生的宝宝大约有300块骨头，但随着你慢慢长大，很多小骨头会像乐高一样拼接在一起，所以成年人只剩下206块骨头啦。"
+  ],
+  "thinking": [
+    "如果你打算用一周时间记录身体里“细胞小工匠”的工作状态，你会设计怎样的观察或简单实验来验证不同的饮食、运动或睡眠习惯是如何影响它们修复与生长速度的？",
+    "既然DNA像一本精密的说明书却能在不同生命体或不同成长阶段呈现出千姿百态的变化，你会选择对比观察哪两类生物（比如同窝小狗的不同月份、或两棵环境不同的植物），并准备从哪些细节中寻找它们“执行指令”时的共同规律与差异？"
+  ],
+  "image_prompts": [
+    "A vibrant watercolor hand-drawn cartoon scene featuring a cheerful child stretching by a sunlit windowsill, with the background melting into a whimsical microscopic construction site where cute Pixar-style anthropomorphic cell workers carry glowing protein bricks and mix shimmering calcium cement to build glossy bone structures and transparent grid-like cornea windows, all rendered in bright saturated colors and soft brush textures for ages 6-12.",
+    "A charming animated illustration in a cozy bedroom where a stylized cartoon child measures their height against chalk-marked doorframes while holding an oversized shirt, with a glowing rainbow-colored DNA double helix floating behind them like a giant zipper, surrounded by adorable gene sprites wearing A, T, C, and G badges handing out glowing instruction scrolls, executed in bright watercolor style with Pixar-inspired character designs and detailed environmental elements suitable for young readers."
+  ],
+  "section_count": 2,
+  "file_id": "2026-07-17_1",
+  "images": [
+    "2026-07-17_1_1_e50141f4.jpg",
+    "2026-07-17_1_2_69b44063.jpg"
+  ]
+}
