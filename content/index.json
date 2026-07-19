@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-07-19",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "生命科学探秘：身体里的隐形城堡",
+      "summary": "晨光爬上窗台，你按住胸口听见咚咚声，那里正住着无数忙碌的小工人。",
+      "keywords": [
+        "细胞",
+        "DNA",
+        "人体健康",
+        "生物生长",
+        "生命科学"
+      ],
+      "images": [
+        "2026-07-19_1_2_cb47ba04.jpg"
+      ]
+    },
+    {
       "date": "2026-07-18",
       "theme": "role_model",
       "theme_name": "榜样人物",
