@@ -1,0 +1,33 @@
+{
+  "theme": "world_history",
+  "theme_name": "世界历史",
+  "date": "2026-07-22",
+  "title": "世界历史大冒险：从古文明到未来科技",
+  "summary": "沙坑里的旧罗盘指针狂转，突然映出古罗马战船的影子。",
+  "keywords": [
+    "古代文明",
+    "数学起源",
+    "航海技术",
+    "历史人物",
+    "科学传承"
+  ],
+  "content": "沙坑里的旧罗盘指针狂转，突然映出古罗马战船的影子。\n\n### 泥板上的星光\n\n早晨看闹钟，秒针滴答走过六十下，分钟才轻轻跳一格。把时间往回拨四千年，这套规矩的发明者正跪在两河流域的河滩上。\n\n苏美尔人手里没有笔。他们只拿着一截削尖的芦苇杆，趁着河水退去，在柔软的湿泥板上用力一划。压出的小三角符号密密麻麻，满六十就要进一位。\n\n为什么偏偏是六十？因为六十特别大方。它能被二、三、四、五轻松分开。古人分粮食、量田地，用这个进制怎么算都不留残渣。后来他们把圆周切成三百六十份，刚好拼成完整的圆。\n\n我小时候第一次见到真正的楔形文字拓片，眼睛都瞪圆了。干硬的泥块隔着几千年，还留着芦苇划过的凹痕。今天钟表上的每一秒、地图上的每一度，都是苏美尔人留下的隐形礼物。\n\n下次看手表换数字，或者低头量教室墙角时，不妨停下来数一数。找找看，六十藏在哪些日常小事里？用尺子量量门框的角度，算算它占了多少度。历史不在书本深处，就在你每一次观察的眼睛里。\n\n[IMAGE_1]\n\n### 航海图背后的风与星\n\n船老大站在摇晃的甲板上，手里捧着一只铜碗。清水里漂着一根削尖磁针。风浪再大，那根针总是稳稳指向同一个方向。郑和的宝船队就靠它，在远洋航行了七年。没有电子导航，古人怎么不怕迷路？\n\n秘密在地球肚子里。地球本身就像块大磁铁，四周藏着看不见的磁场。磁针经过磁化后，天生爱跟磁力线握手。南北极的磁力线像张透明大网，罩住整个星球。磁针碰到这张网，就会顺着线条排好队，一头指北，一头指南。夜里，船夫们还抬头找北极星。它几乎正对地轴北极，一动不动挂着，和水面磁针互相照应。自然规律就这样变成了船头的前进方向。\n\n我小时候第一次拿着指南针进树林，结果完全分不清东南西北。后来才明白，磁场不是死板的箭头，它会受附近大块钢铁或电流干扰。现在你的书包搭扣、耳机充电线里都藏着小小的磁铁，它们也在悄悄感受地球的呼吸。原来地球真的会拉手呀！下次去公园散步，带一根缝衣针在磁铁上多划几次，再浮在水碗里试试。\n\n去找找家里哪些金属物件会让磁针偷偷偏转。大自然藏着的罗盘，你准备好自己画一张航海图了吗？\n\n[IMAGE_2]",
+  "fact_card": [
+    "你知道吗？古人把一天分成24小时，一小时60分钟，一分钟60秒，这种“六十进制”就像个时间魔法！因为一年大约365天，为了方便画地图，他们就把圆分成了360份，所以今天教室里的量角器还是0到360度哦。",
+    "最早的“指南针”其实是个小勺子！汉朝人用天然磁石磨成勺底，放在光滑的青铜盘上，勺柄就会自动指北，叫作“司南”。而且地球这个大磁铁还会变魔术：太阳吹来的带电粒子撞到磁场，就会在两极画出五颜六色的极光。",
+    "想自己认路吗？先抬头找北斗七星，把勺口的两颗星连线向外延长大约5倍，就能找到北极星啦！星星看起来每天转圈，其实是因为地球在原地“转呼啦圈”，北极星正好站在地球自转轴的顶端，所以它是个超级安静的“导航员”。"
+  ],
+  "thinking": [
+    "如果古代没有发明“六十进制”，你觉得我们现在看钟表或量教室墙角时会变成什么样？你能试着观察并记录下一周内，哪些日常物品或习惯里其实还藏着其他“进制”的秘密吗？",
+    "现代书包搭扣、耳机线里都藏着小磁铁，如果让你带着一枚自制浮水磁针去探索校园，你会设计怎样的“磁场干扰观察”小实验，找出哪些东西会让指南针“偷偷偏转”，并尝试画出一张属于你的安全探索地图？"
+  ],
+  "image_prompts": [
+    "A cheerful young Sumerian scribe kneeling on the sunlit riverbank, carefully pressing a sharpened reed stylus into a large soft clay tablet to create neat triangular wedge marks, with several finished tablets drying nearby under a bright blue sky and swaying date palms in the background, while subtle floating visual cues show a circle divided into sixty equal pie slices and smooth counting stones arranged in groups, rendered in a vibrant watercolor hand-drawn style with expressive cartoon characters and soft Pixar animation-inspired lighting, using a bright and inviting color palette perfectly tailored for children aged 6 to 12, completely avoiding photorealism and focusing on detailed playful illustration.",
+    "An adventurous young explorer standing on the curved wooden deck of an ancient sailing vessel, gently holding a shallow brass bowl filled with clear water where a sharpened magnetic needle floats steadily on a tiny green leaf, pointing firmly toward the horizon, while translucent glowing ribbons representing Earth's magnetic field swirl gently around the ship and extend upward toward a bright twinkling North Star in a gradient twilight sky, with calm ocean waves and distant coastal cliffs framing the scene, executed in a charming watercolor hand-drawn technique featuring rounded cartoon character designs, dynamic Pixar animation-style composition, and vivid bright colors designed to captivate kids aged 6 to 12, strictly maintaining an illustrative and non-photorealistic aesthetic throughout."
+  ],
+  "section_count": 2,
+  "file_id": "2026-07-22_2",
+  "images": [
+    "2026-07-22_2_2_f07a4219.jpg"
+  ]
+}
