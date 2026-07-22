@@ -340,5 +340,23 @@ function toggleCollapse(id) {
         el.classList.add('open');
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash;
+    if (hash.startsWith('#theme-')) {
+        var themeId = hash.substring(7);
+        var themeSection = document.getElementById('theme-section');
+        var targetTheme = document.getElementById('theme-' + themeId);
+        
+        if (themeSection && targetTheme) {
+            themeSection.classList.add('open');
+            targetTheme.classList.add('open');
+            
+            setTimeout(function() {
+                targetTheme.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }
+});
 </script>
 {% endblock %}
