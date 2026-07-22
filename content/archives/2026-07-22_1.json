@@ -1,0 +1,32 @@
+{
+  "theme": "role_model",
+  "theme_name": "榜样人物",
+  "date": "2026-07-22",
+  "title": "榜样人物发光时：科学家如何用好奇心点亮世界",
+  "summary": "深夜实验室里，一盏台灯照亮了草稿纸，一个好奇的孩子正悄悄改变未来。",
+  "keywords": [
+    "榜样人物",
+    "科学家故事",
+    "好奇心",
+    "坚持探索",
+    "儿童科普"
+  ],
+  "content": "深夜实验室里，一盏台灯照亮了草稿纸，一个好奇的孩子正悄悄改变未来。\n\n### 把星星画成地图的人\n\n七百年前的河南登封，矗立着一座高大的砖墙。每到正午，太阳悬在头顶，墙的影子便安安静静地躺在水渠里。这是元代天文学家郭守敬的“秘密武器”——登封观星台。\n\n那时候既没有望远镜，也没有电脑。郭守敬带着团队，花了好几年建成这座台子。你可能会好奇：这堵高墙是用来挡风的吗？才不是呢！它是一个巨大的“影子测量尺”。\n\n太阳在天上走路，影子就会变魔术。夏天太阳站得高高的，影子缩成一团；冬天太阳趴得很低，影子拖得老长。郭守敬每天盯着影子看，只要量准了影子的长短，就能算出一年有多少天，还能知道春天和秋天什么时候到来。\n\n为了看清天上的星星，郭守敬还发明了“简仪”。以前的仪器像一张复杂的蜘蛛网，圈圈套圈圈，星星都被挡住了。郭守敬觉得太麻烦，把多余的圈圈全拆掉，只留下最关键的横梁和圆环。眼睛顺着横梁一瞄，星星的位置就清清楚楚啦！\n\n靠着肉眼的坚持，他们编出了《授时历》，准确度非常高。\n\n明天中午放学，去操场上找找自己的影子。看看它是不是缩在脚底下？早上上学时，影子是不是拉得长长的？郭守敬爷爷当年也在做同样的事情哦。\n\n[IMAGE_1]\n\n### 实验室里的失败大王\n\n1879年的一个夜晚，新泽西州的小屋里亮起了昏黄的光。这是人类第一次用上能稳定燃烧上百小时的电灯。在这束光背后，堆着成千上万根烧焦的竹条、断裂的金属丝，还有好几罐被烟熏黑的玻璃泡。\n\n灯泡里那根细细的“灯丝”是个倔强的家伙。它必须被电流烫得发白才能发光，可大多数金属一到高温就熔化。铜丝会像巧克力一样化成水，铁丝会直接烧断。爱迪生没有停手，他把能找到的材料全试了个遍：头发、草绳、硬纸板。记录本写满了一千六百多个“不行”。\n\n有人笑话他：“试了这么多，结果还是黑的呀！”直到一根碳化竹丝被装进玻璃泡，接通电流后，它安安静静地亮了将近一千两百个小时。那束光，照亮的可不只是一间实验室。\n\n我小时候搭积木塔也常这样。明明压得稳稳的，最上面几块总会哗啦一声倒下来。要是我把碎片扫到一边再也不搭，漂亮的塔就永远消失了。真正的榜样不是从来不摔倒的人，而是每次倒下去，都会拍拍灰尘说“我再试一次”的人。\n\n下次你写作业遇到解不出的题，或者学骑自行车摔了跤，不妨抬头看看家里的灯泡。想想那根小小的灯丝是怎么在无数次黑暗里找到光明的。你准备拿生活中的哪件小事，再勇敢地试一次呢？\n\n[IMAGE_2]",
+  "fact_card": [
+    "《授时历》算出一年有365.2425天，竟然和现在全球通用的公历完全一样，但它比公历早出生了差不多300年呢！",
+    "郭守敬的“简仪”把复杂的圆圈全拆掉，这种“做减法”的设计太超前了，连几百年后的欧洲天文学家都跑来“抄作业”。",
+    "灯泡里的竹丝后来被一种叫“钨”的金属取代啦，钨的熔点高达3422℃，就算丢进熔岩里也稳稳当当不会化。",
+    "爱迪生不光发明了灯泡，还建了一套完整的“供电网”，让电从发电厂一路跑到每家每户，相当于给电灯修了一条“能量高速公路”哦！"
+  ],
+  "thinking": [
+    "如果影子会随着太阳的位置每天变化，你能设计一个怎样的连续观测计划来记录它的长短和方向，并尝试用这些影子规律发现一年中季节更替的秘密？",
+    "爱迪生把每一次“不行”都记成了下一步的线索，如果你正在做一项需要反复尝试的小实验或小制作，你会怎样保存和利用那些“没成功”的记录，让下一次尝试走得比上一次更远？"
+  ],
+  "image_prompts": [
+    "A vibrant watercolor hand-drawn illustration in Pixar animation style depicting the Dengfeng Observatory in ancient China, where a towering red-brick wall casts a sharp shadow into a narrow stone water channel under a bright noon sun; cartoon astronomer Guo Shoujing in traditional Yuan dynasty robes kneels beside the channel holding a wooden measuring scroll and pointing at the shadow line, while his cheerful team records data in oversized notebooks; in the foreground, a curious modern boy with a backpack leans against a stone pillar sketching a star map on a clipboard; the background features rolling green hills, a clear azure sky, and warm sunlight, all rendered in bright saturated watercolor tones with soft hand-painted textures for children aged 6-12, purely cartoon illustration with no realistic photos.",
+    "A cozy nighttime laboratory scene drawn in watercolor hand-drawn Pixar animation style showing cartoon Thomas Edison with a friendly beard, rolled-up sleeves, and a leather apron carefully holding a newly glowing glass light bulb connected to thick copper wires; the cluttered wooden workbench overflows with piles of charred bamboo strips, melted metal wires, soot-blackened glass bulbs, and an open notebook covered in hundreds of crossed-out material tests; warm golden light from the working bulb illuminates floating dust motes, contrasting with a dark blue night window revealing a quiet New Jersey street outside; a wide-eyed cartoon child in pajamas sits on a stool nearby watching the bright glow in awe; the scene uses a bright warm color palette, soft watercolor edges, and highly detailed cartoon environment design for ages 6-12, strictly animated illustration with no realistic human portraits."
+  ],
+  "section_count": 2,
+  "file_id": "2026-07-22_1",
+  "images": []
+}
