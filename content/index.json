@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-07-23",
+      "theme": "nature",
+      "theme_name": "自然与动物",
+      "title": "森林深处的绿色秘密：动物与自然的奇妙共生",
+      "summary": "一只松鼠埋下的坚果，竟能长成参天大树。",
+      "keywords": [
+        "自然",
+        "动物",
+        "共生",
+        "生态",
+        "森林"
+      ],
+      "images": [
+        "2026-07-23_1_1_d81b6d45.jpg"
+      ]
+    },
+    {
       "date": "2026-07-22",
       "theme": "world_history",
       "theme_name": "世界历史",
