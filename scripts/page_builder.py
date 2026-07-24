@@ -327,7 +327,16 @@ class SiteBuilder:
         self.build_article_pages(articles)
         self.build_archive_pages(articles)
         
+        self.copy_update_script()
+        
         print(f"构建完成，输出目录: {self.dist_dir.absolute()}")
+
+    def copy_update_script(self):
+        """复制更新检测脚本到 dist 目录"""
+        update_script = Path("templates") / "update-check.js"
+        if update_script.exists():
+            shutil.copy(update_script, self.dist_dir / "update-check.js")
+            print("更新检测脚本已复制")
 
 
 def main():

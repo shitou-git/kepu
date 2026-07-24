@@ -4,7 +4,9 @@
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "url": "https://shitou-git.github.io/kepu",
+    "cleartext": false
   },
   "plugins": {
     "SplashScreen": {

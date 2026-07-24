@@ -136,6 +136,10 @@
             .container { padding: 0 10px; }
             .card { padding: 20px 12px; }
         }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
         {% block extra_css %}{% endblock %}
     </style>
 </head>
@@ -168,17 +172,16 @@
     // Capacitor 环境适配
     (function() {
         if (typeof Capacitor !== 'undefined') {
-            // 设置状态栏颜色
             try {
                 Capacitor.Plugins.StatusBar.setBackgroundColor({ color: '#2c7a7b' });
                 Capacitor.Plugins.StatusBar.setStyle({ style: 'LIGHT' });
             } catch (e) {}
 
-            // 适配安全区域（刘海屏）
             document.documentElement.style.setProperty('--safe-top', 'env(safe-area-inset-top)');
             document.documentElement.style.setProperty('--safe-bottom', 'env(safe-area-inset-bottom)');
         }
     })();
     </script>
+    <script src="update-check.js"></script>
 </body>
 </html>
