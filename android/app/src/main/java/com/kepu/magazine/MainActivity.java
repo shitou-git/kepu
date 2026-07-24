@@ -8,15 +8,16 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 启用 WebView 调试（仅在开发时有用）
         WebView.setWebContentsDebuggingEnabled(true);
     }
 
     @Override
     public void onBackPressed() {
-        // Capacitor BridgeActivity 默认处理：
-        // WebView 可后退时后退，否则退出 App
-        // 保持默认行为即可
-        super.onBackPressed();
+        WebView webView = bridge.getWebView();
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
