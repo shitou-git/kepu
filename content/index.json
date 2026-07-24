@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-07-24",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "生命大冒险：解锁身体的秘密代码",
+      "summary": "你的身体里藏着亿万个小工人，它们每天忙忙碌碌。",
+      "keywords": [
+        "生命科学",
+        "细胞",
+        "DNA",
+        "人体奥秘",
+        "生长"
+      ],
+      "images": [
+        "2026-07-24_1_1_3986df26_fallback.jpg"
+      ]
+    },
+    {
       "date": "2026-07-23",
       "theme": "cosmic_exploration",
       "theme_name": "宇宙探索",
