@@ -1,0 +1,93 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'templates/**'
+      - 'scripts/**'
+      - 'config.json'
+      - 'capacitor.config.json'
+      - 'android/**'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate icons and splash
+        run: npm run icons
+
+      - name: Build site pages
+        run: python scripts/page_builder.py
+
+      - name: Sync Android version
+        run: python scripts/sync_android_version.py
+
+      - name: Sync Capacitor
+        run: npx cap sync
+
+      - name: Build Debug APK
+        run: cd android && ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kepu-magazine-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Rename APK with version
+        run: |
+          VERSION=$(python -c "import json; print(json.load(open('config.json'))['version'])")
+          cp android/app/build/outputs/apk/debug/app-debug.apk "kepu-magazine-v${VERSION}.apk"
+          echo "APK_NAME=kepu-magazine-v${VERSION}.apk" >> $GITHUB_ENV
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          tag_name: apk-${{ github.run_number }}
+          name: "少年科普杂志 APK Build ${{ github.run_number }}"
+          body: |
+            自动构建的安卓 APK 文件
+            - 版本: ${{ env.APK_NAME }}
+            - 构建时间: ${{ github.event.head_commit.timestamp }}
+          files: |
+            kepu-magazine-*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
