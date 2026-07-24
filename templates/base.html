@@ -148,8 +148,8 @@
     </header>
     <nav>
         <div class="container">
-            <a href="/kepu/index.html" class="{% if active == 'home' %}active{% endif %}">首页</a>
-            <a href="/kepu/archive.html" class="{% if active == 'archive' %}active{% endif %}">往期回顾</a>
+            <a href="index.html" class="{% if active == 'home' %}active{% endif %}">首页</a>
+            <a href="archive.html" class="{% if active == 'archive' %}active{% endif %}">往期回顾</a>
         </div>
     </nav>
     <main>
@@ -164,5 +164,21 @@
         </div>
     </footer>
     {% block extra_js %}{% endblock %}
+    <script>
+    // Capacitor 环境适配
+    (function() {
+        if (typeof Capacitor !== 'undefined') {
+            // 设置状态栏颜色
+            try {
+                Capacitor.Plugins.StatusBar.setBackgroundColor({ color: '#2c7a7b' });
+                Capacitor.Plugins.StatusBar.setStyle({ style: 'LIGHT' });
+            } catch (e) {}
+
+            // 适配安全区域（刘海屏）
+            document.documentElement.style.setProperty('--safe-top', 'env(safe-area-inset-top)');
+            document.documentElement.style.setProperty('--safe-bottom', 'env(safe-area-inset-bottom)');
+        }
+    })();
+    </script>
 </body>
 </html>

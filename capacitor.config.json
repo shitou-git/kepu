@@ -1,0 +1,24 @@
+{
+  "appId": "com.kepu.magazine",
+  "appName": "少年科普杂志",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "launchAutoHide": true,
+      "backgroundColor": "#2c7a7b",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": true,
+      "spinnerColor": "#ffffff"
+    },
+    "StatusBar": {
+      "backgroundColor": "#2c7a7b",
+      "style": "LIGHT"
+    }
+  }
+}

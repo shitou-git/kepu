@@ -4,8 +4,20 @@
   "description": "少年科普杂志 - 每日更新科普知识",
   "scripts": {
     "build": "pip install jinja2 markdown Pillow -q && python3 scripts/page_builder.py",
-    "preview": "cd dist && python3 -m http.server 8000"
+    "preview": "cd dist && python3 -m http.server 8000",
+    "build:android": "python3 scripts/page_builder.py && npx cap sync && cd android && ./gradlew assembleRelease",
+    "build:android:debug": "python3 scripts/page_builder.py && npx cap sync && cd android && ./gradlew assembleDebug",
+    "sync:android": "python3 scripts/page_builder.py && npx cap sync",
+    "icons": "python3 scripts/generate_app_icons.py && python3 scripts/generate_splash.py"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/cli": "^8.4.2",
+    "@capacitor/core": "^8.4.2",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3"
+  }
 }
