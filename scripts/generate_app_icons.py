@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-生成安卓应用图标
+使用 kepu.png 生成安卓应用图标
 """
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 from pathlib import Path
-
-# 项目主色
-PRIMARY_COLOR = (44, 122, 123)  # #2c7a7b
-WHITE = (255, 255, 255)
 
 # 安卓图标尺寸
 SIZES = {
@@ -21,57 +17,58 @@ SIZES = {
 }
 
 BASE_DIR = Path("android/app/src/main/res")
+SOURCE_ICON = Path("kepu.png")
 
 
-def create_icon(size: int, text: str = "科") -> Image.Image:
-    """创建圆形图标"""
-    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(img)
-
-    # 画圆形背景
-    margin = size // 20
-    draw.ellipse(
-        [margin, margin, size - margin, size - margin],
-        fill=PRIMARY_COLOR
-    )
-
-    # 画文字
-    font_size = int(size * 0.55)
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc", font_size)
-    except:
-        try:
-            font = ImageFont.truetype("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", font_size)
-        except:
-            try:
-                font = ImageFont.truetype("/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf", font_size)
-            except:
-                font = ImageFont.load_default()
-
-    bbox = draw.textbbox((0, 0), text, font=font)
-    text_w = bbox[2] - bbox[0]
-    text_h = bbox[3] - bbox[1]
-    x = (size - text_w) / 2
-    y = (size - text_h) / 2 - bbox[1] / 2
-
-    draw.text((x, y), text, font=font, fill=WHITE)
-
+def resize_icon(size: int) -> Image.Image:
+    """将 kepu.png 调整为指定尺寸"""
+    img = Image.open(SOURCE_ICON)
+    img = img.convert("RGBA")
+    img = img.resize((size, size), Image.LANCZOS)
     return img
+
+
+def make_round_icon(img: Image.Image) -> Image.Image:
+    """将方形图片裁剪为圆形"""
+    size = img.size[0]
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse([0, 0, size, size], fill=255)
+
+    result = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    result.paste(img, (0, 0), mask)
+    return result
+
+
+def make_foreground(img: Image.Image) -> Image.Image:
+    """
+    创建自适应图标的前景
+    自适应图标要求 108dp 画布，72dp 安全区域
+    实际尺寸: 108 * density
+    """
+    size = img.size[0]
+    foreground_size = int(size * 0.72)
+    fg = img.resize((foreground_size, foreground_size), Image.LANCZOS)
+    return fg
 
 
 def main():
     for density, size in SIZES.items():
-        # 普通图标
         mipmap_dir = BASE_DIR / f"mipmap-{density}"
         mipmap_dir.mkdir(parents=True, exist_ok=True)
 
-        icon = create_icon(size)
+        # 普通方形图标
+        icon = resize_icon(size)
         icon.save(mipmap_dir / "ic_launcher.png", "PNG")
-        icon.save(mipmap_dir / "ic_launcher_foreground.png", "PNG")
 
         # 圆形图标
-        round_icon = create_icon(size)
+        round_icon = make_round_icon(resize_icon(size))
         round_icon.save(mipmap_dir / "ic_launcher_round.png", "PNG")
+
+        # 自适应图标前景 (108dp = size * 1.125)
+        adaptive_size = int(size * 1.125)
+        foreground = make_foreground(resize_icon(adaptive_size))
+        foreground.save(mipmap_dir / "ic_launcher_foreground.png", "PNG")
 
         print(f"生成 {density} ({size}x{size}) 图标")
 

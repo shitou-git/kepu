@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-生成安卓闪屏图
+使用 qi.png 生成安卓闪屏图
 """
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from pathlib import Path
 
-PRIMARY_COLOR = (44, 122, 123)  # #2c7a7b
-WHITE = (255, 255, 255)
-LIGHT_BG = (230, 255, 250)  # #e6fffa
-
-# 竖屏闪屏尺寸
+# 闪屏尺寸（宽 x 高）
 PORTRAIT_SIZES = {
     "mdpi": (320, 480),
     "hdpi": (480, 800),
@@ -21,47 +17,34 @@ PORTRAIT_SIZES = {
 }
 
 BASE_DIR = Path("android/app/src/main/res")
+SOURCE_SPLASH = Path("qi.png")
 
 
-def create_splash(width: int, height: int) -> Image.Image:
-    """创建闪屏图"""
-    img = Image.new("RGB", (width, height), LIGHT_BG)
-    draw = ImageDraw.Draw(img)
+def resize_splash(width: int, height: int) -> Image.Image:
+    """将 qi.png 调整为指定尺寸（保持比例，居中裁剪）"""
+    src = Image.open(SOURCE_SPLASH)
+    src = src.convert("RGB")
 
-    # 顶部装饰条
-    bar_height = height // 3
-    draw.rectangle([0, 0, width, bar_height], fill=PRIMARY_COLOR)
+    src_w, src_h = src.size
+    src_ratio = src_w / src_h
+    target_ratio = width / height
 
-    # 文字
-    font_size = int(width * 0.12)
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc", font_size)
-        small_font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", int(font_size * 0.35))
-    except:
-        try:
-            font = ImageFont.truetype("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", font_size)
-            small_font = ImageFont.truetype("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", int(font_size * 0.35))
-        except:
-            font = ImageFont.load_default()
-            small_font = ImageFont.load_default()
+    if src_ratio > target_ratio:
+        # 源更宽，按高度缩放，裁剪两侧
+        new_h = height
+        new_w = int(new_h * src_ratio)
+        resized = src.resize((new_w, new_h), Image.LANCZOS)
+        left = (new_w - width) // 2
+        cropped = resized.crop((left, 0, left + width, height))
+    else:
+        # 源更高，按宽度缩放，裁剪上下
+        new_w = width
+        new_h = int(new_w / src_ratio)
+        resized = src.resize((new_w, new_h), Image.LANCZOS)
+        top = (new_h - height) // 2
+        cropped = resized.crop((0, top, width, top + height))
 
-    # 主标题
-    title = "少年科普杂志"
-    bbox = draw.textbbox((0, 0), title, font=font)
-    text_w = bbox[2] - bbox[0]
-    x = (width - text_w) / 2
-    y = bar_height + (height - bar_height) / 2 - font_size
-    draw.text((x, y), title, font=font, fill=PRIMARY_COLOR)
-
-    # 副标题
-    subtitle = "每天一点科学知识"
-    bbox2 = draw.textbbox((0, 0), subtitle, font=small_font)
-    text_w2 = bbox2[2] - bbox2[0]
-    x2 = (width - text_w2) / 2
-    y2 = y + font_size * 1.5
-    draw.text((x2, y2), subtitle, font=small_font, fill=(113, 128, 150))
-
-    return img
+    return cropped
 
 
 def main():
@@ -69,16 +52,23 @@ def main():
         # 竖屏
         dir_port = BASE_DIR / f"drawable-port-{density}"
         dir_port.mkdir(parents=True, exist_ok=True)
-        splash = create_splash(w, h)
+        splash = resize_splash(w, h)
         splash.save(dir_port / "splash.png", "PNG")
 
         # 横屏
         dir_land = BASE_DIR / f"drawable-land-{density}"
         dir_land.mkdir(parents=True, exist_ok=True)
-        splash_land = create_splash(h, w)
+        splash_land = resize_splash(h, w)
         splash_land.save(dir_land / "splash.png", "PNG")
 
         print(f"生成 {density} 闪屏图 ({w}x{h})")
+
+    # 默认 drawable 下的 splash.png（用于 mipmap-anydpi-v26 等）
+    default_splash = resize_splash(1242, 2688)  # 用 xxhdpi 尺寸
+    default_drawable = BASE_DIR / "drawable" / "splash.png"
+    default_drawable.parent.mkdir(parents=True, exist_ok=True)
+    default_splash.save(default_drawable, "PNG")
+    print(f"生成默认 splash.png")
 
     print("闪屏图生成完成")
 
