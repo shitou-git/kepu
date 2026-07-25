@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-07-25",
+      "theme": "role_model",
+      "theme_name": "榜样人物",
+      "title": "科学之光：那些改变世界的榜样人物",
+      "summary": "一个苹果砸中牛顿，还是他发现了重力？让我们走进科学家们的奇妙世界。",
+      "keywords": [
+        "科学家",
+        "榜样",
+        "好奇心",
+        "坚持",
+        "探索"
+      ],
+      "images": [
+        "2026-07-25_1_1_3e79fe5d_fallback.jpg"
+      ]
+    },
+    {
       "date": "2026-07-24",
       "theme": "physics",
       "theme_name": "科学小实验",
