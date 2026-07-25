@@ -2,6 +2,22 @@
   "articles": [
     {
       "date": "2026-07-25",
+      "theme": "world_history",
+      "theme_name": "世界历史",
+      "title": "时间机器：世界历史里的秘密",
+      "summary": "古埃及金字塔的石头里，藏着几千年前工人的汗水和星星的秘密。",
+      "keywords": [
+        "历史",
+        "文明",
+        "探索",
+        "故事"
+      ],
+      "images": [
+        "2026-07-25_2_1_7a90aa53_fallback.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-25",
       "theme": "role_model",
       "theme_name": "榜样人物",
       "title": "科学之光：那些改变世界的榜样人物",
