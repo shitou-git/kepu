@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-07-26",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "生命密码：探索你身体里的微观宇宙",
+      "summary": "你的身体里住着万亿个微小工人，它们正悄悄建造奇迹。",
+      "keywords": [
+        "生命科学",
+        "细胞",
+        "DNA",
+        "免疫系统",
+        "人体奥秘"
+      ],
+      "images": [
+        "2026-07-26_2_1_072220ec_fallback.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-26",
       "theme": "classical",
       "theme_name": "古典文化",
       "title": "穿越时空的科学侦探：解码古典文化中的自然奥秘",
