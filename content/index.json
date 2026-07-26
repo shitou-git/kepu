@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "date": "2026-07-26",
+      "theme": "classical",
+      "theme_name": "古典文化",
+      "title": "穿越时空的科学侦探：解码古典文化中的自然奥秘",
+      "summary": "破译古卷中的植物密码与星图秘密",
+      "keywords": [
+        "古典文化",
+        "自然科学",
+        "历史探索",
+        "古代智慧"
+      ],
+      "images": [
+        "2026-07-26_1_1_cdb80ad0.jpg"
+      ]
+    },
+    {
       "date": "2026-07-25",
       "theme": "world_history",
       "theme_name": "世界历史",
