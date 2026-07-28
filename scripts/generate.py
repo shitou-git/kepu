@@ -90,41 +90,26 @@ class MagazineGenerator:
                 print(f"警告: 未找到主题 '{override_theme}'")
                 return []
             return self._generate_for_theme(target_theme, date_str)
-        
-        import random
-        
-        date = today
-        weekday = date.isoweekday()
-        
-        all_matched = []
-        for theme in self.config["themes"]:
-            if weekday in theme["weekdays"]:
-                all_matched.append(theme)
-        
-        if len(all_matched) == 0:
-            all_matched = self.config["themes"]
-        
-        existing_themes = set()
-        for f in self.content_dir.glob(f"{date_str}*.json"):
-            try:
-                data = json.loads(f.read_text(encoding="utf-8"))
-                if data.get("theme"):
-                    existing_themes.add(data["theme"])
-            except Exception:
-                pass
-        
+
+        # 按主题顺序循环：根据已有文章总数取模决定下一个主题
+        all_themes = self.config["themes"]
+        total_existing = len(list(self.content_dir.glob("*.json")))
+        theme_index = total_existing % len(all_themes)
+        target_theme = all_themes[theme_index]
+
         if force:
-            target_theme = random.choice(all_matched)
             print(f"手动触发，强制生成主题: {target_theme['name']} ({target_theme['id']})")
         else:
-            pending_themes = [t for t in all_matched if t["id"] not in existing_themes]
-            
-            if not pending_themes:
-                print("今日所有主题文章均已生成，跳过")
-                return []
-            
-            target_theme = random.choice(pending_themes)
-            print(f"生成主题: {target_theme['name']} ({target_theme['id']})")
+            # 检查今天该主题是否已生成过
+            for f in self.content_dir.glob(f"{date_str}*.json"):
+                try:
+                    data = json.loads(f.read_text(encoding="utf-8"))
+                    if data.get("theme") == target_theme["id"]:
+                        print(f"今日已生成过主题 '{target_theme['name']}'，跳过")
+                        return []
+                except Exception:
+                    pass
+            print(f"生成主题: {target_theme['name']} ({target_theme['id']}) (序号 {theme_index})")
         
         generated = []
         theme = target_theme
