@@ -67,36 +67,11 @@
         }, 3000);
     }
 
-    function showOfflineToast() {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--text-light);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            font-size: 0.9em;
-            animation: slideUp 0.3s ease-out;
-        `;
-        toast.textContent = '📡 离线模式，显示缓存内容';
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 2500);
-    }
-
     async function checkUpdate() {
         const onlineVersion = await getOnlineVersion();
         const localVersion = await getLocalVersion();
 
         if (!onlineVersion) {
-            showOfflineToast();
             return;
         }
 
