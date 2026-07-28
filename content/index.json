@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "date": "2026-07-28",
+      "theme": "nature",
+      "theme_name": "自然与动物",
+      "title": "自然与动物：奇妙的生命交响",
+      "summary": "在密林深处，一只小狐狸悄悄靠近蜂巢，它知道那里藏着蜂蜜的秘密。",
+      "keywords": [
+        "自然",
+        "动物",
+        "生态系统",
+        "智慧"
+      ],
+      "images": [
+        "2026-07-28_1_1_d4c56977_fallback.jpg"
+      ]
+    },
+    {
       "date": "2026-07-27",
       "theme": "cosmic_exploration",
       "theme_name": "宇宙探索",
