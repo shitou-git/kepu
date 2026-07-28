@@ -145,59 +145,70 @@ class MagazineGenerator:
             
             print("正在搜索配图...")
             image_prompts = article.get("image_prompts", [])
+            actual_sections = article.get("section_count", len(image_prompts))
+            # 如果提示词不足，用最后一个补全
+            while len(image_prompts) < actual_sections:
+                image_prompts.append(image_prompts[-1] if image_prompts else "children's science illustration, cartoon style")
             image_paths = self.finder.search_images(
                 image_prompts,
-                count=len(image_prompts),
+                count=actual_sections,
                 date_str=file_date_str
             )
             article["images"] = [Path(p).name for p in image_paths]
-            
+            if len(article["images"]) < actual_sections:
+                print(f"  ⚠️ 警告: 图片数量({len(article['images'])})少于章节数({actual_sections})")
+
             article_file.write_text(
                 json.dumps(article, ensure_ascii=False, indent=2),
                 encoding="utf-8"
             )
             print(f"文章已保存: {article_file}")
-            
+
             self.update_index(article)
             generated.append(article)
         except Exception as e:
             print(f"生成失败，跳过: {e}")
-        
+
         return generated
-    
+
     def _generate_for_theme(self, theme, date_str):
         """为指定主题生成一篇文章"""
         existing_count = len([f for f in self.content_dir.glob(f"{date_str}*.json")])
         file_date_str = f"{date_str}_{existing_count + 1}"
-        
+
         article_file = self.content_dir / f"{file_date_str}.json"
         if article_file.exists():
             print(f"内容已存在，跳过: {article_file}")
             return []
-        
+
         print(f"\n生成主题: {theme['name']} ({theme['id']})")
-        
+
         try:
             print("正在生成文章...")
             article = self.writer.generate_article(theme["id"], theme["name"], date_str)
             article["date"] = date_str
             article["file_id"] = file_date_str
-            
+
             print("正在搜索配图...")
             image_prompts = article.get("image_prompts", [])
+            actual_sections = article.get("section_count", len(image_prompts))
+            while len(image_prompts) < actual_sections:
+                image_prompts.append(image_prompts[-1] if image_prompts else "children's science illustration, cartoon style")
             image_paths = self.finder.search_images(
                 image_prompts,
-                count=len(image_prompts),
+                count=actual_sections,
                 date_str=file_date_str
             )
             article["images"] = [Path(p).name for p in image_paths]
-            
+            if len(article["images"]) < actual_sections:
+                print(f"  ⚠️ 警告: 图片数量({len(article['images'])})少于章节数({actual_sections})")
+
             article_file.write_text(
                 json.dumps(article, ensure_ascii=False, indent=2),
                 encoding="utf-8"
             )
             print(f"文章已保存: {article_file}")
-            
+
             self.update_index(article)
             return [article]
         except Exception as e:
@@ -262,13 +273,17 @@ class MagazineGenerator:
             
             try:
                 article = self.writer.generate_article(theme["id"], theme["name"], date_str)
+                image_prompts = article.get("image_prompts", [])
+                actual_sections = article.get("section_count", len(image_prompts))
+                while len(image_prompts) < actual_sections:
+                    image_prompts.append(image_prompts[-1] if image_prompts else "children's science illustration, cartoon style")
                 image_paths = self.finder.search_images(
-                    article.get("image_prompts", []),
-                    count=3,
+                    image_prompts,
+                    count=actual_sections,
                     date_str=date_str
                 )
                 article["images"] = [Path(p).name for p in image_paths]
-                
+
                 article_file.write_text(
                     json.dumps(article, ensure_ascii=False, indent=2),
                     encoding="utf-8"
@@ -281,39 +296,43 @@ class MagazineGenerator:
     def generate_historical(self, articles_per_theme: int = 2, start_date_str: str = ""):
         """为每个主题生成历史文章，日期从指定日期倒推"""
         from datetime import timedelta
-        
+
         if start_date_str:
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
         else:
             start_date = datetime.now() - timedelta(days=1)
-        
+
         current_date = start_date
         article_count = 0
-        
+
         for theme in self.config["themes"]:
             theme_id = theme["id"]
             theme_name = theme["name"]
-            
+
             for i in range(articles_per_theme):
                 date_str = current_date.strftime("%Y-%m-%d")
-                
+
                 article_file = self.content_dir / f"{date_str}.json"
                 if article_file.exists():
                     print(f"跳过已存在: {date_str}")
                     current_date = current_date - timedelta(days=1)
                     continue
-                
+
                 print(f"生成 {date_str} - {theme_name}")
-                
+
                 try:
                     article = self.writer.generate_article(theme_id, theme_name, date_str)
+                    image_prompts = article.get("image_prompts", [])
+                    actual_sections = article.get("section_count", len(image_prompts))
+                    while len(image_prompts) < actual_sections:
+                        image_prompts.append(image_prompts[-1] if image_prompts else "children's science illustration, cartoon style")
                     image_paths = self.finder.search_images(
-                        article.get("image_prompts", []),
-                        count=3,
+                        image_prompts,
+                        count=actual_sections,
                         date_str=date_str
                     )
                     article["images"] = [Path(p).name for p in image_paths]
-                    
+
                     article_file.write_text(
                         json.dumps(article, ensure_ascii=False, indent=2),
                         encoding="utf-8"
@@ -322,9 +341,9 @@ class MagazineGenerator:
                     article_count += 1
                 except Exception as e:
                     print(f"生成失败 {date_str}: {e}")
-                
+
                 current_date = current_date - timedelta(days=1)
-        
+
         print(f"历史文章生成完成，共 {article_count} 篇")
 
 

@@ -30,12 +30,13 @@ class ImageFinder:
         """
         使用 Agnes AI 生成图片并下载到本地
         返回本地图片路径列表
-        增加重试机制和 fallback 方案，确保文章至少有配图
+        增加重试机制和 fallback 方案，确保文章配图与内容相关
         """
         images = []
-        
+
         for i, query in enumerate(queries[:count]):
             success = False
+            # 第1轮：使用原始 prompt 重试
             for attempt in range(self.max_retries):
                 image_url = self._generate_image(query)
                 if image_url:
@@ -52,14 +53,38 @@ class ImageFinder:
                     if attempt < self.max_retries - 1:
                         print(f"    等待 {self.retry_delay} 秒后重试...")
                         time.sleep(self.retry_delay)
-            
+
+            # 第2轮：使用简化 prompt 再试
             if not success:
-                print(f"  ⚠️ 第{i+1}张图 Agnes AI 生成失败，尝试使用占位图...")
-                fallback_path = self._get_fallback_image(query, date_str, i+1)
-                if fallback_path:
-                    images.append(fallback_path)
-                    print(f"  ✓ 第{i+1}张图使用占位图成功")
-            
+                print(f"  ⚠️ 第{i+1}张图原始prompt失败，尝试简化prompt...")
+                simplified = self._simplify_prompt(query)
+                for attempt in range(2):
+                    image_url = self._generate_image(simplified)
+                    if image_url:
+                        local_path = self._download_image(image_url, query, date_str, i+1)
+                        if local_path:
+                            images.append(local_path)
+                            print(f"  ✓ 第{i+1}张图简化prompt生成成功")
+                            success = True
+                        break
+                    else:
+                        time.sleep(self.retry_delay)
+
+            # 第3轮：使用主题关键词兜底
+            if not success:
+                print(f"  ⚠️ 第{i+1}张图仍失败，尝试主题关键词...")
+                keyword_prompt = self._keyword_prompt(query)
+                image_url = self._generate_image(keyword_prompt)
+                if image_url:
+                    local_path = self._download_image(image_url, query, date_str, i+1)
+                    if local_path:
+                        images.append(local_path)
+                        print(f"  ✓ 第{i+1}张图关键词prompt生成成功")
+                        success = True
+
+            if not success:
+                print(f"  ✗ 第{i+1}张图全部尝试失败，跳过（避免使用不相关随机图）")
+
             if len(images) >= count:
                 break
 
@@ -132,40 +157,23 @@ class ImageFinder:
             print(f"图片下载/压缩失败: {e}")
             return None
 
-    def _get_fallback_image(self, query: str, date_str: str, index: int) -> Optional[str]:
-        """当 Agnes AI 生成失败时，使用 picsum.photos 获取随机图片作为兜底"""
-        try:
-            import random
-            picsum_id = random.randint(0, 1000)
-            url = f"https://picsum.photos/seed/{picsum_id}/800/450"
-            
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
+    def _simplify_prompt(self, query: str) -> str:
+        """简化过长的图片提示词，保留核心主体和风格"""
+        # 保留前2个逗号之前的核心描述（通常是主体+动作+场景）
+        parts = [p.strip() for p in query.split(",")]
+        # 取前3个核心片段 + 风格后缀
+        core = ", ".join(parts[:3]) if len(parts) > 3 else query
+        style = "watercolor hand-drawn, cartoon characters, Pixar animation style, colorful children's illustration, no realistic human portraits"
+        return f"{core}, {style}"
 
-            img = Image.open(io.BytesIO(response.content))
-
-            if img.mode == "RGBA":
-                background = Image.new("RGB", img.size, (255, 255, 255))
-                background.paste(img, mask=img.split()[3])
-                img = background
-            elif img.mode != "RGB":
-                img = img.convert("RGB")
-
-            if img.width > self.max_width:
-                ratio = self.max_width / img.width
-                new_height = int(img.height * ratio)
-                img = img.resize((self.max_width, new_height), Image.LANCZOS)
-
-            query_hash = hashlib.md5(query.encode()).hexdigest()[:8]
-            filename = f"{date_str}_{index}_{query_hash}_fallback.jpg"
-            filepath = self.image_dir / filename
-
-            img.save(filepath, format="JPEG", quality=self.quality, optimize=True)
-
-            return str(filepath)
-        except Exception as e:
-            print(f"  ✗ 占位图下载失败: {e}")
-            return None
+    def _keyword_prompt(self, query: str) -> str:
+        """提取关键词生成极简提示词"""
+        # 尝试提取主要名词（简单策略：去掉形容词短语，取前几个名词）
+        words = query.replace(",", " ").split()
+        # 取前8个词作为关键词
+        keywords = " ".join(words[:8]) if len(words) > 8 else query
+        style = "watercolor hand-drawn, cartoon characters, Pixar animation style, colorful children's illustration"
+        return f"{keywords}, {style}"
 
     def get_local_image_path(self, filename: str) -> str:
         """获取图片在构建后的相对路径"""
