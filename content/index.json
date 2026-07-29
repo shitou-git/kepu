@@ -2,6 +2,22 @@
   "articles": [
     {
       "date": "2026-07-29",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "探索生命之谜：从细胞到DNA的奇妙旅程",
+      "summary": "你是否好奇，你的身体里藏着什么秘密？",
+      "keywords": [
+        "细胞",
+        "DNA",
+        "健康",
+        "生长"
+      ],
+      "images": [
+        "2026-07-29_3_1_24b12e17.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-29",
       "theme": "world_history",
       "theme_name": "世界历史",
       "title": "世界历史：穿越时空的文明之旅",
