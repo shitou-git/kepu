@@ -401,6 +401,10 @@ Output format: One title per line, {section_count} total, in order."""
         thinking = self.generate_thinking(content, theme_name)
         print(f"    Thinking questions: {thinking}")
 
+        print("\n  Step 6: Generating word dictionary...")
+        word_dict = self.generate_word_dict(content)
+        print(f"    Word dict: {len(word_dict)} characters")
+
         return {
             "theme": theme,
             "theme_name": theme_name,
@@ -412,8 +416,67 @@ Output format: One title per line, {section_count} total, in order."""
             "fact_card": fact_card,
             "thinking": thinking,
             "image_prompts": image_prompts,
-            "section_count": actual_sections
+            "section_count": actual_sections,
+            "word_dict": word_dict
         }
+
+
+    def generate_word_dict(self, content: str) -> dict:
+        """调用 AI 为文章中的关键汉字生成组词和成语"""
+        # 提取文章中出现频率较高的汉字（去标点、去常见无意义字）
+        stop_chars = set('的了是在我有和就都也你他她它们这那个人不了与以对为从把被让到过又要其上下一不')
+        char_count = {}
+        for ch in content:
+            if '\u4e00' <= ch <= '\u9fff' and ch not in stop_chars:
+                char_count[ch] = char_count.get(ch, 0) + 1
+        # 取出现次数 >= 2 的前 60 个字
+        sorted_chars = sorted(char_count.items(), key=lambda x: -x[1])
+        key_chars = [ch for ch, cnt in sorted_chars[:60] if cnt >= 2]
+        if not key_chars:
+            return {}
+
+        chars_str = "、".join(key_chars)
+        system_prompt = """你是一位资深的小学语文老师，精通汉字教学。
+
+任务：为给定的汉字生成规范的组词和成语。
+
+要求：
+1. 每个汉字生成 3-5 个常用组词（2-3字词）
+2. 如果该字有包含它的成语，生成 1-3 个成语
+3. 组词必须是真实存在的词语，不能生造
+4. 成语必须是标准四字成语
+5. 适合小学生理解
+
+输出格式（严格JSON）：
+{
+  "字": {"words": ["词1", "词2", "词3"], "idioms": ["成语1", "成语2"]},
+  ...
+}
+
+如果没有成语，idioms 为空数组。只输出JSON，不要其他内容。"""
+
+        user_prompt = f"""请为以下汉字生成组词和成语：
+
+{chars_str}"""
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+
+        try:
+            result = self._call_api(messages, temperature=0.3)
+            # 清理可能的 markdown 代码块标记
+            result = result.strip()
+            if result.startswith("```"):
+                result = re.sub(r'^```(?:json)?\s*', '', result)
+                result = re.sub(r'\s*```$', '', result)
+            word_dict = json.loads(result)
+            # 只保留我们请求的字
+            return {k: v for k, v in word_dict.items() if k in key_chars}
+        except Exception as e:
+            print(f"    生成组词字典失败: {e}")
+            return {}
 
 
 if __name__ == "__main__":
