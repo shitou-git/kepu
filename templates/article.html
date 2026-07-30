@@ -120,6 +120,108 @@ article.card { margin-bottom: 0; }
     border-radius: 12px;
     box-shadow: var(--shadow);
 }
+
+/* 点击查字功能样式 */
+.kepu-char {
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s;
+}
+.kepu-char:hover {
+    background: var(--primary-light);
+}
+.kepu-char:active {
+    background: var(--primary);
+    color: white;
+}
+.kepu-popup {
+    position: fixed;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 16px 20px;
+    z-index: 9999;
+    min-width: 180px;
+    max-width: 280px;
+    animation: kepuFadeIn 0.2s ease-out;
+}
+@keyframes kepuFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.kepu-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.kepu-char-display {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+}
+.kepu-pinyin {
+    font-size: 1.3em;
+    color: var(--primary);
+    font-weight: 500;
+    flex: 1;
+}
+.kepu-speak-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s;
+    flex-shrink: 0;
+}
+.kepu-speak-btn:hover { transform: scale(1.1); }
+.kepu-speak-btn:active { transform: scale(0.95); }
+.kepu-speak-btn.loading { animation: kepuPulse 1s infinite; }
+@keyframes kepuPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+.kepu-words {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.kepu-words-title {
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-bottom: 6px;
+}
+.kepu-words-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.kepu-word {
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.95em;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+.kepu-word:hover { background: var(--primary-light); }
+.kepu-word .word-pinyin {
+    font-size: 0.75em;
+    color: var(--text-light);
+}
+.kepu-word.playing { background: var(--primary); color: white; }
+.kepu-word.playing .word-pinyin { color: rgba(255,255,255,0.8); }
 </style>
 {% endblock %}
 {% block content %}
@@ -184,4 +286,205 @@ article.card { margin-bottom: 0; }
         {% endif %}
     </div>
 </article>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/pinyin-pro@3.14.0/dist/index.js"></script>
+<script>
+(function() {
+    var TTS_BASE = 'https://tts.chatlz.dpdns.org';
+    var audioCache = {};
+    var currentAudio = null;
+
+    // 判断是否为汉字
+    function isChinese(ch) {
+        return /[\u4e00-\u9fff]/.test(ch);
+    }
+
+    // 处理文章正文，将汉字包裹为可点击的 span
+    function processTextNodes() {
+        var selectors = '.article-body p, .article-body h2, .article-body h3, .fact-card li, .thinking-box li';
+        var containers = document.querySelectorAll(selectors);
+
+        containers.forEach(function(container) {
+            var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            var nodes = [];
+            while (walker.nextNode()) nodes.push(walker.currentNode);
+
+            nodes.forEach(function(node) {
+                var text = node.textContent;
+                if (!text) return;
+                var hasChinese = false;
+                for (var i = 0; i < text.length; i++) {
+                    if (isChinese(text[i])) { hasChinese = true; break; }
+                }
+                if (!hasChinese) return;
+
+                var frag = document.createDocumentFragment();
+                for (var i = 0; i < text.length; i++) {
+                    var ch = text[i];
+                    if (isChinese(ch)) {
+                        var span = document.createElement('span');
+                        span.className = 'kepu-char';
+                        span.textContent = ch;
+                        frag.appendChild(span);
+                    } else {
+                        frag.appendChild(document.createTextNode(ch));
+                    }
+                }
+                node.parentNode.replaceChild(frag, node);
+            });
+        });
+    }
+
+    // 获取拼音
+    function getPinyin(text) {
+        try {
+            return pinyinPro.pinyin(text, { toneType: 'symbol', type: 'array' });
+        } catch(e) {
+            return [];
+        }
+    }
+
+    // 从文章中查找包含该字的词语
+    function findWords(char) {
+        var text = document.querySelector('.article-body').textContent;
+        var words = new Set();
+        var chars = Array.from(text);
+
+        for (var i = 0; i < chars.length; i++) {
+            if (chars[i] === char) {
+                // 两字词：char+next, prev+char
+                if (i + 1 < chars.length && isChinese(chars[i + 1])) {
+                    words.add(char + chars[i + 1]);
+                }
+                if (i - 1 >= 0 && isChinese(chars[i - 1])) {
+                    words.add(chars[i - 1] + char);
+                }
+                // 三字词
+                if (i + 2 < chars.length && isChinese(chars[i + 1]) && isChinese(chars[i + 2])) {
+                    words.add(char + chars[i + 1] + chars[i + 2]);
+                }
+                if (i - 2 >= 0 && isChinese(chars[i - 1]) && isChinese(chars[i - 2])) {
+                    words.add(chars[i - 2] + chars[i - 1] + char);
+                }
+            }
+        }
+        return Array.from(words).slice(0, 5);
+    }
+
+    // 播放 TTS
+    function playTTS(text, btn) {
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        if (audioCache[text]) {
+            currentAudio = audioCache[text];
+            currentAudio.currentTime = 0;
+            currentAudio.play();
+            return;
+        }
+        if (btn) btn.classList.add('loading');
+        var url = TTS_BASE + '/tts?text=' + encodeURIComponent(text) +
+                  '&voice=zh-CN-XiaoxiaoNeural&format=audio-24khz-48kbitrate-mono-mp3';
+        var audio = new Audio(url);
+        audioCache[text] = audio;
+        currentAudio = audio;
+        audio.addEventListener('canplay', function() {
+            if (btn) btn.classList.remove('loading');
+        });
+        audio.addEventListener('error', function() {
+            if (btn) btn.classList.remove('loading');
+        });
+        audio.play();
+    }
+
+    // 显示弹窗
+    function showPopup(char, x, y) {
+        hidePopup();
+        var pinyinArr = getPinyin(char);
+        var pinyin = pinyinArr.length ? pinyinArr[0] : '';
+        var words = findWords(char);
+
+        var wordsHtml = '';
+        if (words.length) {
+            var wordItems = words.map(function(w) {
+                var wp = getPinyin(w);
+                var wpStr = wp.join(' ');
+                return '<span class="kepu-word" data-word="' + w + '">' +
+                       w + '<span class="word-pinyin">' + wpStr + '</span></span>';
+            }).join('');
+            wordsHtml = '<div class="kepu-words">' +
+                        '<div class="kepu-words-title">组词（点击朗读）</div>' +
+                        '<div class="kepu-words-list">' + wordItems + '</div>' +
+                        '</div>';
+        }
+
+        var popup = document.createElement('div');
+        popup.className = 'kepu-popup';
+        popup.innerHTML =
+            '<div class="kepu-popup-header">' +
+                '<span class="kepu-char-display">' + char + '</span>' +
+                '<span class="kepu-pinyin">' + pinyin + '</span>' +
+                '<button class="kepu-speak-btn" title="朗读">🔊</button>' +
+            '</div>' + wordsHtml;
+
+        document.body.appendChild(popup);
+
+        // 定位
+        var rect = popup.getBoundingClientRect();
+        var left = x - rect.width / 2;
+        var top = y - rect.height - 10;
+        if (top < 10) top = y + 25;
+        if (left < 10) left = 10;
+        if (left + rect.width > window.innerWidth - 10) {
+            left = window.innerWidth - rect.width - 10;
+        }
+        popup.style.left = left + 'px';
+        popup.style.top = top + 'px';
+
+        // 朗读按钮
+        var speakBtn = popup.querySelector('.kepu-speak-btn');
+        speakBtn.addEventListener('click', function() {
+            playTTS(char, speakBtn);
+        });
+
+        // 组词点击朗读
+        popup.querySelectorAll('.kepu-word').forEach(function(el) {
+            el.addEventListener('click', function() {
+                playTTS(el.dataset.word, null);
+                el.classList.add('playing');
+                setTimeout(function() { el.classList.remove('playing'); }, 1500);
+            });
+        });
+    }
+
+    function hidePopup() {
+        var popup = document.querySelector('.kepu-popup');
+        if (popup) popup.remove();
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof pinyinPro === 'undefined') {
+            console.warn('pinyin-pro 未加载，点击查字功能不可用');
+            return;
+        }
+        processTextNodes();
+
+        // 点击汉字
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('kepu-char')) {
+                e.stopPropagation();
+                var rect = e.target.getBoundingClientRect();
+                showPopup(e.target.textContent, rect.left + rect.width / 2, rect.top);
+            } else if (!e.target.closest('.kepu-popup')) {
+                hidePopup();
+            }
+        });
+
+        // 滚动时关闭弹窗
+        window.addEventListener('scroll', hidePopup, { passive: true });
+    });
+})();
+</script>
 {% endblock %}
