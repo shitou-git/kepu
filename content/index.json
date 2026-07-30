@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "date": "2026-07-31",
+      "theme": "innovation",
+      "theme_name": "科学创新",
+      "title": "科学创新：未来世界的魔法钥匙",
+      "summary": "当机器人开始画画，科学家们在实验室里悄悄改变着世界。",
+      "keywords": [
+        "科学创新",
+        "发明家",
+        "生物技术",
+        "人工智能"
+      ],
+      "images": [
+        "2026-07-31_1_1_303df06c.jpg"
+      ]
+    },
+    {
       "date": "2026-07-30",
       "theme": "role_model",
       "theme_name": "榜样人物",
