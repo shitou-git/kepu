@@ -2,6 +2,22 @@
   "articles": [
     {
       "date": "2026-07-30",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "星空下的梦想：宇宙探索的奇妙旅程",
+      "summary": "当第一颗人造卫星划过夜空，人类对宇宙的探索便拉开了序幕。",
+      "keywords": [
+        "宇宙探索",
+        "航天技术",
+        "天文学",
+        "星际旅行"
+      ],
+      "images": [
+        "2026-07-30_2_1_0787fad0.jpg"
+      ]
+    },
+    {
+      "date": "2026-07-30",
       "theme": "military",
       "theme_name": "少年军事",
       "title": "少年军事：探索未来国防小英雄的秘密",
