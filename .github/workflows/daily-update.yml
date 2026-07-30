@@ -76,16 +76,6 @@ jobs:
           git commit -m "Auto-generate content for $(date +%Y-%m-%d)" || echo "No changes to commit"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main
 
-      - name: Backfill word_dict for existing articles
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        env:
-          AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
-        run: |
-          python scripts/backfill_word_dict.py || true
-          git add content/
-          git commit -m "chore: backfill word_dict" || echo "No word_dict changes"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main || true
-
       - name: Build site pages
         run: |
           python scripts/page_builder.py

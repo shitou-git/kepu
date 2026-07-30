@@ -233,6 +233,30 @@ article.card { margin-bottom: 0; }
 .kepu-idiom .word-pinyin {
     color: #b45309;
 }
+.kepu-words-loading {
+    font-size: 0.85em;
+    color: var(--text-light);
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.kepu-words-loading::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 2px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: kepuSpin 0.8s linear infinite;
+}
+@keyframes kepuSpin {
+    to { transform: rotate(360deg); }
+}
+.kepu-words-error {
+    font-size: 0.8em;
+    color: #c53030;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -303,10 +327,13 @@ article.card { margin-bottom: 0; }
 <script>
 (function() {
     var TTS_BASE = 'https://tts.chatlz.dpdns.org';
+    // 组词 / 成语按需生成 Worker（点击汉字时调用）
+    var WORD_DICT_API = 'https://worddict.chatlz.dpdns.org/word';
+    // localStorage 缓存有效期 30 天
+    var CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
+    var memCache = {};
     var audioCache = {};
     var currentAudio = null;
-    // AI 生成的组词字典，从文章数据中读取
-    var WORD_DICT = {{ article.word_dict | tojson if article.word_dict else '{}' }};
 
     // 判断是否为汉字
     function isChinese(ch) {
@@ -389,35 +416,6 @@ article.card { margin-bottom: 0; }
         hidePopup();
         var pinyinArr = getPinyin(char);
         var pinyin = pinyinArr.length ? pinyinArr[0] : '';
-        var charData = WORD_DICT[char];
-        var words = charData ? (charData.words || []) : [];
-        var idioms = charData ? (charData.idioms || []) : [];
-
-        var wordsHtml = '';
-        if (words.length || idioms.length) {
-            var wordItems = '';
-
-            // 组词
-            words.forEach(function(w) {
-                var wp = getPinyin(w);
-                wordItems += '<span class="kepu-word" data-word="' + w + '">' +
-                              w + '<span class="word-pinyin">' + wp.join(' ') + '</span></span>';
-            });
-
-            // 成语
-            idioms.forEach(function(idiom) {
-                var ip = getPinyin(idiom);
-                wordItems += '<span class="kepu-word kepu-idiom" data-word="' + idiom + '">' +
-                             '<span style="font-size:0.7em;color:#ed8936;margin-right:4px">成语</span>' +
-                             idiom + '<span class="word-pinyin">' + ip.join(' ') + '</span></span>';
-            });
-
-            var sectionTitle = idioms.length ? '组词 / 成语' : '组词';
-            wordsHtml = '<div class="kepu-words">' +
-                        '<div class="kepu-words-title">' + sectionTitle + '（点击朗读）</div>' +
-                        '<div class="kepu-words-list">' + wordItems + '</div>' +
-                        '</div>';
-        }
 
         var popup = document.createElement('div');
         popup.className = 'kepu-popup';
@@ -426,7 +424,10 @@ article.card { margin-bottom: 0; }
                 '<span class="kepu-char-display">' + char + '</span>' +
                 '<span class="kepu-pinyin">' + pinyin + '</span>' +
                 '<button class="kepu-speak-btn" title="自动朗读中">🔊</button>' +
-            '</div>' + wordsHtml;
+            '</div>' +
+            '<div class="kepu-words">' +
+                '<div class="kepu-words-list"><div class="kepu-words-loading">正在生成组词…</div></div>' +
+            '</div>';
 
         document.body.appendChild(popup);
 
@@ -444,15 +445,6 @@ article.card { margin-bottom: 0; }
 
         var speakBtn = popup.querySelector('.kepu-speak-btn');
 
-        // 点击词语朗读
-        popup.querySelectorAll('.kepu-word').forEach(function(el) {
-            el.addEventListener('click', function() {
-                playTTS(el.dataset.word, null);
-                el.classList.add('playing');
-                setTimeout(function() { el.classList.remove('playing'); }, 1500);
-            });
-        });
-
         // 点击朗读按钮
         speakBtn.addEventListener('click', function() {
             playTTS(char, speakBtn);
@@ -462,6 +454,107 @@ article.card { margin-bottom: 0; }
         setTimeout(function() {
             playTTS(char, speakBtn);
         }, 100);
+
+        // 异步获取组词 / 成语
+        fetchWordDict(char, function(words, idioms) {
+            // 弹窗可能已被关闭
+            if (!document.body.contains(popup)) return;
+            renderWords(popup, char, words, idioms);
+            // 渲染后重新定位，避免内容高度变化导致越界
+            var newRect = popup.getBoundingClientRect();
+            var newTop = y - newRect.height - 10;
+            if (newTop < 10) newTop = y + 25;
+            popup.style.top = newTop + 'px';
+        });
+    }
+
+    // 从 localStorage 读取缓存
+    function readCache(char) {
+        if (memCache[char]) return memCache[char];
+        try {
+            var raw = localStorage.getItem('kepu_wd_' + char);
+            if (!raw) return null;
+            var obj = JSON.parse(raw);
+            if (Date.now() - obj.ts < CACHE_TTL) {
+                memCache[char] = obj.data;
+                return obj.data;
+            }
+            localStorage.removeItem('kepu_wd_' + char);
+        } catch(e) {}
+        return null;
+    }
+
+    // 写入 localStorage 缓存
+    function writeCache(char, data) {
+        memCache[char] = data;
+        try {
+            localStorage.setItem('kepu_wd_' + char, JSON.stringify({ ts: Date.now(), data: data }));
+        } catch(e) {}
+    }
+
+    // 调用 Worker 获取组词 / 成语（带本地缓存）
+    function fetchWordDict(char, callback) {
+        var cached = readCache(char);
+        if (cached) {
+            callback(cached.words || [], cached.idioms || []);
+            return;
+        }
+        fetch(WORD_DICT_API + '?char=' + encodeURIComponent(char))
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                var result = { words: data.words || [], idioms: data.idioms || [] };
+                writeCache(char, result);
+                callback(result.words, result.idioms);
+            })
+            .catch(function(err) {
+                console.warn('获取组词失败:', err);
+                callback([], []);
+            });
+    }
+
+    // 渲染组词 / 成语到弹窗
+    function renderWords(popup, char, words, idioms) {
+        var wordsBox = popup.querySelector('.kepu-words-list');
+        if (!wordsBox) return;
+
+        if (!words.length && !idioms.length) {
+            wordsBox.innerHTML = '<div class="kepu-words-error">暂无组词数据</div>';
+            return;
+        }
+
+        var html = '';
+        words.forEach(function(w) {
+            var wp = getPinyin(w);
+            html += '<span class="kepu-word" data-word="' + w + '">' +
+                    w + '<span class="word-pinyin">' + wp.join(' ') + '</span></span>';
+        });
+        idioms.forEach(function(idiom) {
+            var ip = getPinyin(idiom);
+            html += '<span class="kepu-word kepu-idiom" data-word="' + idiom + '">' +
+                    '<span style="font-size:0.7em;color:#ed8936;margin-right:4px">成语</span>' +
+                    idiom + '<span class="word-pinyin">' + ip.join(' ') + '</span></span>';
+        });
+        wordsBox.innerHTML = html;
+
+        // 更新标题
+        var titleEl = popup.querySelector('.kepu-words-title');
+        if (titleEl) {
+            titleEl.textContent = (idioms.length ? '组词 / 成语' : '组词') + '（点击朗读）';
+        } else {
+            var titleDiv = document.createElement('div');
+            titleDiv.className = 'kepu-words-title';
+            titleDiv.textContent = (idioms.length ? '组词 / 成语' : '组词') + '（点击朗读）';
+            wordsBox.parentNode.insertBefore(titleDiv, wordsBox);
+        }
+
+        // 点击词语朗读
+        popup.querySelectorAll('.kepu-word').forEach(function(el) {
+            el.addEventListener('click', function() {
+                playTTS(el.dataset.word, null);
+                el.classList.add('playing');
+                setTimeout(function() { el.classList.remove('playing'); }, 1500);
+            });
+        });
     }
 
     function hidePopup() {
