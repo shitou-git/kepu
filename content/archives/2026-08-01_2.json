@@ -1,0 +1,35 @@
+{
+  "theme": "military",
+  "theme_name": "少年军事",
+  "date": "2026-08-01",
+  "title": "少年军事：小小兵的大发明",
+  "summary": "一把弓箭能射多远？战机的速度有多快？今天我们来聊聊少年军事里的科学秘密！",
+  "keywords": [
+    "军事科技",
+    "武器发明",
+    "科学家故事",
+    "少年军事",
+    "物理知识"
+  ],
+  "content": "一把弓箭能射多远？战机的速度有多快？今天我们来聊聊少年军事里的科学秘密！\n\n### 武器里的科学\n\n有一天，一位考古学家挖出了三千年前的箭镞，惊讶地发现它的形状和今天的箭头惊人地相似。三千年！人类花了整整三千年，才把箭头从石头的形状，慢慢磨成了今天金属的样式。\n\n箭头为什么是尖的？这背后藏着一个有趣的物理秘密。当你用手指按图钉时，尖的那一头能轻易扎进墙壁，而平的这一头却按不进去。原因就在于：力量集中在一个小小的点上，压强就会变得超级大。箭头也是同样的道理，它把弓弦弹射的全部力量都集中在前端那个小小的尖点上，穿过空气，穿透目标。\n\n但箭头不只是一个尖尖的金属片。你看，它的形状像一片小小的叶子，尾部还带着一个小倒钩。这种设计能让箭在飞行时更稳定，就像羽毛让风筝不会乱转一样。古人早就发现了空气的秘密——箭头前面的空气被推开，后面的空气迅速补回来，这种力的平衡让箭能飞得又远又准。\n\n有一次我在夏令营教孩子们用玩具弓箭，一个小女孩问我：\"为什么箭头要做成三角形的，而不是圆形的？\"我让她用手捏住一个三角形和一根圆铅笔，轻轻一按，三角形立刻戳进了橡皮泥，而圆铅笔只是滑开了。她眼睛一下子亮了起来。\n\n下次你看到针、匕首或者任何尖尖的东西，停下来想一想：它们和几千年前的箭头，藏着同一个聪明的物理秘密。\n\n[IMAGE_1]\n\n### 小小军事科学家\n\n罗伯特·瓦特小时候特别爱问\"为什么\"。他常常盯着天空发呆，想：能不能用一种看不见的方法，发现很远很远的东西？后来他真的找到了答案——他发明了雷达。\n\n雷达的原理其实很简单。就像你对着山谷大喊，听到回声就知道山有多远。雷达站向天空发射一种看不见的波，叫电磁波。电磁波和光一样，都是波，但我们的眼睛看不见它。当敌机飞过时，电磁波撞到大大的飞机，又弹回来。雷达站接收到这个回声，就能算出飞机有多远、往哪个方向飞。\n\n二战时，德国飞机经常悄悄来袭。英国人靠雷达提前发现敌机，才保护了自己的城市。这个发明救了很多人的命。\n\n其实雷达就在我们身边。高速公路上的测速雷达，能测汽车开得多快。气象雷达能告诉我们雨云在哪里，提醒你带伞。\n\n你下次听到回声，可以想想：那不就是最简单的\"雷达\"吗？\n\n[IMAGE_2]",
+  "fact_card": [
+    "三千年前的箭头和今天的箭头形状差不多！人类花了整整三千年，才把箭头从石头慢慢磨成金属的。你知道吗，图钉尖的那一头能扎进墙，平的那一头却按不进去，就是因为力量集中在一个小点上，压强变大了，箭头也是这个原理哦！",
+    "雷达的原理其实就像你对着山谷喊一声，听到回声就能知道山有多远。雷达发射的是电磁波，飞机飞过时会把电磁波\"弹\"回来，雷达站接收到就能算出飞机有多远、往哪飞。二战时英国靠雷达提前发现德国飞机，保护了很多人的性命！",
+    "箭头尾部带小倒钩、形状像叶子，这是古人早就发现的空气秘密——箭飞出去时，前面的空气被推开，后面的空气迅速补回来，力的平衡让箭飞得又远又准。就像风筝有羽毛才不会乱转一样！",
+    "雷达早就悄悄来到我们身边啦！高速公路上的测速雷达能测汽车开多快，气象雷达能告诉我们雨云在哪，出门前看一眼天气预报，其实就是在用雷达\"帮忙\"呢！"
+  ],
+  "thinking": [
+    "如果你来设计一支新的箭，除了让箭头变尖，你还会怎样改进它的设计，让箭飞得更远更准？",
+    "雷达利用回声来探测物体，生活中还有哪些东西也用了类似的\"回声探测\"原理？你能发现并记录它们的共同点吗？"
+  ],
+  "image_prompts": [
+    "A cheerful cartoon archaeologist with a wide-brimmed hat and magnifying glass kneels beside an excavation site, holding up an ancient stone arrowhead in one hand and a modern metal arrowhead in the other, comparing them side by side. Around him are scattered pottery shards, brushes, and a wooden crate labeled \"3000 years.\" In the foreground, a close-up cross-section diagram shows a sharp triangular arrowhead with an invisible force concentrating at its tip, with small cartoon force lines radiating outward. A group of diverse children watch with wide-eyed wonder. Watercolor hand-drawn style, Pixar animation style, bright warm colors, soft brush strokes, suitable for ages 6-12.",
+    "A friendly cartoon young inventor boy with big round glasses and messy hair stands in a cozy workshop filled with gears, wires, and gadgets, pointing up at a glowing radar screen showing a small airplane silhouette. Above him, a simple animated diagram shows invisible wave lines bouncing off a distant plane like an echo, with a cheerful cartoon mountain and sound wave lines labeled \"echo\" for comparison. Outside the workshop window, a bright blue sky with fluffy clouds and a distant airplane leaves a tiny contrail. On the desk, a toy car near a speed radar sign and a weather map with rain cloud symbols sit alongside the radar equipment. Watercolor hand-drawn style, Pixar animation style, bright cheerful colors, soft textures, suitable for ages 6-12."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-01_2",
+  "images": [
+    "2026-08-01_2_1_2bc3653d.jpg",
+    "2026-08-01_2_2_834ffa4e.jpg"
+  ]
+}
