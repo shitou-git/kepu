@@ -1,0 +1,35 @@
+{
+  "theme": "world_history",
+  "theme_name": "世界历史",
+  "date": "2026-08-02",
+  "title": "时间胶囊里的世界历史：从金字塔到登月火箭",
+  "summary": "一千年前，阿拉伯学者在巴格达建了一座\"智慧宫\"，把整个世界的知识藏进了书架里。",
+  "keywords": [
+    "世界历史",
+    "古埃及",
+    "丝绸之路",
+    "人类文明",
+    "探索"
+  ],
+  "content": "一千年前，阿拉伯学者在巴格达建了一座\"智慧宫\"，把整个世界的知识藏进了书架里。\n\n### 金字塔里藏着的数学秘密\n\n你站在一块巨大的石灰岩上，脚下是沙漠。抬头看，北极星在北方天空一动不动地亮着。古埃及人站的地方，和你现在站的地方，差不多。四千多年前，他们就是靠着这样的星星，把金字塔的四面对准了正北、正南、正东、正西。\n\n古埃及人没有GPS，没有卫星地图，甚至没有铁器。但他们有一双会观察的眼睛，和一颗会数数的大脑。他们发明了\"测地杆\"——两根木棍绑在一起，像一个大写的\"Y\"。晚上，他们让两根木棍分别对准两颗绕着北极星转的星星，等两颗星连成一条直线时，就在地面上插一根标记。再过一段时间，再插一根。连起来的线，就是正北方向。这个方法叫\"双星法\"，聪明吧？\n\n有了方向，他们还要量距离。一根绳子，打上等距的结，就是他们的\"卷尺\"。三个人拉紧绳子，两个人走，一个人记账，就能量出几百米的地面长度。金字塔的底边每条都超过两百三十米，误差不到半米——相当于站在开罗，用一根绳子量出了一条小巷的精确长度。\n\n金字塔不只是石头堆起来的，它是一座用数学写成的巨大纪念碑。古埃及人把几何学叫做\"测地术\"，字面意思就是\"测量大地\"。我们今天学的面积、角度、比例，很多种子都是在那片沙漠里种下的。\n\n下次你去公园，试着用一根绳子和两根木棍找一下方向。说不定，你也能当一回古埃及的\"测地人\"。\n\n[IMAGE_1]\n\n### 从丝绸之路到太空飞船\n\n一千九百年前，一个名叫班超的汉朝使者，站在今天的吉尔吉斯斯坦土地上，看着远处的雪山。他手里握着一根断裂的绳子——那是他派人送回长安的密信，却被匈奴人截断了。\n\n班超没有放弃。他重新派使者，绕道更远的山脉，用了整整两年，才把消息送回长安。皇帝收到信后，又派援军翻越帕米尔高原，终于打通了这条连接东西方的道路。\n\n这条路叫丝绸之路。\n\n丝绸、瓷器、茶叶从这里出发，向西走向罗马、波斯、阿拉伯；香料、玻璃、宝石从西向东，来到长安、洛阳。商人们骑着骆驼，一支支商队像长蛇一样蜿蜒在沙漠和草原上。他们走的每一步，都在把世界拉近。\n\n一千九百年后，我坐在一列从北京开往阿拉木图的火车上。窗外，同样的雪山，同样的草原，但速度已经完全不同。\n\n高铁、飞机、货轮——现代交通工具让地球变成了一张网。\n\n这条网的线，是铁路、公路、航线，也是海底光缆。\n\n数据像古代的丝绸一样，在网中流动。\n\n你可以试着观察：你家收到的快递，可能来自几千公里外的工厂；你吃的香蕉，可能来自热带国家。世界从未像今天这样紧密相连。\n\n明天上学路上，你可以注意：那些运货的卡车、远处的飞机，它们都在编织这张连接世界的网。\n\n[IMAGE_2]",
+  "fact_card": [
+    "金字塔用了大约230万块巨石建造，平均每块重2.5吨，相当于两头大象！而且底座四边的误差加起来还不到20厘米，比很多现代建筑还精准。",
+    "古埃及人用一根打12个结的绳子就能画出直角——把绳子分成3、4、5段围成三角形，中间那个角就是完美的90度！这就是著名的\"3-4-5法则\"，比勾股定理还早1000多年。",
+    "丝绸之路全长超过6400公里，从长安一直通到地中海。有趣的是，它不是一条路，而是由十几条路线组成的\"网络\"，商队会根据沙漠里的水源和天气随时换路线。",
+    "现在全球海底光缆总长度超过130万公里，能绕地球30多圈！这些细细的玻璃纤维传输的信息，比古代所有商队运的丝绸、瓷器加起来还要多得多。"
+  ],
+  "thinking": [
+    "古埃及人用一根绳子、两根木棍和几颗星星就能测出正北方向并建造出误差不到半米的金字塔，如果你现在没有手机和指南针，在熟悉的校园里能用什么方法找到自己的家方向？你会尝试哪些不同的方案来验证？",
+    "班超用一根断裂的绳子传递消息，商队用骆驼穿越沙漠和雪山连接东西方，而今天一条海底光缆就能在几秒内把信息传遍世界——如果让你设计一条连接你所在城市与另一个遥远地方的\"新丝绸之路\"，你会选择用什么方式、传递什么，让两个地方真正\"连起来\"？"
+  ],
+  "image_prompts": [
+    "A curious young explorer child standing on a massive pale limestone block in a vast golden desert at night, looking up at a bright starry sky with the North Star glowing steadily in the northern sky, ancient Egyptian figures in the background holding a Y-shaped measuring pole with two wooden sticks, two stars forming a straight line above, warm watercolor tones of deep blue night sky and sandy orange desert, Pixar animation style, cartoon characters with big expressive eyes, bright magical colors, whimsical and educational atmosphere.",
+    "A young modern child sitting by the window of a sleek high-speed train, looking out at snow-capped mountains and rolling green grasslands passing by, split composition showing ancient camel caravans crossing the same desert landscape on one side and modern cargo ships and airplanes crisscrossing above on the other side, a glowing digital network web connecting the whole scene, warm watercolor hand-drawn style, cartoon characters with bright colorful clothing, Pixar animation aesthetic, vibrant blues and greens and golds, sense of wonder and global connection."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-02_4",
+  "images": [
+    "2026-08-02_4_1_5515f988.jpg",
+    "2026-08-02_4_2_1a4a163a.jpg"
+  ]
+}
