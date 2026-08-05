@@ -1,0 +1,35 @@
+{
+  "theme": "military",
+  "theme_name": "少年军事",
+  "date": "2026-08-05",
+  "title": "少年军事：从烽火台到无人机，军事科技的奇妙进化",
+  "summary": "小明在博物馆看到一架无人机模型，突然好奇：古代士兵怎么打仗？",
+  "keywords": [
+    "军事科技",
+    "无人机",
+    "雷达",
+    "少年军事",
+    "科学创新"
+  ],
+  "content": "小明在博物馆看到一架无人机模型，突然好奇：古代士兵怎么打仗？\n\n### 烽火台到雷达站\n\n傍晚的山坡上，古人点燃了干燥的狼粪，一股浓烟笔直地冲向天空。几公里外的另一座烽火台上，守军看到了这缕烟，立刻也点燃了自己的烽火。就这样，一道消息像接力赛一样，从一个山头传到另一个山头，几天之内就能把敌情送到千里之外的京城。\n\n这就是烽火台，古代最厉害的\"网络\"。\n\n可是烽火台有个大缺点：只能传简单的信号。是敌袭还是演习？是白天还是晚上？信息量太小了。而且遇到大雾天、阴雨天，烟根本升不起来，消息就断了。\n\n后来，人们想出了一个更聪明的办法——用电波来传递信息。\n\n雷达站就是靠这个本领工作的。它的天线像一只巨大的耳朵，不停地向天空\"喊话\"。这些\"喊话\"其实是一种看不见的无线电波，它们以每秒三十万公里的速度飞向远方。如果天上飞过飞机，电波就会撞到飞机，然后弹回来，被雷达的天线\"听\"到。\n\n计算机计算出电波往返的时间，就能知道飞机有多远、往哪个方向飞。整个过程只需要几毫秒，比眨眼睛还快！\n\n二战期间，英国就靠雷达发现了德国飞机的来袭，及时起飞战斗机进行拦截。如果没有雷达，英国可能早就输了。\n\n如今，雷达已经进化出了各种各样的形态。有的雷达装在卫星上，有的装在舰船上，还有的小到可以安装在无人机上。但它们的基本原理都一样——用无线电波去探测远处的目标。\n\n从烽火台的烟，到雷达的电波，人类传递信息的方式发生了翻天覆地的变化。速度越来越快，距离越来越远，信息也越来越准确。\n\n[IMAGE_1]\n\n### 小小军事迷也能懂的高科技\n\n",
+  "fact_card": [
+    "狼粪在古代军事通信中可是\"明星燃料\"！因为狼吃的是肉，粪便干燥后燃烧时烟柱又直又浓，不容易被风吹散，守军隔着几公里都能看得清清楚楚。",
+    "雷达探测飞机用的无线电波，速度其实和光一样快——每秒30万公里！这意味着雷达站在发现敌机的瞬间，信息就已经传回指挥中心了。",
+    "雷达的工作原理就像蝙蝠探路：蝙蝠发出超声波，听到回声来判断障碍物；雷达发出无线电波，收到回波来计算目标位置。科学家就是从蝙蝠身上获得灵感发明了雷达！",
+    "现代雷达已经能探测到只有几厘米大小的目标了，小到能发现一颗子弹或者一只小鸟的飞行轨迹，比人眨一下眼睛还要快上千万倍！"
+  ],
+  "thinking": [
+    "如果你生活在古代，除了烽火台和信鸽，还能想到什么办法把紧急消息快速传给远方的同伴？试试看能不能画出来或者用身边的材料做一个小模型。",
+    "雷达用无线电波\"看\"到了飞机，那你觉得生活中还有哪些东西也是用\"看不见\"的波来工作的？你能在生活中找到它们的\"影子\"吗？"
+  ],
+  "image_prompts": [
+    "A wide watercolor illustration showing two ancient stone beacon towers on separate hilltops at dusk, with the first tower's soldier lighting dry wolf dung creating a thick straight column of smoke rising into the orange sky, while a second soldier on a distant hill spots the smoke and lights his own fire, with a cartoon child observer in traditional Hanfu pointing excitedly at the smoke trail connecting the hills, bright warm colors, Pixar-style expressive characters.",
+    "A friendly cartoon radar station scene with a large dish antenna pointing upward like a giant ear, invisible radio waves shown as glowing wavy lines shooting into the sky, a small airplane silhouette bouncing the waves back, a cheerful engineer child at a computer screen showing distance and direction readouts with sparkles of light, bright blue sky background, watercolor Pixar animation style with vivid colors."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-05_4",
+  "images": [
+    "2026-08-05_4_1_85f1ffca.jpg",
+    "2026-08-05_4_2_b6c4412a.jpg"
+  ]
+}
