@@ -1,0 +1,35 @@
+{
+  "theme": "cosmic_exploration",
+  "theme_name": "宇宙探索",
+  "date": "2026-08-08",
+  "title": "冲出地球：我们的宇宙探索之旅",
+  "summary": "火箭轰鸣升空，人类如何一步步飞向遥远的星辰大海？",
+  "keywords": [
+    "宇宙探索",
+    "宇航员",
+    "火星车",
+    "人造卫星",
+    "月球"
+  ],
+  "content": "火箭轰鸣升空，人类如何一步步飞向遥远的星辰大海？\n\n### 最早的太空信使\n\n1957年10月4日，苏联把一颗乒乓球大小的金属球送上了天。它叫“斯普特尼克1号”，是人类第一颗人造卫星。那时候，全世界的人都仰着头，听着它发出的“ beep-beep-beep ”的声音。那声音虽然简单，却像一把钥匙，打开了通往宇宙的大门。\n\n卫星就像是挂在太空中的“眼睛”。它们不会飞走，而是以极高的速度绕着地球转圈。因为速度够快，离心力刚好抵消了地球的引力，所以它们能稳稳地悬在那里。这些太空信使帮我们要知道了天气的变化，让我们能看清地球的轮廓，还能让远处的亲人通过手机视频“见面”。如果没有它们，我们可能还在对着乌云猜明天会不会下雨呢。\n\n有了卫星帮忙“探路”，人类的目光开始投向更远的地方——月球。\n\n1969年7月20日，美国的“阿波罗11号”飞船终于降落在月球表面。宇航员阿姆斯特朗迈出了一小步，却成了人类的一大步。他在月球上留下了脚印，那个脚印在几乎没有大气的月球上，可能已经保存了几十年，甚至更久。\n\n为什么月球上会有脚印，而地球上没有呢？因为月球上没有风，也没有雨。在地球上，风吹雨打很快就把脚印填平了；但在月球上，时间仿佛静止了，那个脚印就像刻在石头上的照片，永远留在那里。\n\n你可以试着在沙滩上踩一脚，看看脚印能保留多久。如果那里没有风也没有海浪，你的脚印是不是也能留很久？宇宙探索就是这样，从仰望星空到留下脚印，每一步都藏着科学的奥秘。\n\n[IMAGE_1]\n\n### 飞向深空的无人探测器\n\n如果你把耳朵贴在火星红色的土地上，可能会听到一种奇怪的声音。那不是风声，而是车轮碾过碎石、机械臂敲击岩石的震动。在遥远的红色星球上，几辆“铁盒子”正默默地忙碌着。它们没有驾驶员，没有窗户，甚至没有眼睛——至少我们人类理解的那种眼睛。它们是火星车，比如“好奇号”和“毅力号”。\n\n火星车之所以能在那里工作，是因为科学家们给了它们一颗强大的“心脏”和一套精密的“神经系统”。这颗心脏通常是放射性同位素热电发生器，简单说，就是利用钚-238衰变产生的热量来发电。这套系统不需要阳光，也不怕极寒，能让火星车在零下几十度的环境中持续工作好几年。而它们的神经系统，则是依靠强大的计算机和天线。地面控制中心通过无线电波向火星车发送指令，火星车收到后，用机械臂挖掘土壤，用激光轰击岩石，然后把数据传回地球。这个过程就像你在家里遥控一辆玩具车，只不过距离不是几米，而是几亿公里！信号单程就要走20分钟，所以火星车必须学会自己“思考”，遇到石头要绕开，遇到陡坡要停下判断，完全不能靠实时遥控。\n\n其实，火星车只是我们派向深空的“信使”之一。早在1977年，人类就发射了两艘旅行者号探测器。它们比火星车飞得更远，已经飞出了太阳系的边界，进入了星际空间。旅行者号上没有复杂的机械臂，它更像是一个装满问题的“时间胶囊”，带着金唱片飞向未知的宇宙。如果外星文明捡到它，就能听到地球的声音。\n\n这些探测器就像我们放出去的风筝，线虽然越来越长，但始终连着地球。它们帮我们要看清宇宙的模样，也提醒着我们：地球是我们共同的家园，而探索的勇气，将带我们走得更远。\n\n[IMAGE_2]",
+  "fact_card": [
+    "年发射的第一颗人造卫星“斯普特尼克1号”，大小其实和一个乒乓球差不多！",
+    "月球上没有风和雨，所以阿姆斯特朗留下的脚印可能已经保存了50多年，就像被时间冻住了一样。",
+    "火星车不用太阳能，而是靠“钚-238”放射性物质衰变产生的热量来发电，这样在寒冷的火星上也能工作。",
+    "地球和火星之间的距离太远，无线电信号单程就要走20分钟，所以火星车必须学会自己“思考”，不能靠地球实时遥控。"
+  ],
+  "thinking": [
+    "如果火星车必须依靠自己的“大脑”来应对几亿公里外的突发状况，而不是等待地球的指令，你觉得我们该如何设计机器人的“思考”方式，才能让它既足够聪明又能保证安全？",
+    "旅行者号探测器带着金唱片飞向未知的星际空间，假设你真的有机会向宇宙发送一条信息，你会选择包含什么内容，才能让你地球上的朋友或未来的外星访客真正理解“人类”是谁？"
+  ],
+  "image_prompts": [
+    "A whimsical watercolor illustration in Pixar animation style showing a cute, friendly cartoon Soviet satellite shaped like a shiny metallic ball with a small antenna, floating in a starry dark blue sky above a stylized Earth, with a group of diverse cartoon children on the ground looking up in wonder, while simple sound waves labeled \"beep-beep-beep\" float from the satellite, bright colors, hand-drawn aesthetic.",
+    "A split-scene watercolor illustration in cartoon Pixar style: on the left, a cute cartoon astronaut in a bulky white spacesuit leaving a detailed footprint on the gray, cratered moon surface with Earth visible in the black sky; on the right, a comparison showing a child's footprint on a sunny beach being washed away by gentle waves and wind, highlighting the difference between the airless moon and Earth, bright and engaging colors for children."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-08_2",
+  "images": [
+    "2026-08-08_2_1_d538b2ef.jpg",
+    "2026-08-08_2_2_1bc374bc.jpg"
+  ]
+}

@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-08-08",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "冲出地球：我们的宇宙探索之旅",
+      "summary": "火箭轰鸣升空，人类如何一步步飞向遥远的星辰大海？",
+      "keywords": [
+        "宇宙探索",
+        "宇航员",
+        "火星车",
+        "人造卫星",
+        "月球"
+      ],
+      "images": [
+        "2026-08-08_2_1_d538b2ef.jpg"
+      ]
+    },
+    {
+      "date": "2026-08-08",
       "theme": "military",
       "theme_name": "少年军事",
       "title": "小小兵的大智慧：少年军事中的科学秘密",
