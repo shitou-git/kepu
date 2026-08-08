@@ -1,0 +1,35 @@
+{
+  "theme": "role_model",
+  "theme_name": "榜样人物",
+  "date": "2026-08-08",
+  "title": "榜样人物：那些点亮世界的科学家故事",
+  "summary": "一个小男孩在厨房里第一次看到醋和小苏打\"火山喷发\"，从此种下了科学的种子。",
+  "keywords": [
+    "科学家",
+    "榜样",
+    "好奇心",
+    "坚持",
+    "发现"
+  ],
+  "content": "一个小男孩在厨房里第一次看到醋和小苏打\"火山喷发\"，从此种下了科学的种子。\n\n### 好奇的种子——科学家小时候的故事\n\n法拉第小时候家里很穷，只上过很短时间的学。十四岁那年，他去了伦敦一家书店当学徒，每天帮老板包书、卖书。\n\n有一天，一个小女孩来店里买书，指着书架上的《百科全书》问：\"这书里讲的是什么呀？\"老板随口说：\"那些都是科学，没什么好看的。\"可小女孩不信，她拿起书翻了一页，眼睛亮亮地说：\"科学？科学是干什么的？\"\n\n这句话像一颗小石子，扔进了法拉第的心里。他开始偷偷翻那本《百科全书》，看到了电和磁的故事。原来，电可以变成磁，磁也能变成电！他越看越入迷，晚上躲在被窝里打着小手电筒继续看。\n\n后来，法拉第省下半年的零花钱，去听著名科学家戴维的讲座。他把每一句话都认真记下来，还给每一张图配上自己的说明。做完笔记后，他自己动手做实验，用铁丝和磁铁反复试验，想知道电和磁到底有什么关系。\n\n终于有一天，他发现：当磁铁在铜线圈里快速移动时，线圈里竟然产生了电流！这个发现让人类从此有了电灯、有了电动机，有了今天离不开的电力世界。\n\n法拉第的故事告诉我们，好奇心是最好的老师。它不需要昂贵的玩具，也不需要漂亮的房子，只需要你愿意问一句：\"为什么？\"\n\n[IMAGE_1]\n\n### 永不放弃的探索——科学发现的背后\n\n爱迪生发明电灯泡的时候，试验过一千多种材料做灯丝。\n\n炭化的棉线、竹丝、木头……全部烧断了。有人问他：\"都失败了这么多次，你为什么不放弃？\"\n\n爱迪生笑了笑说：\"我没有失败，我只是发现了一千种不适合做灯丝的材料。\"\n\n最后一千零一种，是钨丝。1906年，这种细如发丝的金属终于亮了起来，照亮了整个世界。\n\n其实，科学史上这样的故事太多了。居里夫人为了提炼镭，在漏风的棚屋里工作了四年。她处理了几吨沥青铀矿的废渣，每天搅拌着沸腾的大锅。她的手被酸液灼伤，眼睛被烟雾熏得生疼，可她没有停下。\n\n有一天，她走出棚屋，回头看——那些废渣堆里，正发出淡淡的蓝光。那是镭在发光。整个实验室的人都哭了。\n\n科学家们不是不怕失败，而是比失败更怕的是——从来不去尝试。\n\n你也许觉得这些离你很远。可你想过没有，你按开关的那一瞬间，灯泡亮起的瞬间，背后是成千上万次\"不行\"堆出来的。每一次失败，都是离成功更近了一步。\n\n下次你遇到做不对的数学题、拼不好的积木，记得想想爱迪生和居里夫人。他们用的不是魔法，是\"再来一次\"。\n\n[IMAGE_2]",
+  "fact_card": [
+    "法拉第发现电磁感应后，人类才真正掌握了\"发电\"的秘密。你知道吗？现在家里的电，很多都是从水力发电站、风力发电站靠磁铁在线圈里\"跑来跑去\"产生的，原理和法拉第当年一模一样！",
+    "爱迪生试验的1000多种材料里，其实还包括了头发！他连自己剃下来的头发都碳化过，结果当然也不行。不过你知道吗？最早的碳丝灯泡只能亮1200小时，而现在的LED灯能亮好几年呢！",
+    "居里夫人提炼镭的时候，用的大锅比浴缸还大，每天要搅拌好几吨矿渣。更厉害的是，镭的放射性比铀强400倍！她发现镭的时候，那种淡淡的蓝光让她想起了小时候在乡下看到的萤火虫。",
+    "法拉第小时候家里穷，连买书的钱都没有，只能偷偷在书店看《百科全书》。但他后来成了英国皇家学会的会员，还当过维多利亚女王的科学顾问呢！"
+  ],
+  "thinking": [
+    "如果你在家里也能找到像醋和小苏打这样\"会反应\"的东西，你觉得还有哪些常见的厨房物品组合可能产生有趣的变化？你会怎么设计一个小实验来观察它们？",
+    "法拉第因为一本书、爱迪生因为一次次的\"失败\"才改变了世界——在你的生活中，有没有哪件看似普通的事情或物品，其实藏着等待你去发现的秘密？你会用什么方法去找到它？"
+  ],
+  "image_prompts": [
+    "A young boy with big curious eyes and messy brown hair sits in a cozy old London bookshop, surrounded by towering wooden bookshelves filled with colorful books. He is holding open a large illustrated encyclopedia, his face lit up with wonder as he reads about electricity and magnets. Warm golden light streams through a nearby window, illuminating floating sparkles of knowledge around the open pages. The shop has a rustic charm with a wooden counter, hanging lantern, and a kind-looking shop owner in the background. Watercolor hand-drawn style, cartoon character design, Pixar animation style, bright warm colors, suitable for ages 6-12.",
+    "A determined young boy with round glasses and a thoughtful expression sits hunched over a small wooden desk in a dimly lit workshop, carefully connecting wires and magnets to a tiny coil. Around him are scattered tools, copper wires, magnets, and handmade experiments. His eyes shine with excitement as a small glowing spark of electricity appears between the coil and magnet, illuminating his face with a soft blue-white light. Papers with handwritten notes and diagrams are spread across the desk. In the background, a chalkboard shows sketches of magnetic fields. Watercolor hand-drawn style, cartoon character design, Pixar animation style, bright colors with magical glowing effects, suitable for ages 6-12."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-08_4",
+  "images": [
+    "2026-08-08_4_1_def8c223.jpg",
+    "2026-08-08_4_2_ba0753f9.jpg"
+  ]
+}
