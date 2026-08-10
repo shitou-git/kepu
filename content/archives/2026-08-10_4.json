@@ -1,0 +1,30 @@
+{
+  "theme": "physics",
+  "theme_name": "科学小实验",
+  "date": "2026-08-10",
+  "title": "厨房里的魔法实验室：科学小实验大揭秘",
+  "summary": "小明盯着桌上冒泡的杯子，好奇地问妈妈这是什么魔法。",
+  "keywords": [
+    "科学小实验",
+    "化学反应",
+    "密度",
+    "酸碱反应",
+    "亲子实验"
+  ],
+  "content": "小明盯着桌上冒泡的杯子，好奇地问妈妈这是什么魔法。\n\n### 醋和小苏打的火山喷发\n\n\"哇——！\"\n\n有一次，我在实验室里给一群小朋友做实验。我把醋倒进装着红色小苏打的瓶子里，瞬间，红色的泡沫像火山喷发一样涌了出来，溅得到处都是。小朋友们全都瞪大了眼睛，有的惊叫，有的拍手，还有的想伸手去接那些泡沫。\n\n这就是著名的\"火山喷发\"实验。但它可不是真正的火山，而是化学在跟你开玩笑。\n\n醋里含有一种叫\"醋酸\"的东西，小苏打学名叫\"碳酸氢钠\"。当它们碰到一起时，会立刻发生一场激烈的化学反应。反应会生成一种气体，叫做二氧化碳。你看到的无数小泡沫，就是二氧化碳气体跑出来的样子。气体急着逃出来，就带着液体一起冲上了天空。\n\n这个反应学名叫做\"酸碱中和反应\"。酸和碱是一对性格完全相反的朋友，它们相遇时总会闹出一些动静。醋是酸性的，小苏打是碱性的，它们中和时就会释放气体。\n\n其实，这种反应就在你的生活中。妈妈做蛋糕时，会往面糊里加小苏打，再倒一点酸奶或者柠檬汁。面糊里的二氧化碳气体受热膨胀，蛋糕就蓬蓬松松地涨了起来。你咬一口松软的蛋糕，那里面藏着和火山喷发一样的科学秘密。\n\n下次看到苏打饼干或者蓬松的面包，记得想想那些小小的二氧化碳气泡。它们曾经也像小火山一样，努力往外冲呢。\n\n[IMAGE_1]\n\n### 彩虹试管的秘密\n\n那天，我手里拿着五支透明试管，里面分别装着不同颜色的液体。我把它们轻轻叠在一起，神奇的事情发生了——五层颜色稳稳地分层，像一道小小的彩虹住进了试管里！\n\n\"老师，它们不会混在一起吗？\"一个小女孩好奇地问。\n\n\"我们来看看为什么。\"\n\n原来，每种液体都不一样重。蜂蜜最重，沉在最下面；食用油最轻，浮在最上面。这个\"重\"不是体积大，而是密度大。密度就是同样大小的空间里，装的物质有多少。\n\n我做了一个小实验。把同样大小的木块和石块同时放进水里，木块漂着，石块沉底。石块密度大，所以沉；木块密度小，所以浮。\n\n调制彩虹试管时，我按顺序倒入蜂蜜、洗洁精、水、植物油和酒精。每种液体颜色不同，但更重要的是它们的密度各不相同。蜂蜜密度最大，老老实实待在最底层。酒精密度最小，轻飘飘地浮在最上面。\n\n生活中也有很多这样的现象。煮汤的时候，油花漂在汤面上，就是因为油的密度比水小。轮船那么大，却能浮在海面上，也是这个道理。钢铁的密度明明比水大得多，但船的形状让它的整体密度变小了，所以能漂。\n\n下次喝果汁的时候，你可以观察一下。如果果汁里有果肉沉淀，那些果肉为什么会沉到底部？因为它们比果汁的密度大。\n\n[IMAGE_2]",
+  "fact_card": [],
+  "thinking": [
+    "如果你用不同种类的酸（比如柠檬汁、橙汁、可乐）代替醋来做火山喷发实验，你觉得泡沫喷发的效果会有什么不同？为什么？",
+    "彩虹试管里的液体分层是因为密度不同，那你能试着在家里用其他液体（比如牛奶、糖浆、油）组合出一个新的\"彩虹试管\"吗？你会怎么排列顺序？"
+  ],
+  "image_prompts": [
+    "**Section 1:** A cheerful cartoon science teacher with round glasses and a lab coat stands behind a table in a bright colorful classroom, pouring vinegar from a bottle into a small glass bottle filled with red baking soda, causing a dramatic eruption of thick red foam that spurts upward like a miniature volcano, five excited children with wide eyes and open mouths gather around the table, some reaching out their hands toward the foamy eruption, one child clapping with delight, another gasping in amazement, the background shows a warm science lab with shelves of colorful bottles and jars, soft watercolor hand-drawn style, Pixar animation aesthetic, bright saturated colors, playful and joyful atmosphere",
+    "**Section 2:** A friendly cartoon science teacher with a lab coat holds up five transparent test tubes stacked vertically inside a test tube rack, each tube filled with a different colored liquid layer creating a rainbow effect from bottom to top in shades of red, orange, yellow, green, and blue, a curious little girl with pigtails stands beside the teacher pointing at the tubes with a questioning expression, other children lean in with wonder, the background is a bright cheerful science classroom with soft watercolor textures, Pixar animation style, vibrant colors, magical and educational atmosphere"
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-10_4",
+  "images": [
+    "2026-08-10_4_1_1e3ae536.jpg",
+    "2026-08-10_4_2_f8e86836.jpg"
+  ]
+}
