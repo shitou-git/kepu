@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-08-13",
+      "theme": "physics",
+      "theme_name": "科学小实验",
+      "title": "厨房里的科学实验室：让魔法变成真实",
+      "summary": "厨房里的醋和苏打相遇，竟冒出了神奇的泡泡，这是魔法还是科学？",
+      "keywords": [
+        "科学小实验",
+        "表面张力",
+        "密度",
+        "化学反应",
+        "厨房科学"
+      ],
+      "images": [
+        "2026-08-13_1_1_fb63a4a2.jpg"
+      ]
+    },
+    {
       "date": "2026-08-12",
       "theme": "cosmic_exploration",
       "theme_name": "宇宙探索",
