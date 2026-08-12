@@ -11,7 +11,7 @@
  */
 
 const AI_API_BASE = "https://apihub.agnes-ai.com/v1";
-const AI_MODEL = "agnes-2.0-flash";
+const AI_MODEL = "agnes-2.5-flash";
 
 const SYSTEM_PROMPT = `你是一位资深的小学语文老师，精通汉字教学和成语词典。
 
