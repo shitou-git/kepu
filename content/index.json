@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-08-15",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "宇宙探索：星星背后的秘密",
+      "summary": "火箭轰鸣，冲破云层，一颗小石子竟然在火星上发现了水！",
+      "keywords": [
+        "宇宙探索",
+        "火星",
+        "火箭",
+        "航天器",
+        "太阳系"
+      ],
+      "images": [
+        "2026-08-15_1_1_bfc9a378.jpg"
+      ]
+    },
+    {
       "date": "2026-08-14",
       "theme": "military",
       "theme_name": "少年军事",
