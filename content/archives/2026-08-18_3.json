@@ -1,0 +1,35 @@
+{
+  "theme": "world_history",
+  "theme_name": "世界历史",
+  "date": "2026-08-18",
+  "title": "世界历史大冒险：穿越时空的秘密",
+  "summary": "一块刻着奇怪文字的石头，揭开了五千年前一个失落文明的真相...",
+  "keywords": [
+    "世界历史",
+    "古埃及",
+    "丝绸之路",
+    "古代文明",
+    "历史探索"
+  ],
+  "content": "一块刻着奇怪文字的石头，揭开了五千年前一个失落文明的真相...\n\n### 金字塔里的无声密码\n\n1922年11月，埃及沙漠里刮着滚烫的风。考古学家卡特挖开了一级石阶，又挖开第二级、第三级……直到他看见一扇门，门上封着法老的印章。他颤抖着凿开一个小洞，把蜡烛伸进去。助手后来写道：\"我看见了一些东西……金光闪闪！\"\n\n那是图坦卡蒙的法老墓，距今三千多年。墓里有三百多件宝贝：黄金面具、宝座、战车、雕像……整整八万多件文物，像时间被封存在了盒子里。\n\n可是，这些宝贝上刻满了奇怪的符号，像小鸟、眼睛、太阳、手臂。古埃及人早就把这种文字叫做\"神圣的雕刻\"，而两千年来，没人能读懂它们。\n\n转机出现在1799年。法国士兵在埃及修堡垒时，挖出了一块黑石头，上面刻着同一段文字，却用了三种文字：希腊文、象形文字，还有一种草书体。这块石头后来名叫\"罗塞塔石碑\"。\n\n一位叫商博良的年轻法国学者盯上了它。他聪明地发现，那些圈里有小人的符号，不只是图画，还代表声音！比如一个猫头鹰的符号，读作\"m\"。他花了二十年，终于在一八二二年解开了全部密码。\n\n原来，古埃及人把石头当成了他们的\"书本\"。神庙的墙壁、方尖碑、木乃伊的棺木上，到处都是故事。商博良让沉默了上千年的石头，重新开口说话了。\n\n下次你去博物馆，看到玻璃柜里刻满符号的古物，试着找找那些小鸟和眼睛——它们可能在等你读懂它们呢。\n\n[IMAGE_1]\n\n### 驼铃声中的文明接力\n\n骆驼的铃声，是古代世界最动听的电话。\n\n两千多年前，有一张看不见的网，从中国的长安一直伸到地中海边。这张网叫丝绸之路。它不是一个人修的，而是无数商人、骆驼和星星一点点织出来的。\n\n西汉的时候，有一个叫张骞的年轻人，奉命去西域找朋友。他带着百余人出发，走了几个月，却被匈奴人抓住了！整整十年，他被关在草原上，吃奶酪、喝羊奶，但他心里一直惦记着任务。后来他逃了出来，继续向西走，翻过雪山，穿过沙漠，终于到达了大宛、大月氏这些遥远的地方。\n\n虽然这次出使没有立刻找到盟友，但张骞带回了惊人的消息：西边有汗血宝马，有大宛的葡萄，有身毒的象牙，还有更远的罗马和波斯。他把这些故事讲给汉武帝听，皇帝立刻下令开辟这条道路。\n\n丝绸是这张网上最闪亮的宝贝。中国的蚕桑技术一直被牢牢守住，外国人不惜用黄金来换一小匹丝绸。但丝绸不只是布料，它还是货币、是礼物、是外交的信物。作为交换，东边得到了玻璃、香料、宝石，还有葡萄、胡萝卜、石榴这些我们餐桌上常见的食物。\n\n你猜怎么着？你今天吃的胡萝卜，两千年前中国人可没见过！张骞带回来的不只是丝绸的故事，还有整个世界的味道。\n\n下次吃胡萝卜的时候，想想那只翻越雪山的骆驼吧。\n\n[IMAGE_2]",
+  "fact_card": [
+    "商博良破解象形文字时，最先猜对的是外国统治者的名字\"托勒密\"和\"克娄巴特拉\"，而不是埃及本土法老的名字，就像破案一样先找到了\"钥匙\"！",
+    "古埃及象形文字一共有约700到800个符号，其中只有大约100个是表音的，剩下的都是表意的，就像一套超级复杂的密码系统。",
+    "骆驼被称为\"沙漠之舟\"，一次能驮150到200公斤的重物，几天不喝水也能连续行走，是沙漠里最可靠的交通工具。",
+    "丝绸之路全长约6400公里，从中国长安一直延伸到地中海，沿线还输出了瓷器、茶叶和造纸术，不只是丝绸哦！"
+  ],
+  "thinking": [
+    "如果商博良没有发现罗塞塔石碑，你觉得古埃及的故事会永远沉默下去吗？在我们身边，还有哪些\"沉默的石头\"或\"看不懂的文字\"等待被发现和解读呢？",
+    "张骞出发时一定没想到，他带回来的胡萝卜、葡萄后来成了我们日常餐桌上的食物。试着观察你家里的一顿饭，猜猜哪些食材曾经也走过漫长的路才来到你的碗里？如果让你向万里之外的朋友送一份\"来自中国的味道\"，你会选择什么？"
+  ],
+  "image_prompts": [
+    "A young archaeologist with a mustache and a wide-brimmed hat carefully lowers a flickering candle into a small crack in an ancient stone tomb door, while his excited assistant peers over his shoulder; the desert sand glows golden around them, and inside the crack a brilliant golden glow spills out; cartoon characters in 1920s explorer outfits, Pixar animation style, watercolor hand-drawn illustration, bright warm colors, suitable for 6-12 years old.",
+    "A magical scene showing a giant glowing Rosetta Stone floating in an ancient Egyptian temple hall, with hieroglyphic symbols like little birds, eyes, and suns floating off the stone and coming to life as cartoon characters; a young French scholar with round glasses and a notebook points excitedly at the symbols while ancient Egyptian scribes watch in wonder; watercolor hand-drawn style, Pixar animation aesthetic, bright vivid colors, cartoon characters, suitable for 6-12 years old."
+  ],
+  "section_count": 2,
+  "file_id": "2026-08-18_3",
+  "images": [
+    "2026-08-18_3_1_5039b093.jpg",
+    "2026-08-18_3_2_0fdabe72.jpg"
+  ]
+}
