@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-08-18",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "身体里的超级世界：探索生命科学的神秘秘密",
+      "summary": "你的身体里有十万亿个迷你小人在日夜工作，它们究竟在忙些什么？",
+      "keywords": [
+        "生命科学",
+        "细胞",
+        "DNA",
+        "人体",
+        "成长"
+      ],
+      "images": [
+        "2026-08-18_4_1_3cdde2a9.jpg"
+      ]
+    },
+    {
+      "date": "2026-08-18",
       "theme": "world_history",
       "theme_name": "世界历史",
       "title": "世界历史大冒险：穿越时空的秘密",
