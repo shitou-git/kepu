@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-08-19",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "星际旅行者的秘密地图：人类如何读懂宇宙的信",
+      "summary": "火箭冲破云层的那一刻，一个小问号悄悄飞上了太空。",
+      "keywords": [
+        "宇宙探索",
+        "太空望远镜",
+        "火星车",
+        "空间站",
+        "星际旅行"
+      ],
+      "images": [
+        "2026-08-19_3_1_63aca7c5.jpg"
+      ]
+    },
+    {
+      "date": "2026-08-19",
       "theme": "military",
       "theme_name": "少年军事",
       "title": "少年军事：未来战场的科学密码",
