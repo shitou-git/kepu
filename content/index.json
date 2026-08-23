@@ -2,6 +2,19 @@
   "articles": [
     {
       "date": "2026-08-23",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "身体里的秘密王国：生命科学探险记",
+      "summary": "你身体里住着万亿个微小居民，它们日夜不停地工作，却从不请假。",
+      "keywords": [
+        "细胞、DNA、人体、健康、成长"
+      ],
+      "images": [
+        "2026-08-23_3_1_c0b44a51.jpg"
+      ]
+    },
+    {
+      "date": "2026-08-23",
       "theme": "world_history",
       "theme_name": "世界历史",
       "title": "时间机器里的历史课",
