@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-08-25",
+      "theme": "innovation",
+      "theme_name": "科学创新",
+      "title": "科学创新：改变世界的魔法钥匙",
+      "summary": "一个小小的灯泡，如何照亮了整个夜晚？",
+      "keywords": [
+        "科学创新",
+        "发明",
+        "爱迪生",
+        "探索",
+        "改变世界"
+      ],
+      "images": [
+        "2026-08-25_1_1_2daaacea.jpg"
+      ]
+    },
+    {
       "date": "2026-08-24",
       "theme": "role_model",
       "theme_name": "榜样人物",
