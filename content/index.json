@@ -2,6 +2,23 @@
   "articles": [
     {
       "date": "2026-08-26",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "星际探险家：飞向宇宙的奇妙旅程",
+      "summary": "火箭喷火升空，小宇航员会看到怎样的宇宙？",
+      "keywords": [
+        "宇宙探索",
+        "火箭",
+        "行星",
+        "太空望远镜",
+        "空间站"
+      ],
+      "images": [
+        "2026-08-26_3_1_676037c4.jpg"
+      ]
+    },
+    {
+      "date": "2026-08-26",
       "theme": "military",
       "theme_name": "少年军事",
       "title": "少年军事大揭秘：武器里的科学秘密",
