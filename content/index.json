@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-08-29",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "身体里的小宇宙：生命科学大冒险",
+      "summary": "你的身体里住着十万亿个迷你居民，它们每天都在上演一场看不见的精彩大战！",
+      "keywords": [
+        "生命科学",
+        "细胞",
+        "DNA",
+        "人体",
+        "免疫系统"
+      ],
+      "images": [
+        "2026-08-29_1_1_b87b19bf.jpg"
+      ]
+    },
+    {
       "date": "2026-08-28",
       "theme": "world_history",
       "theme_name": "世界历史",
