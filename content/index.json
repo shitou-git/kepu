@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-08-30",
+      "theme": "cosmic_exploration",
+      "theme_name": "宇宙探索",
+      "title": "飞向星空：人类宇宙探索的奇妙旅程",
+      "summary": "一颗小小的探测器，如何飞出太阳系，去触摸亿万光年外的星辰？",
+      "keywords": [
+        "宇宙探索",
+        "火箭",
+        "月球",
+        "火星",
+        "望远镜"
+      ],
+      "images": [
+        "2026-08-30_1_1_efc699cc.jpg"
+      ]
+    },
+    {
       "date": "2026-08-29",
       "theme": "military",
       "theme_name": "少年军事",
