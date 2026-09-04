@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-09-05",
+      "theme": "life_science",
+      "theme_name": "生命科学",
+      "title": "身体里的秘密工厂——探索生命科学奇妙世界",
+      "summary": "当你打喷嚏时，身体里正在上演一场精彩的保卫战！",
+      "keywords": [
+        "细胞",
+        "DNA",
+        "免疫系统",
+        "人体",
+        "生命科学"
+      ],
+      "images": [
+        "2026-09-05_1_1_3cc5f7f2.jpg"
+      ]
+    },
+    {
       "date": "2026-09-04",
       "theme": "world_history",
       "theme_name": "世界历史",
