@@ -1,6 +1,23 @@
 {
   "articles": [
     {
+      "date": "2026-09-06",
+      "theme": "physics",
+      "theme_name": "科学小实验",
+      "title": "科学小实验：厨房里的魔法化学反应！",
+      "summary": "用家里的醋和小苏打，你就能制造出壮观的'火山喷发'！",
+      "keywords": [
+        "科学小实验",
+        "化学反应",
+        "酸碱反应",
+        "火山爆发",
+        "科学创新"
+      ],
+      "images": [
+        "2026-09-06_1_1_fd986f5e.jpg"
+      ]
+    },
+    {
       "date": "2026-09-05",
       "theme": "cosmic_exploration",
       "theme_name": "宇宙探索",
