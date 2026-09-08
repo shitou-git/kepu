@@ -1,6 +1,22 @@
 {
   "articles": [
     {
+      "date": "2026-09-09",
+      "theme": "nature",
+      "theme_name": "自然与动物",
+      "title": "自然与动物的奇妙秘密",
+      "summary": "一只小海龟踏上旅程，穿越万里寻找出生的海滩",
+      "keywords": [
+        "海洋生物",
+        "动物伪装",
+        "鸟类迁徙",
+        "深海生物"
+      ],
+      "images": [
+        "2026-09-09_1_1_8a5b30f6.jpg"
+      ]
+    },
+    {
       "date": "2026-09-08",
       "theme": "innovation",
       "theme_name": "科学创新",
