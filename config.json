@@ -103,7 +103,8 @@
   ],
   "ai": {
     "api_base": "https://apihub.agnes-ai.com/v1",
-    "model": "agnes-2.0-flash",
+    "model": "agnes-3.0-flash",
+    "image_model": "agnes-image-2.5-flash",
     "temperature": 0.85,
     "max_tokens": 8000
   },
