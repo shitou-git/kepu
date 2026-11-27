@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+from env_loader import require_api_key
 from image_search import ImageFinder
 
 # 5篇文章的新图片提示词和内容修复
@@ -101,8 +102,7 @@ def fix_ant_content(content: str) -> str:
 
 
 def main():
-    import os
-    os.environ["AGENS_API_KEY"] = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
+    require_api_key()
 
     finder = ImageFinder()
 
