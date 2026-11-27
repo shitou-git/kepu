@@ -10,7 +10,9 @@ from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-os.environ["AGENS_API_KEY"] = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
+from env_loader import require_api_key
+
+require_api_key()
 
 from ai_rewrite import AIWriter
 from image_search import ImageFinder
