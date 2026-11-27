@@ -19,6 +19,10 @@ class ImageFinder:
     def __init__(self):
         self.api_key = os.environ.get("AGENS_API_KEY", "")
         self.api_base = "https://apihub.agnes-ai.com/v1"
+        config_file = Path(__file__).resolve().parent.parent / "config.json"
+        with open(config_file, "r", encoding="utf-8") as f:
+            config = json.load(f)
+        self.image_model = config.get("ai", {}).get("image_model", "agnes-image-2.5-flash")
         self.image_dir = Path("content/images")
         self.image_dir.mkdir(parents=True, exist_ok=True)
         self.max_width = 500
@@ -106,7 +110,7 @@ class ImageFinder:
                 "Content-Type": "application/json"
             }
             payload = {
-                "model": "agnes-image-2.1-flash",
+                "model": self.image_model,
                 "prompt": prompt + style_modifier,
                 "size": "2K",
                 "ratio": "16:9",
@@ -181,8 +185,8 @@ class ImageFinder:
 
 
 if __name__ == "__main__":
-    import os
-    os.environ["AGENS_API_KEY"] = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
+    if not os.environ.get("AGENS_API_KEY"):
+        raise SystemExit("请先设置环境变量 AGENS_API_KEY")
     finder = ImageFinder()
     queries = ["kids science experiment with cornstarch, colorful illustration for children", 
                "happy children doing physics experiment in kitchen, cartoon style"]
