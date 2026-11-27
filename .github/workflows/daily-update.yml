@@ -2,7 +2,8 @@ name: Daily Science Magazine Update
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    # 北京时间每天 16:00（UTC 08:00）
+    - cron: '0 8 * * *'
   push:
     branches:
       - main
