@@ -1,11 +1,11 @@
 {
-  "version": "1.0.561",
+  "version": "1.0.562",
   "site": {
     "title": "少年科普杂志",
     "subtitle": "每天一点科学知识，点亮孩子好奇心",
-    "description": "专为小学生打造的每日科普杂志，涵盖航空航天、科学实验、榜样人物、自然动物等主题",
-    "author": "",
-    "url": "https://your-username.github.io/kepu"
+    "description": "专为 6-12 岁小学生打造的每日科普杂志，涵盖宇宙探索、科学实验、榜样人物、自然动物、世界历史等九大主题",
+    "author": "Stong",
+    "url": "https://shitou-git.github.io/kepu"
   },
   "schedule": {
     "update_time": "16:00",
