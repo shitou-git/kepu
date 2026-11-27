@@ -20,8 +20,11 @@ except ImportError:
 # 将 scripts 目录加入路径
 sys.path.insert(0, str(Path(__file__).parent))
 
+from env_loader import load_env
 from ai_rewrite import AIWriter
 from image_search import ImageFinder
+
+load_env()
 
 
 class MagazineGenerator:
@@ -31,6 +34,7 @@ class MagazineGenerator:
         
         self.writer = AIWriter()
         self.finder = ImageFinder()
+        self.last_error = None
         self.content_dir = Path("content/archives")
         self.content_dir.mkdir(parents=True, exist_ok=True)
 
@@ -91,25 +95,32 @@ class MagazineGenerator:
                 return []
             return self._generate_for_theme(target_theme, date_str)
 
-        # 按主题顺序循环：根据已有文章总数取模决定下一个主题
+        # 优先按 config.json 的 weekdays 主题日历选题；无匹配时按总数轮换兜底
         all_themes = self.config["themes"]
-        total_existing = len(list(self.content_dir.glob("*.json")))
-        theme_index = total_existing % len(all_themes)
-        target_theme = all_themes[theme_index]
+        matched = [t for t in all_themes if today.isoweekday() in t["weekdays"]]
+        generated_today = set()
+        for f in self.content_dir.glob(f"{date_str}*.json"):
+            try:
+                generated_today.add(json.loads(f.read_text(encoding="utf-8")).get("theme"))
+            except Exception:
+                pass
+
+        candidates = [t for t in matched if t["id"] not in generated_today] or matched
+        if candidates:
+            target_theme = candidates[0]
+            theme_source = "主题日历"
+        else:
+            total_existing = len(list(self.content_dir.glob("*.json")))
+            target_theme = all_themes[total_existing % len(all_themes)]
+            theme_source = "轮换兜底"
 
         if force:
-            print(f"手动触发，强制生成主题: {target_theme['name']} ({target_theme['id']})")
+            print(f"手动触发，强制生成主题: {target_theme['name']} ({target_theme['id']}) [{theme_source}]")
         else:
-            # 检查今天该主题是否已生成过
-            for f in self.content_dir.glob(f"{date_str}*.json"):
-                try:
-                    data = json.loads(f.read_text(encoding="utf-8"))
-                    if data.get("theme") == target_theme["id"]:
-                        print(f"今日已生成过主题 '{target_theme['name']}'，跳过")
-                        return []
-                except Exception:
-                    pass
-            print(f"生成主题: {target_theme['name']} ({target_theme['id']}) (序号 {theme_index})")
+            if target_theme["id"] in generated_today:
+                print(f"今日已生成过主题 '{target_theme['name']}'，跳过")
+                return []
+            print(f"生成主题: {target_theme['name']} ({target_theme['id']}) [{theme_source}]")
         
         generated = []
         theme = target_theme
@@ -152,6 +163,7 @@ class MagazineGenerator:
             self.update_index(article)
             generated.append(article)
         except Exception as e:
+            self.last_error = str(e)
             print(f"生成失败，跳过: {e}")
 
         return generated
@@ -197,6 +209,7 @@ class MagazineGenerator:
             self.update_index(article)
             return [article]
         except Exception as e:
+            self.last_error = str(e)
             print(f"生成失败，跳过: {e}")
             return []
 
@@ -253,7 +266,7 @@ class MagazineGenerator:
             if article_file.exists():
                 continue
             
-            theme = self.get_today_theme(future)
+            theme = self.get_today_themes(future)[0]
             print(f"生成 {date_str} - {theme['name']}")
             
             try:
@@ -350,6 +363,10 @@ def main():
         gen.generate_batch(args.batch)
     else:
         gen.generate_daily(args.theme, force=args.force)
+
+    if gen.last_error:
+        print(f"生成失败（致命）: {gen.last_error}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
