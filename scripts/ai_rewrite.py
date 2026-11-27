@@ -10,6 +10,15 @@ import requests
 from typing import Optional, Dict, List
 
 
+BANNED_PHRASES = [
+    "简单讲", "简单来说", "换句话说", "你会发现", "是不是", "说白了", "说实话",
+    "你想想", "这么说吧", "讲真", "老实说", "其实吧", "其实呢", "众所周知",
+    "毫无疑问", "显而易见", "不难发现", "事实上", "实际上", "总而言之",
+    "综上所述", "由此可见", "想一想", "想象一下", "你知道吗", "你们知道吗",
+    "试想一下", "你有没有", "不妨",
+]
+
+
 class AIWriter:
     def __init__(self):
         with open("config.json", "r", encoding="utf-8") as f:
@@ -50,6 +59,10 @@ class AIWriter:
                     time.sleep(10 * (retry + 1))
         raise Exception(f"API failed after {max_retries} retries")
 
+    def _find_banned(self, text: str) -> List[str]:
+        """返回文本中命中的禁用口头禅。"""
+        return [phrase for phrase in BANNED_PHRASES if phrase in text]
+
     def _build_storyteller_prompt(self) -> str:
         return """You are a teacher who has been telling science stories to children for ten years.
 
@@ -68,6 +81,12 @@ Writing principles:
 4. No template openings like "Do you know" or "Imagine"
 5. No formal phrases like "Therefore" or "In conclusion"
 6. ABSOLUTELY NO filler words or verbal tics. Banned phrases include: 简单讲, 简单来说, 换句话说, 你会发现, 是不是, 说白了, 说实话, 你想想, 这么说吧, 讲真, 老实说, 其实吧, 其实呢, 众所周知, 毫无疑问, 显而易见, 不难发现, 事实上, 实际上, 总而言之, 综上所述, 由此可见, 想一想, 想象一下, 你知道吗, 你们知道吗, 试想一下, 你有没有, 不妨. Just state the meaning directly without transitional filler words.
+
+Science accuracy rules (MUST follow):
+7. Numbers must be conservative and verifiable. If unsure about a quantity, omit it instead of exaggerating (e.g. never claim a drop of blood contains trillions of cells, or that DNA round-trips the Sun many times).
+8. Do not say cells or natural forces "think", "decide" or "make mistakes". Mark analogies clearly with "就像……一样".
+9. State scientists' nationalities correctly and credit key contributors (Watson was American, Crick was British, Rosalind Franklin's X-ray photo was essential to discovering the double helix).
+10. Describe UV light as causing DNA damage/mutation, not as actively rewriting instructions to help the body adapt.
 
 CRITICAL: All content must be written in Chinese (中文). Do not output any English except for proper nouns (names, places, scientific terms) that naturally appear in Chinese text."""
 
@@ -187,6 +206,27 @@ Requirements:
         ]
 
         result = self._call_api(messages, temperature=0.75)
+
+        banned = self._find_banned(result)
+        if banned:
+            print(f"    ⚠️ 发现禁用口头禅: {banned}，尝试重写")
+            rewrite_messages = messages + [
+                {"role": "assistant", "content": result},
+                {"role": "user", "content": (
+                    "请重写上面的中文正文，保留全部科学信息和段落结构，"
+                    f"但绝对不要使用这些词语：{'、'.join(banned)}。只输出重写后的正文。"
+                )},
+            ]
+            rewritten = self._call_api(rewrite_messages, temperature=0.7)
+            if not self._find_banned(rewritten):
+                result = rewritten
+            else:
+                # 兜底：仍命中时直接剔除，避免禁用词进入线上文章
+                for phrase in banned:
+                    rewritten = re.sub(re.escape(phrase) + r"[，,、]?", "", rewritten)
+                result = rewritten.strip()
+                print("    ⚠️ 重写后仍有禁用词，已用规则剔除")
+
         return result
 
     def generate_image_prompts(self, sections: List[Dict], theme_name: str) -> List[str]:
@@ -242,7 +282,8 @@ Requirements:
 2. Each point should be concise, contain numbers or unique trivia
 3. Oral language, suitable for primary school students
 4. Don't repeat article content, provide supplementary knowledge
-5. Output must be in Chinese (中文)"""
+5. Every fact must be scientifically accurate and conservative. Verify numbers and years; if unsure, omit the number. Never exaggerate scale or repeat unverified claims from the article.
+6. Output must be in Chinese (中文)"""
 
         user_prompt = f"""Extract 3-4 interesting knowledge points from the following "{theme_name}" article:
 
@@ -260,10 +301,13 @@ Output format: One per line, starting with •"""
         facts = []
         for line in result.split("\n"):
             line = line.strip()
-            if line:
-                line = line.lstrip("•- 0123456789.")
-                facts.append(line)
-        
+            if not line:
+                continue
+            # 只去掉列表符号和序号，保留“1953年”这类以数字开头的年份
+            line = re.sub(r"^[•*\-]\s*", "", line)
+            line = re.sub(r"^\d+[\.、]\s*", "", line)
+            facts.append(line.strip())
+
         return facts[:4]
 
     def generate_thinking(self, content: str, theme_name: str) -> List[str]:
@@ -291,10 +335,12 @@ Output format: One question per line"""
         questions = []
         for line in result.split("\n"):
             line = line.strip()
-            if line:
-                line = line.lstrip("•- 0123456789.")
-                questions.append(line)
-        
+            if not line:
+                continue
+            line = re.sub(r"^[•*\-]\s*", "", line)
+            line = re.sub(r"^\d+[\.、]\s*", "", line)
+            questions.append(line.strip())
+
         return questions[:2]
 
     def generate_section_titles(self, sections_content: list, theme_name: str) -> list:
@@ -370,10 +416,10 @@ Output format: One title per line, {section_count} total, in order."""
             # 清理 AI 可能误输出的格式说明文字
             if "[Content in Markdown" in text:
                 text = text.replace("[Content in Markdown, with [IMAGE] marker at end]", "").strip()
-            if text.startswith("[IMAGE]"):
-                text = text[len("[IMAGE]"):].strip()
+            # 统一清掉模型输出的图片标记，再由代码保证每节恰好一个标记
+            text = re.sub(r"\[IMAGE(?:_\d+)?\]", "", text).strip()
             section_texts.append(text)
-            section_with_title = f"### {section['title']}\n\n{text}"
+            section_with_title = f"### {section['title']}\n\n{text}\n\n[IMAGE]"
             sections_with_titles.append(section_with_title)
             prev_text = text
 
@@ -401,6 +447,10 @@ Output format: One title per line, {section_count} total, in order."""
         thinking = self.generate_thinking(content, theme_name)
         print(f"    Thinking questions: {thinking}")
 
+        remaining_banned = self._find_banned(content)
+        if remaining_banned:
+            print(f"    ⚠️ 正文仍有禁用口头禅: {remaining_banned}")
+
         return {
             "theme": theme,
             "theme_name": theme_name,
@@ -412,7 +462,8 @@ Output format: One title per line, {section_count} total, in order."""
             "fact_card": fact_card,
             "thinking": thinking,
             "image_prompts": image_prompts,
-            "section_count": actual_sections
+            "section_count": actual_sections,
+            "quality_issues": {"banned_phrases": remaining_banned}
         }
 
 
