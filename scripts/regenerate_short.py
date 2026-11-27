@@ -13,6 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+from env_loader import require_api_key
 from ai_rewrite import AIWriter
 from image_search import ImageFinder
 
@@ -29,9 +30,7 @@ def count_chars(content: str) -> int:
 
 
 def main():
-    # 设置 API Key
-    api_key = "sk-lr4s7E7eiQYUeC4T47xNoQciOapqAIOFPkTLgvtd8ae7y6nZ"
-    os.environ["AGENS_API_KEY"] = api_key
+    require_api_key()
 
     archives_dir = Path("content/archives")
     writer = AIWriter()
