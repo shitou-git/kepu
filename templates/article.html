@@ -152,6 +152,19 @@ article.card { margin-bottom: 0; }
     background: var(--primary);
     color: white;
 }
+/* 全文朗读跟随高亮 */
+.kepu-char.tts-active,
+.kepu-char.tts-active:hover,
+.kepu-char.tts-active:active {
+    background: #f6ad55;
+    color: #1a202c;
+}
+[data-theme="dark"] .kepu-char.tts-active,
+[data-theme="dark"] .kepu-char.tts-active:hover,
+[data-theme="dark"] .kepu-char.tts-active:active {
+    background: #b7791f;
+    color: #fffbeb;
+}
 .kepu-popup {
     position: fixed;
     background: var(--card);
@@ -379,6 +392,7 @@ article.card { margin-bottom: 0; }
     var fullReadActive = false;
     var fullReadToken = 0;
     var readAllBtn = document.getElementById('read-all-btn');
+    var fullReadSentences = [];
 
     // 判断是否为汉字
     function isChinese(ch) {
@@ -550,6 +564,7 @@ article.card { margin-bottom: 0; }
             currentAudio = null;
         }
         try { window.speechSynthesis.cancel(); } catch (e) {}
+        clearSentenceHighlight();
         if (readAllBtn) {
             readAllBtn.textContent = '🔊 朗读全文';
             readAllBtn.title = '朗读全文';
@@ -561,38 +576,80 @@ article.card { margin-bottom: 0; }
         });
     }
 
-    function getFullText() {
+    // 按断句符号建立句子清单，同时记录每句对应的汉字节点，供朗读高亮使用
+    function buildSentences() {
         var selectors = '.article-body p, .article-body h2, .article-body h3, .fact-card li, .thinking-box li';
-        var parts = [];
+        var result = [];
+        var buf = '';
+        var chars = [];
+        function flush() {
+            var text = buf.trim();
+            if (text) result.push({ text: text, chars: chars.slice() });
+            buf = '';
+            chars = [];
+        }
         document.querySelectorAll(selectors).forEach(function(el) {
-            var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
-            if (t) parts.push(t);
+            var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+            var node;
+            while ((node = walker.nextNode())) {
+                var text = node.nodeValue || '';
+                var parent = node.parentElement;
+                var isChar = !!(parent && parent.classList && parent.classList.contains('kepu-char'));
+                for (var i = 0; i < text.length; i++) {
+                    var ch = text[i];
+                    buf += ch;
+                    if (isChar) chars.push(parent);
+                    if (/[。！？!?；;\n]/.test(ch)) flush();
+                }
+            }
+            flush();
         });
-        return parts.join(' ');
+        flush();
+        return result;
     }
 
-    // 按中文标点切句，再合并为不超过 maxLen 字的片段
-    function splitForTTS(text, maxLen) {
-        var sentences = text.match(/[^。！？!?；;\n]+[。！？!?；;]?/g) || [text];
-        var chunks = [];
+    // 把句子合并为不超过 maxLen 字的播放块，并记录所包含的句子区间
+    function buildBlocks(sentences, maxLen) {
+        var blocks = [];
         var buf = '';
-        sentences.forEach(function(s) {
-            s = s.trim();
-            if (!s) return;
-            while (s.length > maxLen) {
-                if (buf) { chunks.push(buf); buf = ''; }
-                chunks.push(s.slice(0, maxLen));
-                s = s.slice(maxLen);
+        var from = 0;
+        for (var i = 0; i < sentences.length; i++) {
+            var s = sentences[i];
+            if (s.text.length > maxLen) {
+                if (buf) { blocks.push({ text: buf, from: from, to: i }); buf = ''; }
+                blocks.push({ text: s.text, from: i, to: i + 1 });
+                from = i + 1;
+                continue;
             }
-            if (buf && (buf + s).length > maxLen) {
-                chunks.push(buf);
-                buf = s;
-            } else {
-                buf += s;
+            if (buf && (buf + s.text).length > maxLen) {
+                blocks.push({ text: buf, from: from, to: i });
+                buf = '';
+                from = i;
             }
+            buf += s.text;
+        }
+        if (buf) blocks.push({ text: buf, from: from, to: sentences.length });
+        return blocks;
+    }
+
+    function clearSentenceHighlight() {
+        document.querySelectorAll('.kepu-char.tts-active').forEach(function(el) {
+            el.classList.remove('tts-active');
         });
-        if (buf) chunks.push(buf);
-        return chunks;
+    }
+
+    function highlightSentence(idx) {
+        clearSentenceHighlight();
+        var s = fullReadSentences[idx];
+        if (!s || !s.chars.length) return;
+        s.chars.forEach(function(el) { el.classList.add('tts-active'); });
+        // 句子不在视野内时温和滚动到可视区域
+        try {
+            var rect = s.chars[0].getBoundingClientRect();
+            if (rect.bottom < 70 || rect.top > window.innerHeight - 70) {
+                s.chars[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+            }
+        } catch (e) {}
     }
 
     function makeAudio(text) {
@@ -607,17 +664,27 @@ article.card { margin-bottom: 0; }
         return audioCache[cacheKey];
     }
 
-    // 播放一段；Edge TTS 失败时改用浏览器语音，并等待其结束
-    function playChunk(text, token) {
+    // 播放一段；按播放进度高亮当前句子，Edge TTS 失败时逐句回退浏览器语音
+    function playChunk(block, token) {
         return new Promise(function(resolve) {
             if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
-            var audio = makeAudio(text);
+            var audio = makeAudio(block.text);
             currentAudio = audio;
             try { audio.currentTime = 0; } catch (e) {}
+            highlightSentence(block.from);
             var settled = false;
             function cleanup() {
                 audio.removeEventListener('ended', done);
                 audio.removeEventListener('error', fallback);
+                audio.removeEventListener('timeupdate', highlightProgress);
+            }
+            function highlightProgress() {
+                if (!fullReadActive || token !== fullReadToken || settled) return;
+                var dur = audio.duration;
+                if (!dur || !isFinite(dur)) return;
+                var total = block.to - block.from;
+                var ratio = Math.max(0, Math.min(0.999, audio.currentTime / dur));
+                highlightSentence(block.from + Math.floor(ratio * total));
             }
             function done() {
                 if (settled) return;
@@ -633,26 +700,38 @@ article.card { margin-bottom: 0; }
                 try { audio.pause(); } catch (e) {}
                 if (currentAudio === audio) currentAudio = null;
                 if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
-                speakWithBrowserAsync(text).then(function() { resolve(); });
+                var i = block.from;
+                function nextSentence() {
+                    if (!fullReadActive || token !== fullReadToken || i >= block.to) { resolve(); return; }
+                    var s = fullReadSentences[i];
+                    if (!s) { i++; nextSentence(); return; }
+                    highlightSentence(i);
+                    speakWithBrowserAsync(s.text).then(function() {
+                        i++;
+                        nextSentence();
+                    });
+                }
+                nextSentence();
             }
             audio.addEventListener('ended', done);
             audio.addEventListener('error', fallback);
+            audio.addEventListener('timeupdate', highlightProgress);
             var playing = audio.play();
             if (playing && typeof playing.catch === 'function') playing.catch(fallback);
         });
     }
 
-    function runFullRead(token, chunks) {
+    function runFullRead(token, blocks) {
         var i = 0;
         function next() {
-            if (!fullReadActive || token !== fullReadToken || i >= chunks.length) {
+            if (!fullReadActive || token !== fullReadToken || i >= blocks.length) {
                 if (fullReadActive && token === fullReadToken) stopFullRead();
                 return;
             }
-            var text = chunks[i++];
+            var block = blocks[i++];
             // 提前加载下一段，减少段间等待
-            if (i < chunks.length) makeAudio(chunks[i]);
-            playChunk(text, token).then(function() {
+            if (i < blocks.length) makeAudio(blocks[i].text);
+            playChunk(block, token).then(function() {
                 if (!fullReadActive || token !== fullReadToken) return;
                 setTimeout(next, 150);
             });
@@ -663,8 +742,9 @@ article.card { margin-bottom: 0; }
     if (readAllBtn) {
         readAllBtn.addEventListener('click', function() {
             if (fullReadActive) { stopFullRead(); return; }
-            var text = getFullText();
-            if (!text) return;
+            fullReadSentences = buildSentences();
+            if (!fullReadSentences.length) return;
+            var blocks = buildBlocks(fullReadSentences, 180);
             // 与单字朗读互斥
             if (currentAudio) {
                 try { currentAudio.pause(); } catch (e) {}
@@ -674,13 +754,14 @@ article.card { margin-bottom: 0; }
             document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
                 el.classList.remove('loading');
             });
+            clearSentenceHighlight();
             fullReadActive = true;
             var token = ++fullReadToken;
             readAllBtn.textContent = '⏹ 停止朗读';
             readAllBtn.title = '停止朗读';
             readAllBtn.setAttribute('aria-pressed', 'true');
             readAllBtn.classList.add('loading');
-            runFullRead(token, splitForTTS(text, 180));
+            runFullRead(token, blocks);
         });
     }
 
