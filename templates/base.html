@@ -5,8 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{{ site.title }}{% endblock %}</title>
     <meta name="description" content="{{ site.description }}">
+    <script>
+    // 在样式应用前确定主题，避免刷新时闪白
+    (function() {
+        try {
+            var t = localStorage.getItem('kepu-theme');
+            if (!t) {
+                t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    })();
+    </script>
     <style>
-        :root {
+        :root, [data-theme="light"] {
             --primary: #2c7a7b;
             --primary-light: #e6fffa;
             --accent: #ed8936;
@@ -16,6 +28,26 @@
             --text-light: #718096;
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        [data-theme="dark"] {
+            --primary: #4fd1c5;
+            --primary-light: #234e52;
+            --accent: #f6ad55;
+            --bg: #121826;
+            --card: #1f2937;
+            --text: #e2e8f0;
+            --text-light: #a0aec0;
+            --border: #334155;
+            --shadow: 0 4px 14px rgba(0,0,0,0.4);
+            color-scheme: dark;
+        }
+        [data-theme="dark"] header {
+            background: linear-gradient(135deg, #1f2937 0%, #234e52 100%);
+        }
+        [data-theme="dark"] footer {
+            background: #0f1420;
+            color: var(--text);
+            border-top: 1px solid var(--border);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -42,7 +74,7 @@
             z-index: 100;
             box-shadow: var(--shadow);
         }
-        nav .container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        nav .container { display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; }
         nav a {
             color: var(--text);
             text-decoration: none;
@@ -121,6 +153,24 @@
             border: 2px solid var(--primary);
             color: var(--primary);
         }
+        .theme-toggle {
+            margin-left: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            font-size: 1.05em;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .theme-toggle:hover { transform: rotate(15deg); }
+        .theme-toggle:active { transform: scale(0.9); }
         footer {
             background: var(--text);
             color: white;
@@ -154,6 +204,7 @@
         <div class="container">
             <a href="/kepu/index.html" class="{% if active == 'home' %}active{% endif %}">首页</a>
             <a href="/kepu/archive.html" class="{% if active == 'archive' %}active{% endif %}">往期回顾</a>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换深色主题" title="切换深色主题">🌙</button>
         </div>
     </nav>
     <main>
@@ -169,6 +220,28 @@
     </footer>
     {% block extra_js %}{% endblock %}
     <script>
+    // 深色 / 浅色主题切换
+    (function() {
+        var btn = document.getElementById('theme-toggle');
+        function reflect(theme) {
+            if (!btn) return;
+            var label = theme === 'dark' ? '切换浅色主题' : '切换深色主题';
+            btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            btn.setAttribute('aria-label', label);
+            btn.title = label;
+        }
+        reflect(document.documentElement.getAttribute('data-theme') || 'light');
+        if (btn) {
+            btn.addEventListener('click', function() {
+                var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                try { localStorage.setItem('kepu-theme', next); } catch (e) {}
+                reflect(next);
+            });
+        }
+    })();
+    </script>
+    <script>
     // Capacitor 环境适配
     (function() {
         if (typeof Capacitor !== 'undefined') {
@@ -182,6 +255,6 @@
         }
     })();
     </script>
-    <script src="update-check.js"></script>
+    <script src="/kepu/update-check.js"></script>
 </body>
 </html>
