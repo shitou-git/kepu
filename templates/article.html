@@ -136,7 +136,8 @@ article.card { margin-bottom: 0; }
 }
 .kepu-popup {
     position: fixed;
-    background: white;
+    background: var(--card);
+    color: var(--text);
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     padding: 16px 20px;
@@ -257,6 +258,20 @@ article.card { margin-bottom: 0; }
     font-size: 0.8em;
     color: #c53030;
 }
+[data-theme="dark"] .fact-card {
+    background: linear-gradient(135deg, #2d3748 0%, #1f2937 100%);
+}
+[data-theme="dark"] .thinking-box {
+    background: linear-gradient(135deg, #234e52 0%, #1f2937 100%);
+}
+[data-theme="dark"] .kepu-idiom {
+    background: linear-gradient(135deg, #7c5d13, #8a6914);
+    border-color: #b7791f;
+    color: #fef3c7;
+}
+[data-theme="dark"] .kepu-idiom:hover { background: linear-gradient(135deg, #8a6914, #a17917); }
+[data-theme="dark"] .kepu-idiom .word-pinyin { color: #f6ad55; }
+[data-theme="dark"] .kepu-words-error { color: #fc8181; }
 </style>
 {% endblock %}
 {% block content %}
@@ -323,15 +338,14 @@ article.card { margin-bottom: 0; }
 </article>
 {% endblock %}
 {% block extra_js %}
-<script src="https://unpkg.com/pinyin-pro@3.14.0/dist/index.js"></script>
+<script src="/kepu/pinyin-pro.js"></script>
 <script>
 (function() {
     var TTS_BASE = 'https://tts.chatlz.dpdns.org';
-    // 组词 / 成语按需生成 Worker（点击汉字时调用）
-    var WORD_DICT_API = 'https://worddict.chatlz.dpdns.org/word';
-    // localStorage 缓存有效期 30 天
-    var CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
-    var memCache = {};
+    // 组词 / 成语改为读取构建时预生成的静态词典，不再依赖易故障的在线 Worker
+    var WORD_DICT_URL = '/kepu/data/word_dict.json';
+    var wordDict = null;
+    var dictPending = [];
     var audioCache = {};
     var currentAudio = null;
 
@@ -385,10 +399,31 @@ article.card { margin-bottom: 0; }
         }
     }
 
-    // 播放 TTS
+    // 播放 TTS：优先用浏览器内置中文语音，避免外部 TTS 服务故障
     function playTTS(text, btn) {
         if (currentAudio) {
             currentAudio.pause();
+            currentAudio = null;
+        }
+        if (btn) btn.classList.add('loading');
+        if ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
+            try {
+                window.speechSynthesis.cancel();
+                var utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'zh-CN';
+                utter.rate = 0.85;
+                var voices = window.speechSynthesis.getVoices().filter(function(v) {
+                    return /^zh/i.test(v.lang || '');
+                });
+                if (voices.length) utter.voice = voices[0];
+                utter.onend = utter.onerror = function() {
+                    if (btn) btn.classList.remove('loading');
+                };
+                window.speechSynthesis.speak(utter);
+                return;
+            } catch (e) {
+                // 浏览器语音不可用时回退到在线 TTS
+            }
         }
         if (audioCache[text]) {
             currentAudio = audioCache[text];
@@ -396,7 +431,6 @@ article.card { margin-bottom: 0; }
             currentAudio.play();
             return;
         }
-        if (btn) btn.classList.add('loading');
         var url = TTS_BASE + '/tts?text=' + encodeURIComponent(text) +
                   '&voice=zh-CN-XiaoxiaoNeural&format=audio-24khz-48kbitrate-mono-mp3';
         var audio = new Audio(url);
@@ -468,47 +502,32 @@ article.card { margin-bottom: 0; }
         });
     }
 
-    // 从 localStorage 读取缓存
-    function readCache(char) {
-        if (memCache[char]) return memCache[char];
-        try {
-            var raw = localStorage.getItem('kepu_wd_' + char);
-            if (!raw) return null;
-            var obj = JSON.parse(raw);
-            if (Date.now() - obj.ts < CACHE_TTL) {
-                memCache[char] = obj.data;
-                return obj.data;
-            }
-            localStorage.removeItem('kepu_wd_' + char);
-        } catch(e) {}
-        return null;
-    }
-
-    // 写入 localStorage 缓存
-    function writeCache(char, data) {
-        memCache[char] = data;
-        try {
-            localStorage.setItem('kepu_wd_' + char, JSON.stringify({ ts: Date.now(), data: data }));
-        } catch(e) {}
-    }
-
-    // 调用 Worker 获取组词 / 成语（带本地缓存）
+    // 从静态词典读取组词 / 成语；词典未加载完成时排队等待
     function fetchWordDict(char, callback) {
-        var cached = readCache(char);
-        if (cached) {
-            callback(cached.words || [], cached.idioms || []);
-            return;
+        function deliver() {
+            var entry = (wordDict && wordDict[char]) || {};
+            callback(entry.w || [], entry.i || []);
         }
-        fetch(WORD_DICT_API + '?char=' + encodeURIComponent(char))
-            .then(function(res) { return res.json(); })
+        if (wordDict) { deliver(); return; }
+        dictPending.push(deliver);
+    }
+
+    function loadWordDict() {
+        fetch(WORD_DICT_URL, { cache: 'force-cache' })
+            .then(function(res) {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
             .then(function(data) {
-                var result = { words: data.words || [], idioms: data.idioms || [] };
-                writeCache(char, result);
-                callback(result.words, result.idioms);
+                wordDict = data.chars || {};
             })
             .catch(function(err) {
-                console.warn('获取组词失败:', err);
-                callback([], []);
+                console.warn('组词词典加载失败:', err);
+                wordDict = {};
+            })
+            .then(function() {
+                dictPending.forEach(function(fn) { fn(); });
+                dictPending = [];
             });
     }
 
@@ -565,10 +584,9 @@ article.card { margin-bottom: 0; }
     // 初始化
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof pinyinPro === 'undefined') {
-            console.warn('pinyin-pro 未加载，点击查字功能不可用');
-            return;
+            console.warn('拼音库未加载，拼音标注将不可用');
         }
-
+        loadWordDict();
         processTextNodes();
 
         // 点击汉字
