@@ -10,24 +10,23 @@
 }
 .article-header h1 { font-size: 2em; margin-bottom: 16px; }
 .article-header .meta { color: var(--text-light); }
-.article-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin: -12px 0 18px;
-}
-.read-all-btn {
-    background: var(--primary-light);
+.section-tts-btn {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 0 4px;
+    border: none;
+    background: transparent;
     color: var(--primary);
-    border: 1px solid var(--primary);
-    border-radius: 20px;
-    padding: 7px 16px;
-    font-family: inherit;
-    font-size: 0.9em;
+    font-size: 0.65em;
+    line-height: 1;
+    vertical-align: middle;
     cursor: pointer;
-    transition: opacity 0.2s, background 0.2s;
+    transition: transform 0.15s, color 0.15s;
 }
-.read-all-btn:hover { opacity: 0.85; }
-.read-all-btn.loading { background: var(--primary); color: #fff; }
+.section-tts-btn::before { content: '🔊'; }
+.section-tts-btn:hover { transform: scale(1.15); }
+.section-tts-btn.playing { color: var(--accent); }
+.section-tts-btn.playing::before { content: '⏸'; }
 .article-body {
     font-size: 1.1em;
     line-height: 2;
@@ -322,10 +321,6 @@ article.card { margin-bottom: 0; }
         {% endif %}
     </div>
 
-    <div class="article-toolbar">
-        <button id="read-all-btn" class="read-all-btn" type="button" aria-pressed="false" title="朗读全文">🔊 朗读全文</button>
-    </div>
-
     <div class="article-body">
         {{ article.content_html | safe }}
 
@@ -391,7 +386,7 @@ article.card { margin-bottom: 0; }
     var currentAudio = null;
     var fullReadActive = false;
     var fullReadToken = 0;
-    var readAllBtn = document.getElementById('read-all-btn');
+    var currentSectionBtn = null;
     var fullReadSentences = [];
 
     // 判断是否为汉字
@@ -555,7 +550,7 @@ article.card { margin-bottom: 0; }
         });
     });
 
-    // ===== 全文朗读：按句分块，Edge TTS 逐段播放，失败回退浏览器 =====
+    // ===== 小节朗读：逐句播放，失败回退浏览器 =====
     function stopFullRead() {
         fullReadActive = false;
         fullReadToken++;
@@ -565,11 +560,9 @@ article.card { margin-bottom: 0; }
         }
         try { window.speechSynthesis.cancel(); } catch (e) {}
         clearSentenceHighlight();
-        if (readAllBtn) {
-            readAllBtn.textContent = '🔊 朗读全文';
-            readAllBtn.title = '朗读全文';
-            readAllBtn.setAttribute('aria-pressed', 'false');
-            readAllBtn.classList.remove('loading');
+        if (currentSectionBtn) {
+            currentSectionBtn.classList.remove('playing');
+            currentSectionBtn = null;
         }
         document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
             el.classList.remove('loading');
@@ -577,8 +570,7 @@ article.card { margin-bottom: 0; }
     }
 
     // 按断句符号建立句子清单，同时记录每句对应的汉字节点，供朗读高亮使用
-    function buildSentences() {
-        var selectors = '.article-body p, .article-body h2, .article-body h3, .fact-card li, .thinking-box li';
+    function buildSentences(elements) {
         var result = [];
         var buf = '';
         var chars = [];
@@ -588,7 +580,7 @@ article.card { margin-bottom: 0; }
             buf = '';
             chars = [];
         }
-        document.querySelectorAll(selectors).forEach(function(el) {
+        elements.forEach(function(el) {
             var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
             var node;
             while ((node = walker.nextNode())) {
@@ -698,28 +690,50 @@ article.card { margin-bottom: 0; }
         next();
     }
 
-    if (readAllBtn) {
-        readAllBtn.addEventListener('click', function() {
-            if (fullReadActive) { stopFullRead(); return; }
-            fullReadSentences = buildSentences();
-            if (!fullReadSentences.length) return;
-            // 与单字朗读互斥
-            if (currentAudio) {
-                try { currentAudio.pause(); } catch (e) {}
-                currentAudio = null;
-            }
-            try { window.speechSynthesis.cancel(); } catch (e) {}
-            document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
-                el.classList.remove('loading');
+    // 取标题之后、下一个标题之前的正文元素
+    function getSectionElements(heading) {
+        var result = [];
+        var node = heading.nextElementSibling;
+        while (node && !/^H[1-6]$/.test(node.tagName)) {
+            if (node.nodeType === 1) result.push(node);
+            node = node.nextElementSibling;
+        }
+        return result;
+    }
+
+    // 每个小标题后加一个小喇叭，只朗读该标题下的正文
+    function setupSectionTTS() {
+        var headings = document.querySelectorAll('.article-body h2, .article-body h3');
+        headings.forEach(function(heading) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'section-tts-btn';
+            btn.title = '朗读本节';
+            btn.setAttribute('aria-label', '朗读本节');
+            heading.appendChild(btn);
+            btn.addEventListener('click', function() {
+                // 再点同一个喇叭即停止
+                if (fullReadActive && currentSectionBtn === btn) {
+                    stopFullRead();
+                    return;
+                }
+                stopFullRead();
+                fullReadSentences = buildSentences(getSectionElements(heading));
+                if (!fullReadSentences.length) return;
+                if (currentAudio) {
+                    try { currentAudio.pause(); } catch (e) {}
+                    currentAudio = null;
+                }
+                try { window.speechSynthesis.cancel(); } catch (e) {}
+                document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
+                    el.classList.remove('loading');
+                });
+                clearSentenceHighlight();
+                fullReadActive = true;
+                currentSectionBtn = btn;
+                btn.classList.add('playing');
+                runFullRead(++fullReadToken);
             });
-            clearSentenceHighlight();
-            fullReadActive = true;
-            var token = ++fullReadToken;
-            readAllBtn.textContent = '⏹ 停止朗读';
-            readAllBtn.title = '停止朗读';
-            readAllBtn.setAttribute('aria-pressed', 'true');
-            readAllBtn.classList.add('loading');
-            runFullRead(token);
         });
     }
 
@@ -866,6 +880,7 @@ article.card { margin-bottom: 0; }
         }
         loadWordDict();
         processTextNodes();
+        setupSectionTTS();
 
         // 点击汉字
         document.addEventListener('click', function(e) {
