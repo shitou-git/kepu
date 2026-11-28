@@ -9,6 +9,7 @@ on:
       - main
     paths:
       - 'content/**'
+      - 'data/**'
       - 'templates/**'
       - 'scripts/**'
       - 'config.json'
@@ -77,6 +78,14 @@ jobs:
           git commit -m "Auto-generate content for $(date +%Y-%m-%d)" || echo "No changes to commit"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main
 
+      - name: Update word dictionary
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          AGENS_API_KEY: ${{ secrets.AGENS_API_KEY }}
+        run: |
+          # 只补新增汉字，失败时沿用现有词典，不影响当天发布
+          python scripts/build_word_dict.py --limit 150 --workers 2 --batch-size 30 || echo "词典更新失败，沿用现有词典"
+
       - name: Build site pages
         run: |
           python scripts/page_builder.py
@@ -85,7 +94,7 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add config.json
+          git add config.json data/
           git commit -m "chore: bump build version [skip ci]" || echo "No version changes"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/shitou-git/kepu.git main || true
 
