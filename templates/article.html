@@ -10,6 +10,24 @@
 }
 .article-header h1 { font-size: 2em; margin-bottom: 16px; }
 .article-header .meta { color: var(--text-light); }
+.article-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin: -12px 0 18px;
+}
+.read-all-btn {
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-family: inherit;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: opacity 0.2s, background 0.2s;
+}
+.read-all-btn:hover { opacity: 0.85; }
+.read-all-btn.loading { background: var(--primary); color: #fff; }
 .article-body {
     font-size: 1.1em;
     line-height: 2;
@@ -291,6 +309,10 @@ article.card { margin-bottom: 0; }
         {% endif %}
     </div>
 
+    <div class="article-toolbar">
+        <button id="read-all-btn" class="read-all-btn" type="button" aria-pressed="false" title="朗读全文">🔊 朗读全文</button>
+    </div>
+
     <div class="article-body">
         {{ article.content_html | safe }}
 
@@ -354,6 +376,9 @@ article.card { margin-bottom: 0; }
     var dictPending = [];
     var audioCache = {};
     var currentAudio = null;
+    var fullReadActive = false;
+    var fullReadToken = 0;
+    var readAllBtn = document.getElementById('read-all-btn');
 
     // 判断是否为汉字
     function isChinese(ch) {
@@ -429,8 +454,41 @@ article.card { margin-bottom: 0; }
         }
     }
 
+    // 浏览器朗读（Promise 版，供全文朗读逐段等待）
+    function speakWithBrowserAsync(text) {
+        return new Promise(function(resolve) {
+            if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+                resolve(false);
+                return;
+            }
+            try {
+                window.speechSynthesis.cancel();
+                var utter = new SpeechSynthesisUtterance(text);
+                utter.lang = 'zh-CN';
+                utter.rate = 0.85;
+                var voices = window.speechSynthesis.getVoices().filter(function(v) {
+                    return /^zh/i.test(v.lang || '');
+                });
+                if (voices.length) utter.voice = voices[0];
+                var settled = false;
+                function done() {
+                    if (settled) return;
+                    settled = true;
+                    resolve(true);
+                }
+                utter.onend = done;
+                utter.onerror = done;
+                window.speechSynthesis.speak(utter);
+            } catch (e) {
+                resolve(false);
+            }
+        });
+    }
+
     // 播放 TTS：优先 Edge TTS（音色统一），失败才回退浏览器内置语音
     function playTTS(text, btn) {
+        // 单字朗读与全文朗读互斥
+        if (fullReadActive) stopFullRead();
         if (currentAudio) {
             currentAudio.pause();
             currentAudio = null;
@@ -471,6 +529,7 @@ article.card { margin-bottom: 0; }
 
     // 切换音色时停止当前朗读并丢弃旧音色缓存
     window.addEventListener('kepu-voicechange', function() {
+        if (fullReadActive) stopFullRead();
         if (currentAudio) {
             try { currentAudio.pause(); } catch (e) {}
             currentAudio = null;
@@ -481,6 +540,149 @@ article.card { margin-bottom: 0; }
             el.classList.remove('loading');
         });
     });
+
+    // ===== 全文朗读：按句分块，Edge TTS 逐段播放，失败回退浏览器 =====
+    function stopFullRead() {
+        fullReadActive = false;
+        fullReadToken++;
+        if (currentAudio) {
+            try { currentAudio.pause(); } catch (e) {}
+            currentAudio = null;
+        }
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+        if (readAllBtn) {
+            readAllBtn.textContent = '🔊 朗读全文';
+            readAllBtn.title = '朗读全文';
+            readAllBtn.setAttribute('aria-pressed', 'false');
+            readAllBtn.classList.remove('loading');
+        }
+        document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
+            el.classList.remove('loading');
+        });
+    }
+
+    function getFullText() {
+        var selectors = '.article-body p, .article-body h2, .article-body h3, .fact-card li, .thinking-box li';
+        var parts = [];
+        document.querySelectorAll(selectors).forEach(function(el) {
+            var t = (el.textContent || '').replace(/\s+/g, ' ').trim();
+            if (t) parts.push(t);
+        });
+        return parts.join(' ');
+    }
+
+    // 按中文标点切句，再合并为不超过 maxLen 字的片段
+    function splitForTTS(text, maxLen) {
+        var sentences = text.match(/[^。！？!?；;\n]+[。！？!?；;]?/g) || [text];
+        var chunks = [];
+        var buf = '';
+        sentences.forEach(function(s) {
+            s = s.trim();
+            if (!s) return;
+            while (s.length > maxLen) {
+                if (buf) { chunks.push(buf); buf = ''; }
+                chunks.push(s.slice(0, maxLen));
+                s = s.slice(maxLen);
+            }
+            if (buf && (buf + s).length > maxLen) {
+                chunks.push(buf);
+                buf = s;
+            } else {
+                buf += s;
+            }
+        });
+        if (buf) chunks.push(buf);
+        return chunks;
+    }
+
+    function makeAudio(text) {
+        var voice = getVoice();
+        var cacheKey = text + '|' + voice;
+        if (!audioCache[cacheKey]) {
+            var url = TTS_BASE + '/tts?text=' + encodeURIComponent(text) +
+                      '&voice=' + encodeURIComponent(voice) +
+                      '&format=audio-24khz-48kbitrate-mono-mp3';
+            audioCache[cacheKey] = new Audio(url);
+        }
+        return audioCache[cacheKey];
+    }
+
+    // 播放一段；Edge TTS 失败时改用浏览器语音，并等待其结束
+    function playChunk(text, token) {
+        return new Promise(function(resolve) {
+            if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
+            var audio = makeAudio(text);
+            currentAudio = audio;
+            try { audio.currentTime = 0; } catch (e) {}
+            var settled = false;
+            function cleanup() {
+                audio.removeEventListener('ended', done);
+                audio.removeEventListener('error', fallback);
+            }
+            function done() {
+                if (settled) return;
+                settled = true;
+                cleanup();
+                if (currentAudio === audio) currentAudio = null;
+                resolve();
+            }
+            function fallback() {
+                if (settled) return;
+                settled = true;
+                cleanup();
+                try { audio.pause(); } catch (e) {}
+                if (currentAudio === audio) currentAudio = null;
+                if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
+                speakWithBrowserAsync(text).then(function() { resolve(); });
+            }
+            audio.addEventListener('ended', done);
+            audio.addEventListener('error', fallback);
+            var playing = audio.play();
+            if (playing && typeof playing.catch === 'function') playing.catch(fallback);
+        });
+    }
+
+    function runFullRead(token, chunks) {
+        var i = 0;
+        function next() {
+            if (!fullReadActive || token !== fullReadToken || i >= chunks.length) {
+                if (fullReadActive && token === fullReadToken) stopFullRead();
+                return;
+            }
+            var text = chunks[i++];
+            // 提前加载下一段，减少段间等待
+            if (i < chunks.length) makeAudio(chunks[i]);
+            playChunk(text, token).then(function() {
+                if (!fullReadActive || token !== fullReadToken) return;
+                setTimeout(next, 150);
+            });
+        }
+        next();
+    }
+
+    if (readAllBtn) {
+        readAllBtn.addEventListener('click', function() {
+            if (fullReadActive) { stopFullRead(); return; }
+            var text = getFullText();
+            if (!text) return;
+            // 与单字朗读互斥
+            if (currentAudio) {
+                try { currentAudio.pause(); } catch (e) {}
+                currentAudio = null;
+            }
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+            document.querySelectorAll('.kepu-speak-btn.loading').forEach(function(el) {
+                el.classList.remove('loading');
+            });
+            fullReadActive = true;
+            var token = ++fullReadToken;
+            readAllBtn.textContent = '⏹ 停止朗读';
+            readAllBtn.title = '停止朗读';
+            readAllBtn.setAttribute('aria-pressed', 'true');
+            readAllBtn.classList.add('loading');
+            runFullRead(token, splitForTTS(text, 180));
+        });
+    }
 
     // 显示弹窗
     function showPopup(char, x, y) {
