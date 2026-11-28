@@ -599,37 +599,13 @@ article.card { margin-bottom: 0; }
                     var ch = text[i];
                     buf += ch;
                     if (isChar) chars.push(parent);
-                    if (/[。！？!?；;\n]/.test(ch)) flush();
+                    if (/[，,。！？!?；;\n]/.test(ch)) flush();
                 }
             }
             flush();
         });
         flush();
         return result;
-    }
-
-    // 把句子合并为不超过 maxLen 字的播放块，并记录所包含的句子区间
-    function buildBlocks(sentences, maxLen) {
-        var blocks = [];
-        var buf = '';
-        var from = 0;
-        for (var i = 0; i < sentences.length; i++) {
-            var s = sentences[i];
-            if (s.text.length > maxLen) {
-                if (buf) { blocks.push({ text: buf, from: from, to: i }); buf = ''; }
-                blocks.push({ text: s.text, from: i, to: i + 1 });
-                from = i + 1;
-                continue;
-            }
-            if (buf && (buf + s.text).length > maxLen) {
-                blocks.push({ text: buf, from: from, to: i });
-                buf = '';
-                from = i;
-            }
-            buf += s.text;
-        }
-        if (buf) blocks.push({ text: buf, from: from, to: sentences.length });
-        return blocks;
     }
 
     function clearSentenceHighlight() {
@@ -664,27 +640,20 @@ article.card { margin-bottom: 0; }
         return audioCache[cacheKey];
     }
 
-    // 播放一段；按播放进度高亮当前句子，Edge TTS 失败时逐句回退浏览器语音
-    function playChunk(block, token) {
+    // 逐句播放：一句对应一段音频，高亮与音频严格同步，不再按时间比例估算
+    function playSentence(index, token) {
         return new Promise(function(resolve) {
             if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
-            var audio = makeAudio(block.text);
+            var s = fullReadSentences[index];
+            if (!s) { resolve(); return; }
+            highlightSentence(index);
+            var audio = makeAudio(s.text);
             currentAudio = audio;
             try { audio.currentTime = 0; } catch (e) {}
-            highlightSentence(block.from);
             var settled = false;
             function cleanup() {
                 audio.removeEventListener('ended', done);
                 audio.removeEventListener('error', fallback);
-                audio.removeEventListener('timeupdate', highlightProgress);
-            }
-            function highlightProgress() {
-                if (!fullReadActive || token !== fullReadToken || settled) return;
-                var dur = audio.duration;
-                if (!dur || !isFinite(dur)) return;
-                var total = block.to - block.from;
-                var ratio = Math.max(0, Math.min(0.999, audio.currentTime / dur));
-                highlightSentence(block.from + Math.floor(ratio * total));
             }
             function done() {
                 if (settled) return;
@@ -700,40 +669,30 @@ article.card { margin-bottom: 0; }
                 try { audio.pause(); } catch (e) {}
                 if (currentAudio === audio) currentAudio = null;
                 if (!fullReadActive || token !== fullReadToken) { resolve(); return; }
-                var i = block.from;
-                function nextSentence() {
-                    if (!fullReadActive || token !== fullReadToken || i >= block.to) { resolve(); return; }
-                    var s = fullReadSentences[i];
-                    if (!s) { i++; nextSentence(); return; }
-                    highlightSentence(i);
-                    speakWithBrowserAsync(s.text).then(function() {
-                        i++;
-                        nextSentence();
-                    });
-                }
-                nextSentence();
+                speakWithBrowserAsync(s.text).then(function() { resolve(); });
             }
             audio.addEventListener('ended', done);
             audio.addEventListener('error', fallback);
-            audio.addEventListener('timeupdate', highlightProgress);
             var playing = audio.play();
             if (playing && typeof playing.catch === 'function') playing.catch(fallback);
         });
     }
 
-    function runFullRead(token, blocks) {
+    function runFullRead(token) {
         var i = 0;
         function next() {
-            if (!fullReadActive || token !== fullReadToken || i >= blocks.length) {
+            if (!fullReadActive || token !== fullReadToken || i >= fullReadSentences.length) {
                 if (fullReadActive && token === fullReadToken) stopFullRead();
                 return;
             }
-            var block = blocks[i++];
-            // 提前加载下一段，减少段间等待
-            if (i < blocks.length) makeAudio(blocks[i].text);
-            playChunk(block, token).then(function() {
+            // 提前加载后两句，减少短句之间的等待
+            for (var k = i + 1; k < Math.min(i + 3, fullReadSentences.length); k++) {
+                makeAudio(fullReadSentences[k].text);
+            }
+            playSentence(i, token).then(function() {
                 if (!fullReadActive || token !== fullReadToken) return;
-                setTimeout(next, 150);
+                i++;
+                setTimeout(next, 60);
             });
         }
         next();
@@ -744,7 +703,6 @@ article.card { margin-bottom: 0; }
             if (fullReadActive) { stopFullRead(); return; }
             fullReadSentences = buildSentences();
             if (!fullReadSentences.length) return;
-            var blocks = buildBlocks(fullReadSentences, 180);
             // 与单字朗读互斥
             if (currentAudio) {
                 try { currentAudio.pause(); } catch (e) {}
@@ -761,7 +719,7 @@ article.card { margin-bottom: 0; }
             readAllBtn.title = '停止朗读';
             readAllBtn.setAttribute('aria-pressed', 'true');
             readAllBtn.classList.add('loading');
-            runFullRead(token, blocks);
+            runFullRead(token);
         });
     }
 
