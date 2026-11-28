@@ -399,50 +399,65 @@ article.card { margin-bottom: 0; }
         }
     }
 
-    // 播放 TTS：优先用浏览器内置中文语音，避免外部 TTS 服务故障
+    // 浏览器内置语音兜底（Edge TTS 不可用时才用）
+    function speakWithBrowser(text, btn) {
+        if (!('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+            return false;
+        }
+        try {
+            window.speechSynthesis.cancel();
+            var utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'zh-CN';
+            utter.rate = 0.85;
+            var voices = window.speechSynthesis.getVoices().filter(function(v) {
+                return /^zh/i.test(v.lang || '');
+            });
+            if (voices.length) utter.voice = voices[0];
+            utter.onend = utter.onerror = function() {
+                if (btn) btn.classList.remove('loading');
+            };
+            window.speechSynthesis.speak(utter);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // 播放 TTS：优先 Edge TTS（音色统一），失败才回退浏览器内置语音
     function playTTS(text, btn) {
         if (currentAudio) {
             currentAudio.pause();
             currentAudio = null;
         }
+        try { window.speechSynthesis.cancel(); } catch (e) {}
         if (btn) btn.classList.add('loading');
-        if ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
-            try {
-                window.speechSynthesis.cancel();
-                var utter = new SpeechSynthesisUtterance(text);
-                utter.lang = 'zh-CN';
-                utter.rate = 0.85;
-                var voices = window.speechSynthesis.getVoices().filter(function(v) {
-                    return /^zh/i.test(v.lang || '');
-                });
-                if (voices.length) utter.voice = voices[0];
-                utter.onend = utter.onerror = function() {
-                    if (btn) btn.classList.remove('loading');
-                };
-                window.speechSynthesis.speak(utter);
-                return;
-            } catch (e) {
-                // 浏览器语音不可用时回退到在线 TTS
-            }
+
+        var audio = audioCache[text];
+        if (!audio) {
+            var url = TTS_BASE + '/tts?text=' + encodeURIComponent(text) +
+                      '&voice=zh-CN-XiaoxiaoNeural&format=audio-24khz-48kbitrate-mono-mp3';
+            audio = new Audio(url);
+            audioCache[text] = audio;
         }
-        if (audioCache[text]) {
-            currentAudio = audioCache[text];
-            currentAudio.currentTime = 0;
-            currentAudio.play();
-            return;
-        }
-        var url = TTS_BASE + '/tts?text=' + encodeURIComponent(text) +
-                  '&voice=zh-CN-XiaoxiaoNeural&format=audio-24khz-48kbitrate-mono-mp3';
-        var audio = new Audio(url);
-        audioCache[text] = audio;
         currentAudio = audio;
+        audio.currentTime = 0;
+
+        var fellBack = false;
+        function fallback() {
+            if (fellBack) return;
+            fellBack = true;
+            currentAudio = null;
+            try { window.speechSynthesis.cancel(); } catch (e) {}
+            if (!speakWithBrowser(text, btn) && btn) btn.classList.remove('loading');
+        }
         audio.addEventListener('canplay', function() {
-            if (btn) btn.classList.remove('loading');
+            if (btn && !fellBack) btn.classList.remove('loading');
         });
-        audio.addEventListener('error', function() {
-            if (btn) btn.classList.remove('loading');
-        });
-        audio.play();
+        audio.addEventListener('error', fallback);
+        var playing = audio.play();
+        if (playing && typeof playing.catch === 'function') {
+            playing.catch(fallback);
+        }
     }
 
     // 显示弹窗
