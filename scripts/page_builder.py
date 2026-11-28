@@ -332,11 +332,19 @@ class SiteBuilder:
         print(f"构建完成，输出目录: {self.dist_dir.absolute()}")
 
     def copy_update_script(self):
-        """复制更新检测脚本到 dist 目录"""
-        update_script = Path("templates") / "update-check.js"
-        if update_script.exists():
-            shutil.copy(update_script, self.dist_dir / "update-check.js")
-            print("更新检测脚本已复制")
+        """复制前端静态资源到 dist 目录"""
+        assets = [
+            (Path("templates") / "update-check.js", self.dist_dir / "update-check.js"),
+            (Path("templates") / "pinyin-pro.js", self.dist_dir / "pinyin-pro.js"),
+            (Path("data") / "word_dict.json", self.dist_dir / "data" / "word_dict.json"),
+        ]
+        for src, dst in assets:
+            if src.exists():
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(src, dst)
+                print(f"已复制静态资源: {dst.name}")
+            else:
+                print(f"警告：静态资源缺失 {src}")
 
 
 def main():
