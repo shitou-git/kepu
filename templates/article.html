@@ -164,6 +164,13 @@ article.card { margin-bottom: 0; }
     background: #b7791f;
     color: #fffbeb;
 }
+/* 用 CSS Highlight 覆盖整句（含数字、英文、标点），旧浏览器回退到汉字 span */
+:root { --tts-hl-bg: #f6ad55; --tts-hl-fg: #1a202c; }
+[data-theme="dark"] { --tts-hl-bg: #b7791f; --tts-hl-fg: #fffbeb; }
+::highlight(kepu-tts-sentence) {
+    background: var(--tts-hl-bg);
+    color: var(--tts-hl-fg);
+}
 .kepu-popup {
     position: fixed;
     background: var(--card);
@@ -569,16 +576,31 @@ article.card { margin-bottom: 0; }
         });
     }
 
-    // 按断句符号建立句子清单，同时记录每句对应的汉字节点，供朗读高亮使用
+    // 按断句符号建立句子清单，记录文本范围（含数字/英文/标点）与汉字节点
     function buildSentences(elements) {
         var result = [];
         var buf = '';
-        var chars = [];
+        var points = []; // 每个字符 {node, offset, span}
         function flush() {
-            var text = buf.trim();
-            if (text) result.push({ text: text, chars: chars.slice() });
+            var raw = buf;
+            var text = raw.replace(/^\s+/, '').replace(/\s+$/, '');
+            if (text) {
+                var lead = raw.indexOf(text.charAt(0));
+                var tail = raw.lastIndexOf(text.charAt(text.length - 1)) + 1;
+                var slice = points.slice(lead, tail);
+                var spans = [];
+                slice.forEach(function(p) { if (p.span) spans.push(p.span); });
+                result.push({
+                    text: text,
+                    chars: spans,
+                    startNode: slice.length ? slice[0].node : null,
+                    startOffset: slice.length ? slice[0].offset : 0,
+                    endNode: slice.length ? slice[slice.length - 1].node : null,
+                    endOffset: slice.length ? slice[slice.length - 1].offset + 1 : 0
+                });
+            }
             buf = '';
-            chars = [];
+            points = [];
         }
         elements.forEach(function(el) {
             var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
@@ -590,7 +612,7 @@ article.card { margin-bottom: 0; }
                 for (var i = 0; i < text.length; i++) {
                     var ch = text[i];
                     buf += ch;
-                    if (isChar) chars.push(parent);
+                    points.push({ node: node, offset: i, span: isChar ? parent : null });
                     if (/[，,。！？!?；;\n]/.test(ch)) flush();
                 }
             }
@@ -600,22 +622,51 @@ article.card { margin-bottom: 0; }
         return result;
     }
 
+    var ttsHighlight = null;
+    var useHighlightAPI = !!(typeof CSS !== 'undefined' && CSS.highlights && typeof Highlight !== 'undefined');
+
     function clearSentenceHighlight() {
         document.querySelectorAll('.kepu-char.tts-active').forEach(function(el) {
             el.classList.remove('tts-active');
         });
+        if (ttsHighlight) {
+            try { ttsHighlight.clear(); } catch (e) {}
+        }
     }
 
     function highlightSentence(idx) {
         clearSentenceHighlight();
         var s = fullReadSentences[idx];
-        if (!s || !s.chars.length) return;
-        s.chars.forEach(function(el) { el.classList.add('tts-active'); });
+        if (!s) return;
+        var applied = false;
+        // 用 CSS Highlight 高亮整句，数字、英文、标点都会被覆盖
+        if (useHighlightAPI && s.startNode && s.endNode) {
+            try {
+                var range = document.createRange();
+                range.setStart(s.startNode, s.startOffset);
+                range.setEnd(s.endNode, s.endOffset);
+                if (!ttsHighlight) {
+                    ttsHighlight = new Highlight();
+                    CSS.highlights.set('kepu-tts-sentence', ttsHighlight);
+                } else {
+                    ttsHighlight.clear();
+                }
+                ttsHighlight.add(range);
+                applied = true;
+            } catch (e) {}
+        }
+        // 旧浏览器回退：只高亮汉字 span
+        if (!applied) {
+            s.chars.forEach(function(el) { el.classList.add('tts-active'); });
+        }
         // 句子不在视野内时温和滚动到可视区域
         try {
-            var rect = s.chars[0].getBoundingClientRect();
-            if (rect.bottom < 70 || rect.top > window.innerHeight - 70) {
-                s.chars[0].scrollIntoView({ block: 'center', behavior: 'smooth' });
+            var anchor = s.chars[0] || (s.startNode && s.startNode.parentElement);
+            if (anchor && anchor.getBoundingClientRect) {
+                var rect = anchor.getBoundingClientRect();
+                if (rect.bottom < 70 || rect.top > window.innerHeight - 70) {
+                    anchor.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                }
             }
         } catch (e) {}
     }
